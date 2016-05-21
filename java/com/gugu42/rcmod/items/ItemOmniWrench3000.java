@@ -30,7 +30,7 @@ public class ItemOmniWrench3000 extends ItemRcWeap {
 			EntityLivingBase entitySource) {
 		entityTarget
 				.attackEntityFrom(DamageSource
-						.causePlayerDamage((EntityPlayer) entitySource), 6f);
+						.causePlayerDamage((EntityPlayer) entitySource), RcMod.config.get("weapon_damage", "wrench_direct", 6).getInt());
 
 		return true;
 	}

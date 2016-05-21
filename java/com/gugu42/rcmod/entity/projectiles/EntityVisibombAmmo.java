@@ -1,5 +1,7 @@
 package com.gugu42.rcmod.entity.projectiles;
 
+import com.gugu42.rcmod.RcMod;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.PlayerNotFoundException;
@@ -68,7 +70,7 @@ public class EntityVisibombAmmo extends EntityThrowable {
 					this.posZ, 0.1F, true);
 			movingobjectposition.entityHit.attackEntityFrom(
 					DamageSource.causeThrownDamage(this, this.getThrower()),
-					12.0F);
+					RcMod.config.get("weapon_damage", "visibomb", 12).getInt());
 			// movingobjectposition.entityHit.setFire(5);
 			this.worldObj.spawnParticle("snowballpoof", this.posX, this.posY,
 					this.posZ, 0.0D, 0.0D, 0.0D);

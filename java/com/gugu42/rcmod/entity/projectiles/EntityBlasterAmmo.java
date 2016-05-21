@@ -1,5 +1,7 @@
 package com.gugu42.rcmod.entity.projectiles;
 
+import com.gugu42.rcmod.RcMod;
+
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -31,10 +33,10 @@ public class EntityBlasterAmmo extends EntityThrowable {
 	@Override
 	protected void onImpact(MovingObjectPosition movingobjectposition) {
 		if (movingobjectposition.entityHit != null) {
-			byte b0 = 4;
+			int dmg = RcMod.config.get("weapon_damage", "blaster", 4).getInt();
 			
 			
-			movingobjectposition.entityHit.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)this.getThrower()), b0);
+			movingobjectposition.entityHit.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)this.getThrower()), dmg);
 			if (!this.worldObj.isRemote) {
 				setDead();
 			}

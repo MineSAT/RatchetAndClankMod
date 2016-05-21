@@ -58,7 +58,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@Mod(modid = RcMod.MODID, version = "0.5.2b", name = "RcMod")
+@Mod(modid = RcMod.MODID, version = "0.5.3", name = "RcMod")
 public class RcMod {
 	@SidedProxy(clientSide = "com.gugu42.rcmod.ClientProxy", serverSide = "com.gugu42.rcmod.CommonProxy")
 	public static CommonProxy       proxy;
@@ -103,6 +103,7 @@ public class RcMod {
 	public static AchievementPage   rcAchievementPage;
 
 	public static Achievement       achievement_VendorCraft, achievement_HelipackCraft;
+	public static Configuration config;
 
 	@EventHandler
 	public void PreInit(FMLPreInitializationEvent event) {
@@ -111,10 +112,19 @@ public class RcMod {
 		rcTab = new RcCreativeTab("rcTab");
 		rcWeapTab = new RcCreativeTab("rcWeapTab");
 		rcGadgTab = new RcCreativeTab("rcGadgTab");
-		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+		config = new Configuration(event.getSuggestedConfigurationFile());
 
 		config.load();
-
+		config.get("weapon_damage", "blaster", 4);
+		config.get("weapon_damage", "pyrocitor", 6);
+		config.get("weapon_damage", "ryno", 20);
+		config.get("weapon_damage", "suck_cannon", 10);
+		config.get("weapon_damage", "visibomb", 12);
+		config.get("weapon_damage", "wrench_thrown", 5);
+		config.get("weapon_damage", "wrench_direct", 6);
+		
+		
+		
 		config.save();
 	}
 

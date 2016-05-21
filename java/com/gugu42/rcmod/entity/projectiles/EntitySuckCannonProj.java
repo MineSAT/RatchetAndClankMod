@@ -57,7 +57,7 @@ public class EntitySuckCannonProj extends EntityThrowable implements OwnableEnti
     				setDead();
     				if(worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"))
     					worldObj.newExplosion(this, posX, posY, posZ, 1f, false, true);
-    				movingobjectposition.entityHit.attackEntityFrom(DamageSource.generic, 10);
+    				movingobjectposition.entityHit.attackEntityFrom(DamageSource.generic, RcMod.config.get("weapon_damage", "suck_cannon", 10).getInt());
     			}
     		}
     		else

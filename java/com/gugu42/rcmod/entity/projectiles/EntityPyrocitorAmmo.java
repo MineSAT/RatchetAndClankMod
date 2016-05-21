@@ -1,5 +1,7 @@
 package com.gugu42.rcmod.entity.projectiles;
 
+import com.gugu42.rcmod.RcMod;
+
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -94,7 +96,7 @@ public class EntityPyrocitorAmmo extends EntityThrowable {
 		if (movingobjectposition.entityHit != null
 				&& movingobjectposition.entityHit != this
 				&& !(movingobjectposition.entityHit instanceof EntityPyrocitorAmmo)) {
-			byte b0 = 6;
+			int b0 = RcMod.config.get("weapon_damage", "pyrocitor", 6).getInt();
 			if (movingobjectposition.entityHit == this.getThrower())
 				return;
 			movingobjectposition.entityHit.attackEntityFrom(

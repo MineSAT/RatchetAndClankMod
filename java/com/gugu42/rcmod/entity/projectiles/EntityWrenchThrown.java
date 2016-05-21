@@ -54,7 +54,7 @@ public class EntityWrenchThrown extends EntityThrowable implements
 					if (mop.entityHit != this.getThrower()) {
 						mop.entityHit.attackEntityFrom(DamageSource
 								.causePlayerDamage((EntityPlayer) this
-										.getThrower()), 5f);
+										.getThrower()), RcMod.config.get("weapon_damage", "wrench_thrown", 5).getInt());
 						this.setReturningToOwner(true);
 					}
 				} else if (worldObj

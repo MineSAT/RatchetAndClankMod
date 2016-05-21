@@ -2,6 +2,8 @@ package com.gugu42.rcmod.entity.projectiles;
 
 import java.util.List;
 
+import com.gugu42.rcmod.RcMod;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -144,7 +146,7 @@ public class EntityRYNOAmmo extends EntityThrowable {
 
 	protected void onImpact(MovingObjectPosition movingobjectposition) {
 		if (movingobjectposition.entityHit != null) {
-			byte b0 = 20;
+			int b0 = RcMod.config.get("weapon_damage", "ryno", 20).getInt();
 
 			if (movingobjectposition.entityHit != this.getThrower())
 				movingobjectposition.entityHit
