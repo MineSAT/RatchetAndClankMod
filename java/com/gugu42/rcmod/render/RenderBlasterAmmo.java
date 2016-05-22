@@ -29,7 +29,7 @@ public class RenderBlasterAmmo extends Render
     public void doRenderDualVipersAmmo(EntityBlasterAmmo par1EntityDualVipersAmmo, double par2, double par4, double par6, float par8, float par9)
     {
         GL11.glPushMatrix();
-        this.bindEntityTexture(par1EntityDualVipersAmmo);
+        this.bindTexture(new ResourceLocation("rcmod", "textures/entity/blaster_bullet.png"));
         GL11.glTranslatef((float)par2, (float)par4, (float)par6);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         float f2 = this.field_77002_a;

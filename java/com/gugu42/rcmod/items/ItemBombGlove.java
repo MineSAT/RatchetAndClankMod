@@ -38,7 +38,6 @@ public class ItemBombGlove extends ItemRcGun {
 							par2World, par3EntityPlayer);
 					par2World.spawnEntityInWorld(bomb);
 					par1ItemStack.damageItem(1, par3EntityPlayer);
-					System.out.println(cooldown);
 					cooldown = 60;
 					par3EntityPlayer.swingItem();
 				}

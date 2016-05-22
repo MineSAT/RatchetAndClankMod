@@ -1,18 +1,15 @@
 package com.gugu42.rcmod.items;
 
-import com.gugu42.rcmod.TNTCrateExplosion;
-
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
-import net.minecraftforge.event.entity.player.ArrowNockEvent;
+
+import com.gugu42.rcmod.TNTCrateExplosion;
 
 public class ItemWalloper extends ItemRcWeap {
 	
@@ -46,6 +43,19 @@ public class ItemWalloper extends ItemRcWeap {
 				TNTCrateExplosion explo = new TNTCrateExplosion(par2World, par3EntityPlayer, par3EntityPlayer.posX, par3EntityPlayer.posY, par3EntityPlayer.posZ, 2.0f, par3EntityPlayer);
 				explo.doExplosionA(true);
 				explo.doExplosionB(true, false);
+				
+				if(par3EntityPlayer instanceof EntityPlayerMP) {
+					EntityPlayerMP player = (EntityPlayerMP)par3EntityPlayer;
+				
+					player.motionY = 0.1f;
+					player.motionX = -(Math.sin(Math.toRadians(player.getRotationYawHead())) * 5);
+					player.motionZ = (Math.cos(Math.toRadians(player.getRotationYawHead())) * 5);
+					player.playerNetServerHandler
+					.sendPacket(new S12PacketEntityVelocity(player));
+				}
+				
+				
+				
 			}
 		}
 	}
