@@ -32,7 +32,7 @@ public class ItemPyrocitor extends ItemRcGun
 		{
 			if (!par2World.isRemote) 
 			{
-				int nbr = par3EntityPlayer.getRNG().nextInt(100)+100;
+				int nbr = par3EntityPlayer.getRNG().nextInt(50)+50;
 				float f = 4.5f;
 				for(int i = 0;i<nbr;i++)
 				{
