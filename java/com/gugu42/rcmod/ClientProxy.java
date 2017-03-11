@@ -1,9 +1,11 @@
 package com.gugu42.rcmod;
 
 import com.gugu42.rcmod.handler.RcSoundHandler;
+import com.gugu42.rcmod.items.RcItems;
 import com.gugu42.rcmod.utils.RcSimpleResourceManager;
 
 import net.minecraft.client.resources.IResourceManager;
+import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 
 public class ClientProxy extends CommonProxy {
@@ -13,6 +15,14 @@ public class ClientProxy extends CommonProxy {
 	//	public static RcModelManager rcModelManager = new RcModelManager();
 	public static int              renderInventoryTESRId;
 
+	@Override
+	public void preInit()
+	{
+		super.preInit();
+		OBJLoader.INSTANCE.addDomain(RcMod.MODID);
+		RcItems.registerItemRenders();
+	}
+	
 	@Override
 	public void registerRenderInformation() {
 		
@@ -78,7 +88,9 @@ public class ClientProxy extends CommonProxy {
 		TESRInventoryRenderer.blockByTESR.put(new TESRIndex(RcMod.ship, 0), new TileEntityShipSpecialRenderer());
 		TESRInventoryRenderer.blockByTESR.put(new TESRIndex(RcMod.versaTargetGreen, 0), new TileEntityVersaTargetGSpecialRenderer());
 		*/
+		
 		MinecraftForge.EVENT_BUS.register(new RcSoundHandler());
+		
 	}
 
 	@Override

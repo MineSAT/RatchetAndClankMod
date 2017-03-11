@@ -2,95 +2,95 @@
     "vendor.speech.wait": {
         "category": "block",
         "sounds": [
-            "VendorSalesman/vendor_speech_wait1",
-            "VendorSalesman/vendor_speech_wait2"
+            "rcmod:VendorSalesman/vendor_speech_wait1",
+            "rcmod:VendorSalesman/vendor_speech_wait2"
         ]
     },
     "vendor.speech.weapClicked": {
         "category": "block",
         "sounds": [
-            "VendorSalesman/vendor_speech_weapClicked1",
-            "VendorSalesman/vendor_speech_weapClicked2"
+            "rcmod:VendorSalesman/vendor_speech_weapClicked1",
+            "rcmod:VendorSalesman/vendor_speech_weapClicked2"
         ]
     },
     "tntcrate.countdown": {
         "category": "block",
         "sounds": [
-            "ExplosiveCrateCountdown"
+            "rcmod:ExplosiveCrateCountdown"
         ]
     },
     "tntcrate.explosion": {
         "category": "block",
         "sounds": [
-            "ExplosiveCrateExplosion"
+            "rcmod:ExplosiveCrateExplosion"
         ]
     },
     "crate.break": {
         "category": "block",
         "sounds": [
-            "CrateWoodBreak"
+            "rcmod:CrateWoodBreak"
         ]
     },
     "MenuOpen": {
         "category": "block",
         "sounds": [
-            "MenuOpen"
+            "rcmod:MenuOpen"
         ]
     },
     "vendor.buy": {
         "category": "block",
         "sounds": [
-            "MenuVendorBuy"
+            "rcmod:MenuVendorBuy"
         ]
     },
     "vendor.maxAmmo": {
         "category": "block",
         "sounds": [
-            "MenuVendorAmmoMaxedOut"
+            "rcmod:MenuVendorAmmoMaxedOut"
         ]
     },
     "vendor.exit": {
         "category": "block",
         "sounds": [
-            "MenuVendorExit"
+            "rcmod:MenuVendorExit"
         ]
     },
     "MenuSelect": {
         "category": "block",
         "sounds": [
-            "MenuSelect"
+            "rcmod:MenuSelect"
         ]
     },
     "BoltCollect": {
         "category": "block",
         "sounds": [
-            "BoltCollect1",
-            "BoltCollect2",
-            "BoltCollect3"
+            "rcmod:BoltCollect1",
+            "rcmod:BoltCollect2",
+            "rcmod:BoltCollect3"
         ]
     },
     "AmmoPickup": {
         "category": "block",
         "sounds": [
-            "AmmoPickup"
+            "rcmod:AmmoPickup"
         ]
     },
     "TaunterSound": {
         "category": "block",
         "sounds": [
-            "TaunterSound1",
-            "TaunterSound2",
-            "TaunterSound3",
-            "TaunterSound4",
-            "TaunterSound5",
-			"TaunterSound6"
+            "rcmod:TaunterSound1",
+            "rcmod:TaunterSound2",
+            "rcmod:TaunterSound3",
+            "rcmod:TaunterSound4",
+            "rcmod:TaunterSound5",
+			"rcmod:TaunterSound6"
         ]
     },
     "recordmetropolis": {
         "category": "record",
         "sounds": [
             {
-                "name": "recordMetropolis",
+                "name": "rcmod:recordMetropolis",
                 "stream": true
             }
         ]
@@ -98,79 +98,79 @@
 	"achievement": {
         "category": "block",
         "sounds": [
-            "achievement"
+            "rcmod:achievement"
         ]
     },
     "SuckCannonShot": {
         "category": "block",
         "sounds": [
-            "SuckCannonShot"
+            "rcmod:SuckCannonShot"
         ]
     },
     "DevastatorShot": {
         "category": "block",
         "sounds": [
-            "DevastatorShot"
+            "rcmod:DevastatorShot"
         ]
     },
     "SwingShotShoot": {
         "category": "block",
         "sounds": [
-            "SwingShotShoot"
+            "rcmod:SwingShotShoot"
         ]
     },
     "SwingShotPull": {
         "category": "block",
         "sounds": [
-            "SwingShotPull"
+            "rcmod:SwingShotPull"
         ]
     },
     "SwingShotHook": {
         "category": "block",
         "sounds": [
-            "SwingShotHook"
+            "rcmod:SwingShotHook"
         ]
     },
     "blasterEquip": {
         "category": "block",
         "sounds": [
-            "BlasterEquipStart"
+            "rcmod:BlasterEquipStart"
         ]
     },
     "devastatorEquip": {
         "category": "block",
         "sounds": [
-            "DevastatorEquipStart"
+            "rcmod:DevastatorEquipStart"
         ]
     },
     "pyrocitorEquip": {
         "category": "block",
         "sounds": [
-            "PyrocitorEquipStart"
+            "rcmod:PyrocitorEquipStart"
         ]
     },
     "swingShotEquip": {
         "category": "block",
         "sounds": [
-            "SwingShotEquipStart"
+            "rcmod:wingShotEquipStart"
         ]
     },
     "taunterEquip": {
         "category": "block",
         "sounds": [
-            "TaunterEquipStart"
+            "rcmod:TaunterEquipStart"
         ]
     },
     "teslaClawEquip": {
         "category": "block",
         "sounds": [
-            "TeslaClawEquipStart"
+            "rcmod:TeslaClawEquipStart"
         ]
     },
     "visibombEquip": {
         "category": "block",
         "sounds": [
-            "VisiBombGunEquip"
+            "rcmod:VisiBombGunEquip"
         ]
     }
 }

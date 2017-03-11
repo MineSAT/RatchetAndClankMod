@@ -17,7 +17,7 @@ public class RcRecipes
 			"XZX",
 			'X', Blocks.IRON_BLOCK, 'Y', RcItems.vendorCore, 'Z', Blocks.OBSIDIAN
 		});
-		GameRegistry.addRecipe(new ItemStack(RcItems.omniwrench3000, 1), new Object[]{
+		GameRegistry.addRecipe(new ItemStack(RcItems.OMNIWRENCH_3000, 1), new Object[]{
 			"X X",
 			" Y ",
 			" X ",

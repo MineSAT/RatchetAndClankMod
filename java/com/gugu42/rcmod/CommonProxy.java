@@ -3,6 +3,8 @@ package com.gugu42.rcmod;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.gugu42.rcmod.items.RcItems;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -15,6 +17,11 @@ public class CommonProxy implements IGuiHandler {
 	 */
 	private static final Map<String, NBTTagCompound> extendedEntityData = new HashMap<String, NBTTagCompound>();
 
+	public void preInit()
+	{
+
+	}
+	
 	public void registerRenderers() {
 	}
 

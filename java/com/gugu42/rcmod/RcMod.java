@@ -144,6 +144,11 @@ public class RcMod {
 		
 		
 		config.save();
+		
+		RcItems.initRc1Items();
+		RcItems.initModItems();
+		RcItems.initAmmoItems();
+		proxy.preInit();
 	}
 
 	@EventHandler
@@ -194,9 +199,7 @@ public class RcMod {
 
 		/* -----Items----- */
 
-		RcItems.initModItems();
-		RcItems.initRc1Items();
-		RcItems.initAmmoItems();
+
 
 		/* -----Other Items----- */
 		clankBackpack = new ItemClankBackpack(EnumArmorMaterialClank, 1, 1).setUnlocalizedName("clankHeli");
