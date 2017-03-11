@@ -3,8 +3,6 @@ package com.gugu42.rcmod;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gugu42.rcmod.handler.ExtendedPlayerTooltips;
-
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
@@ -51,10 +49,10 @@ public class ResetTooltipsCommand implements ICommand {
 		if (sender instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender;
 
-			ExtendedPlayerTooltips props = ExtendedPlayerTooltips.get(player);
-			if (props != null) {
-				props.resetAllTips();
-			}
+			//ExtendedPlayerTooltips props = ExtendedPlayerTooltips.get(player);
+			//if (props != null) {
+			//	props.resetAllTips();
+			//}
 		}
 		
 	}

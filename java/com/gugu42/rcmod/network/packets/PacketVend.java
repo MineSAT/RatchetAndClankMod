@@ -1,6 +1,7 @@
 package com.gugu42.rcmod.network.packets;
 
-import com.gugu42.rcmod.handler.ExtendedPlayerBolt;
+import com.gugu42.rcmod.capabilities.bolt.BoltProvider;
+import com.gugu42.rcmod.capabilities.bolt.IBolt;
 import com.gugu42.rcmod.items.EnumRcWeapons;
 import com.gugu42.rcmod.utils.ffmtutils.AbstractPacket;
 
@@ -42,12 +43,13 @@ public class PacketVend extends AbstractPacket {
 
 	@Override
 	public void handleServerSide(EntityPlayer player) {
-		ExtendedPlayerBolt props = ExtendedPlayerBolt.get(player);
+		//ExtendedPlayerBolt props = ExtendedPlayerBolt.get(player);
+		IBolt props = player.getCapability(BoltProvider.BOLT_CAP, null);
 
 		if (!player.inventory.hasItemStack(new ItemStack(EnumRcWeapons.getItemFromID(this.id)
 				.getWeapon()))) {
 			if (player.inventory.getFirstEmptyStack() >= 0 &&
-					props.currentBolt >= EnumRcWeapons.getItemFromID(this.id).getPrice() &&
+					props.getCurrentBolt() >= EnumRcWeapons.getItemFromID(this.id).getPrice() &&
 					player.inventory.addItemStackToInventory(new ItemStack(EnumRcWeapons.getItemFromID(this.id).getWeapon(), 1,
 					(EnumRcWeapons.getItemFromID(this.id).getWeapon()
 							.getMaxDamage() / 2))) && props.consumeBolts(EnumRcWeapons.getItemFromID(this.id)

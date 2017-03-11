@@ -2,14 +2,10 @@ package com.gugu42.rcmod.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.gugu42.rcmod.handler.ExtendedPlayerTooltips;
-import com.gugu42.rcmod.items.ItemRcWeap;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -58,7 +54,7 @@ public class GuiTooltips extends GuiScreen {
 			return;
 		}
 
-		ExtendedPlayerTooltips props = ExtendedPlayerTooltips.get(this.mc.player);
+		/*ExtendedPlayerTooltips props = ExtendedPlayerTooltips.get(this.mc.player);
 
 		ItemStack itemInHand = this.mc.player.inventory.getCurrentItem();
 		if (itemInHand != null && itemInHand.getItem() instanceof ItemRcWeap) {
@@ -77,7 +73,7 @@ public class GuiTooltips extends GuiScreen {
 			if (System.currentTimeMillis() - showTimer > maxShowTime) {
 				this.mustSeeTip = false;
 			}
-		}
+		}*/
 	}
 
 	public void showTip(String tipName) {

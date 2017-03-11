@@ -1,17 +1,16 @@
 package com.gugu42.rcmod.network.packets;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerContext;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
 import com.gugu42.rcmod.RcMod;
-import com.gugu42.rcmod.handler.ExtendedPropsSuckCannon;
+import com.gugu42.rcmod.capabilities.suckcannon.ISuckCannon;
+import com.gugu42.rcmod.capabilities.suckcannon.SuckCannonProvider;
 import com.gugu42.rcmod.utils.ffmtutils.AbstractPacket;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
@@ -70,7 +69,7 @@ public class PacketSuckCannonData extends AbstractPacket
     @Override
     public void handleClientSide(EntityPlayer player)
     {
-        ExtendedPropsSuckCannon props = ExtendedPropsSuckCannon.get(player);
+    	ISuckCannon props = player.getCapability(SuckCannonProvider.SUCK_CANNON_CAP, null);
         Stack<NBTTagCompound> stack = new Stack<NBTTagCompound>();
         for(NBTTagCompound compound : data)
             stack.add(compound);
@@ -80,7 +79,7 @@ public class PacketSuckCannonData extends AbstractPacket
     @Override
     public void handleServerSide(EntityPlayer player)
     {
-        ExtendedPropsSuckCannon props = ExtendedPropsSuckCannon.get(player);
+    	ISuckCannon props = player.getCapability(SuckCannonProvider.SUCK_CANNON_CAP, null);
         Stack<NBTTagCompound> stack = new Stack<NBTTagCompound>();
         for(NBTTagCompound compound : data)
             stack.add(compound);

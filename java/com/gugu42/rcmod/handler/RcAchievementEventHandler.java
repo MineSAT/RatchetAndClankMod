@@ -9,6 +9,9 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 
 public class RcAchievementEventHandler {
 
+	//TODO - Redo the achievements
+	
+	/*
 	@SubscribeEvent
 	public void onCrafting(ItemCraftedEvent event) {
 		if (event.player instanceof EntityPlayerMP) {
@@ -24,12 +27,12 @@ public class RcAchievementEventHandler {
 			if (event.crafting.getItem() == RcMod.clankBackpack
 					&& !playerMP.func_147099_x().hasAchievementUnlocked(
 							RcMod.achievement_HelipackCraft)) {
-				event.player
+				event.player.
 						.triggerAchievement(RcMod.achievement_HelipackCraft);
 				event.player.world.playSoundAtEntity(event.player,
 						"rcmod:achievement", 1.0f, 1.0f);
 			}
 		}
 	}
-	
+	*/
 }

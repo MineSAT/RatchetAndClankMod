@@ -1,11 +1,12 @@
 package com.gugu42.rcmod.network.packets;
 
+import com.gugu42.rcmod.capabilities.bolt.BoltProvider;
+import com.gugu42.rcmod.capabilities.bolt.IBolt;
+import com.gugu42.rcmod.utils.ffmtutils.AbstractPacket;
+
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.entity.player.EntityPlayer;
-
-import com.gugu42.rcmod.handler.ExtendedPlayerBolt;
-import com.gugu42.rcmod.utils.ffmtutils.AbstractPacket;
 
 public class PacketBolts extends AbstractPacket{
 
@@ -35,18 +36,16 @@ public class PacketBolts extends AbstractPacket{
 
 	@Override
 	public void handleClientSide(EntityPlayer player) {
-		ExtendedPlayerBolt props = ExtendedPlayerBolt
-				.get(player);	
-		props.maxBolts = this.maxBolts;
-		props.currentBolt = this.bolts;
+		IBolt props = player.getCapability(BoltProvider.BOLT_CAP, null);
+		props.setMaxBolts(this.maxBolts);
+		props.setCurrentBolt(this.bolts);
 	}
 
 	@Override
 	public void handleServerSide(EntityPlayer player) {
-		ExtendedPlayerBolt props = ExtendedPlayerBolt
-				.get(player);
-		props.maxBolts = this.maxBolts;
-		props.currentBolt = this.bolts;
+		IBolt props = player.getCapability(BoltProvider.BOLT_CAP, null);
+		props.setMaxBolts(this.maxBolts);
+		props.setCurrentBolt(this.bolts);
 	}
 
 }

@@ -2,8 +2,9 @@ package com.gugu42.rcmod.items;
 
 import java.util.List;
 
+import com.gugu42.rcmod.capabilities.suckcannon.ISuckCannon;
+import com.gugu42.rcmod.capabilities.suckcannon.SuckCannonProvider;
 import com.gugu42.rcmod.entity.projectiles.EntitySuckCannonProj;
-import com.gugu42.rcmod.handler.ExtendedPropsSuckCannon;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -39,7 +40,7 @@ public class ItemSuckCannon extends ItemRcWeap
         if(owner instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer)owner;
-            ExtendedPropsSuckCannon props = ExtendedPropsSuckCannon.get(player);
+            ISuckCannon props = player.getCapability(SuckCannonProvider.SUCK_CANNON_CAP, null);
             int loaded = props.getStack().size();
             if(loaded != maxAmmo - stack.getItemDamage())
                 stack.setItemDamage(maxAmmo - loaded);
@@ -103,9 +104,8 @@ public class ItemSuckCannon extends ItemRcWeap
                         stack.damageItem(-1, player);
                         if(!world.isRemote)
                         {
-                            ExtendedPropsSuckCannon props = ExtendedPropsSuckCannon.get(player);
+                        	ISuckCannon props = player.getCapability(SuckCannonProvider.SUCK_CANNON_CAP, null);
                             props.pushToStack(entity);
-                            props.sync();
                         }
                     }
                 }
@@ -120,7 +120,7 @@ public class ItemSuckCannon extends ItemRcWeap
         if(owner instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer)owner;
-            ExtendedPropsSuckCannon props = ExtendedPropsSuckCannon.get(player);
+            ISuckCannon props = player.getCapability(SuckCannonProvider.SUCK_CANNON_CAP, null);
             NBTTagCompound compound = props.popStack();
             if(compound == null)
                 return false;
@@ -128,7 +128,7 @@ public class ItemSuckCannon extends ItemRcWeap
             stack.damageItem(1, owner);
             if(owner.world.isRemote)
                 return true;
-            props.sync();
+          
 
             EntityLiving e = (EntityLiving)EntityList.createEntityFromNBT(compound, owner.world);
             if(e != null)

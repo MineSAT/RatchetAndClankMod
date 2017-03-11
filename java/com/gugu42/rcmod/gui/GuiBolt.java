@@ -2,7 +2,8 @@ package com.gugu42.rcmod.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.gugu42.rcmod.handler.ExtendedPlayerBolt;
+import com.gugu42.rcmod.capabilities.bolt.BoltProvider;
+import com.gugu42.rcmod.capabilities.bolt.IBolt;
 import com.gugu42.rcmod.items.ItemRcWeap;
 
 import net.minecraft.client.Minecraft;
@@ -11,7 +12,6 @@ import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -45,8 +45,8 @@ public class GuiBolt extends Gui {
 			return;
 		}
 
-		ExtendedPlayerBolt props = ExtendedPlayerBolt.get(this.mc.player);
-
+		//ExtendedPlayerBolt props = ExtendedPlayerBolt.get(this.mc.player);
+		IBolt props = this.mc.player.getCapability(BoltProvider.BOLT_CAP, null);
 		if (props == null || props.getMaxBolts() == 0) {
 			return;
 		}

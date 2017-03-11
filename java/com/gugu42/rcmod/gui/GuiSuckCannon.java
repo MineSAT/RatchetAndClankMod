@@ -9,15 +9,14 @@ import java.util.HashMap;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import com.gugu42.rcmod.handler.ExtendedPropsSuckCannon;
+import com.gugu42.rcmod.capabilities.suckcannon.ISuckCannon;
+import com.gugu42.rcmod.capabilities.suckcannon.SuckCannonProvider;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
@@ -82,9 +81,11 @@ public class GuiSuckCannon extends Gui
         EntityPlayer player = Minecraft.getMinecraft().player;
         if(player != null)
         {
-            ExtendedPropsSuckCannon props = ExtendedPropsSuckCannon.get(player);
-
+            //ExtendedPropsSuckCannon props = ExtendedPropsSuckCannon.get(player);
+            ISuckCannon props = player.getCapability(SuckCannonProvider.SUCK_CANNON_CAP, null);
+            
             ArrayList<NBTTagCompound> list = props.getStackAsList();
+            /*
             for(int i = 0; i <= 8 - list.size(); i++)
             {
                 rotations.put(8 - i, 0f);
@@ -110,6 +111,7 @@ public class GuiSuckCannon extends Gui
                     drawEntity(res.getScaledWidth() - 25 - (index % 2 == 0 ? 20 : 0), res.getScaledHeight() - 5 - (index / 2 * 35), 15, rotations.get(index), -10, (EntityLivingBase)e);
                 }
             }
+            */
         }
         this.mc.getTextureManager().bindTexture(ICONS);
     }

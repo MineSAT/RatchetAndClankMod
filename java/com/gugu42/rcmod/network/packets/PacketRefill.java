@@ -1,6 +1,7 @@
 package com.gugu42.rcmod.network.packets;
 
-import com.gugu42.rcmod.handler.ExtendedPlayerBolt;
+import com.gugu42.rcmod.capabilities.bolt.BoltProvider;
+import com.gugu42.rcmod.capabilities.bolt.IBolt;
 import com.gugu42.rcmod.items.EnumRcWeapons;
 import com.gugu42.rcmod.items.ItemRcWeap;
 import com.gugu42.rcmod.utils.ffmtutils.AbstractPacket;
@@ -42,7 +43,7 @@ public class PacketRefill extends AbstractPacket {
 
 	@Override
 	public void handleServerSide(EntityPlayer player) {
-		ExtendedPlayerBolt props = ExtendedPlayerBolt.get(player);
+		IBolt props = player.getCapability(BoltProvider.BOLT_CAP, null);
 		
 		ItemStack item = this.getItemInInventory(player.inventory, EnumRcWeapons.getItemFromID(id).getWeapon());
 		if(item != null){

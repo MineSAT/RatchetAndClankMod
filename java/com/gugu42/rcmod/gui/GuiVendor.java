@@ -6,7 +6,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.gugu42.rcmod.ContainerVendor;
 import com.gugu42.rcmod.RcMod;
-import com.gugu42.rcmod.handler.ExtendedPlayerBolt;
+import com.gugu42.rcmod.capabilities.bolt.BoltProvider;
+import com.gugu42.rcmod.capabilities.bolt.IBolt;
 import com.gugu42.rcmod.items.EnumRcWeapons;
 import com.gugu42.rcmod.items.InventoryGadgetronPDA;
 import com.gugu42.rcmod.items.ItemRcWeap;
@@ -15,12 +16,9 @@ import com.gugu42.rcmod.network.packets.PacketVend;
 import com.gugu42.rcmod.tileentity.TileEntityVendor;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -212,7 +210,7 @@ public class GuiVendor extends GuiContainer {
 		switch (button.id) {
 		case 0:
 			if (!player.inventory.hasItemStack(new ItemStack(selectedItem.getItem()))) {
-				ExtendedPlayerBolt props = ExtendedPlayerBolt.get(player);
+				IBolt props = player.getCapability(BoltProvider.BOLT_CAP, null);
 				if (props.getCurrentBolt() > 0) {
 
 					try {

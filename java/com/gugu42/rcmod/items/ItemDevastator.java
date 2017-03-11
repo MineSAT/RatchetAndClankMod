@@ -3,7 +3,6 @@ package com.gugu42.rcmod.items;
 import java.util.List;
 
 import com.gugu42.rcmod.entity.projectiles.EntityRYNOAmmo;
-import com.gugu42.rcmod.handler.ExtendedPlayerTarget;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -61,7 +60,6 @@ public class ItemDevastator extends ItemRcGun {
 		
 		if (par5 && par3Entity instanceof EntityPlayer && !par2World.isRemote) {
 			EntityPlayer player = (EntityPlayer) par3Entity;
-			ExtendedPlayerTarget props = ExtendedPlayerTarget.get(player);
 			Entity target = null;
 			List entityTagetList = par2World.getEntitiesWithinAABB(
 					Entity.class,
@@ -85,10 +83,8 @@ public class ItemDevastator extends ItemRcGun {
 					if (d1 > 1.0D - 0.025D / d0
 							&& player.canEntityBeSeen(entityLivingTarget)) {
 						target = entityLivingTarget;
-						props.setDevastatorTarget(target);
 					} else {
 						target = null;
-						props.removeDevastatorTarget();
 					}
 
 				}

@@ -10,13 +10,19 @@ import com.gugu42.rcmod.blocks.BlockShipPlatform;
 import com.gugu42.rcmod.blocks.BlockTNTCrate;
 import com.gugu42.rcmod.blocks.BlockVendor;
 import com.gugu42.rcmod.blocks.BlockVersaTargetGreen;
+import com.gugu42.rcmod.capabilities.RcModCapabilityHandler;
+import com.gugu42.rcmod.capabilities.bolt.Bolt;
+import com.gugu42.rcmod.capabilities.bolt.BoltStorage;
+import com.gugu42.rcmod.capabilities.bolt.IBolt;
+import com.gugu42.rcmod.capabilities.suckcannon.ISuckCannon;
+import com.gugu42.rcmod.capabilities.suckcannon.SuckCannon;
+import com.gugu42.rcmod.capabilities.suckcannon.SuckCannonStorage;
 import com.gugu42.rcmod.entity.RcEntities;
 import com.gugu42.rcmod.gui.GuiBolt;
 import com.gugu42.rcmod.gui.GuiSuckCannon;
 import com.gugu42.rcmod.gui.GuiTooltips;
 import com.gugu42.rcmod.handler.RcAchievementEventHandler;
 import com.gugu42.rcmod.handler.RcEventHandler;
-import com.gugu42.rcmod.handler.RcModCapabilities;
 import com.gugu42.rcmod.handler.RcTickHandler;
 import com.gugu42.rcmod.items.ItemClankBackpack;
 import com.gugu42.rcmod.items.ItemRatchetEars;
@@ -43,8 +49,7 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -70,6 +75,16 @@ public class RcMod {
 	public static RcMod             instance;
 	public static Logger            rcLogger;
 
+	/* CAPABILITIES SAFE SPACE               */
+	
+	
+	
+	
+	
+	
+	
+	/*                  */
+	
 	//Creative tabs
 	public static RcCreativeTab     rcTab;
 	public static RcCreativeTab     rcWeapTab;
@@ -109,7 +124,7 @@ public class RcMod {
 	public static Configuration config;
 
 	@EventHandler
-	public void PreInit(FMLPreInitializationEvent event) {
+	public void preInit(FMLPreInitializationEvent event) {
 		rcLogger = event.getModLog();
 		rcModPacketHandler = new FFMTPacketHandler("com.gugu42.rcmod.network.packets");
 		rcTab = new RcCreativeTab("rcTab");
@@ -132,7 +147,7 @@ public class RcMod {
 	}
 
 	@EventHandler
-	public void Init(FMLInitializationEvent event) {
+	public void init(FMLInitializationEvent event) {
 
 		/* -----Packet channels-----*/
 		rcModPacketHandler.initialise("RCMD|bolt");
@@ -212,6 +227,11 @@ public class RcMod {
 
 		FMLCommonHandler.instance().bus().register(new RcTickHandler());
 
+		CapabilityManager.INSTANCE.register(IBolt.class, new BoltStorage(), Bolt.class);
+		CapabilityManager.INSTANCE.register(ISuckCannon.class, new SuckCannonStorage(), SuckCannon.class);
+		
+        MinecraftForge.EVENT_BUS.register(new RcModCapabilityHandler());
+		
 	}
 
 	@SideOnly(Side.CLIENT)

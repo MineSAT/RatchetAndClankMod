@@ -2,6 +2,8 @@ package com.gugu42.rcmod.handler;
 
 import com.gugu42.rcmod.CommonProxy;
 import com.gugu42.rcmod.RcMod;
+import com.gugu42.rcmod.capabilities.bolt.BoltProvider;
+import com.gugu42.rcmod.capabilities.bolt.IBolt;
 import com.gugu42.rcmod.entity.projectiles.EntityVisibombAmmo;
 import com.gugu42.rcmod.entity.projectiles.EntityVisibombCamera;
 import com.gugu42.rcmod.items.ItemAmmo;
@@ -16,6 +18,7 @@ import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -26,6 +29,7 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -38,23 +42,6 @@ public class RcEventHandler {
 
 	@SubscribeEvent
 	public void onEntityConstructing(EntityConstructing event) {
-
-		if (event.getEntity() instanceof EntityPlayer && ExtendedPlayerBolt.get((EntityPlayer) event.entity) == null)
-			ExtendedPlayerBolt.register((EntityPlayer) event.getEntity());
-
-		if (event.getEntity() instanceof EntityPlayer && event.getEntity().getExtendedProperties(ExtendedPlayerBolt.EXT_PROP_NAME) == null) {
-			event.getEntity().registerExtendedProperties(ExtendedPlayerBolt.EXT_PROP_NAME, new ExtendedPlayerBolt((EntityPlayer) event.getEntity()));
-		}
-		if (event.getEntity() instanceof EntityPlayer && event.getEntity().getExtendedProperties(ExtendedPropsSuckCannon.IDENTIFIER) == null) {
-			event.getEntity().registerExtendedProperties(ExtendedPropsSuckCannon.IDENTIFIER, new ExtendedPropsSuckCannon((EntityPlayer) event.getEntity()));
-		}
-
-		if (event.getEntity() instanceof EntityPlayer && event.getEntity().getExtendedProperties(ExtendedPlayerTarget.EXT_PROP_NAME) == null) {
-			event.getEntity().registerExtendedProperties(ExtendedPlayerTarget.EXT_PROP_NAME, new ExtendedPlayerTarget((EntityPlayer) event.getEntity()));
-		}
-
-		if (event.getEntity() instanceof EntityPlayer && ExtendedPlayerTooltips.get((EntityPlayer) event.entity) == null)
-			ExtendedPlayerTooltips.register((EntityPlayer) event.getEntity());
 
 		if (event.getEntity() != null) {
 			event.getEntity().getEntityData().setInteger("missilesTargeting", 0);
@@ -117,69 +104,11 @@ public class RcEventHandler {
 	}
 
 	@SubscribeEvent
-	public void onLivingDeathEvent(LivingDeathEvent event) {
-		if (!event.getEntity().world.isRemote && event.getEntity() instanceof EntityPlayer) {
-			NBTTagCompound playerData = new NBTTagCompound();
-			((ExtendedPlayerBolt) (event.getEntity().getExtendedProperties(ExtendedPlayerBolt.EXT_PROP_NAME))).saveNBTData(playerData);
-			proxy.storeEntityData(((EntityPlayer) event.getEntity()).getDisplayName(), playerData);
-			ExtendedPlayerBolt.saveProxyData((EntityPlayer) event.getEntity());
-			ExtendedPropsSuckCannon.saveProxyData((EntityPlayer) event.getEntity());
-		} else {
-
-		}
-
-		if (!event.getEntity().worldObj.isRemote && event.getEntity() instanceof EntityPlayer) {
-			NBTTagCompound playerData = new NBTTagCompound();
-			((ExtendedPlayerTooltips) (event.getEntity().getExtendedProperties(ExtendedPlayerTooltips.EXT_PROP_NAME))).saveNBTData(playerData);
-			proxy.storeEntityData(((EntityPlayer) event.getEntity()).getDisplayName(), playerData);
-			ExtendedPlayerTooltips.saveProxyData((EntityPlayer) event.getEntity());
-		} else {
-
-		}
+	public void onPlayerClone(PlayerEvent.Clone event)
+	{
+		//TODO - Make bolts persist across death.
 	}
-
-	@SubscribeEvent
-	public void onEntityJoinWorld(EntityJoinWorldEvent event) {
-		if (!event.entity.worldObj.isRemote && event.entity instanceof EntityPlayer) {
-			NBTTagCompound playerData = proxy.getEntityData(((EntityPlayer) event.entity).getDisplayName());
-			if (playerData != null) {
-				((ExtendedPlayerBolt) (event.entity.getExtendedProperties(ExtendedPlayerBolt.EXT_PROP_NAME))).loadNBTData(playerData);
-
-				((ExtendedPropsSuckCannon) (event.entity.getExtendedProperties(ExtendedPropsSuckCannon.IDENTIFIER))).loadNBTData(playerData);
-			}
-
-			((ExtendedPlayerBolt) (event.entity.getExtendedProperties(ExtendedPlayerBolt.EXT_PROP_NAME))).sync();
-			ExtendedPropsSuckCannon.get((EntityPlayer) event.entity).sync();
-			ExtendedPlayerTarget.get((EntityPlayer) event.entity).sync();
-		}
-
-		if (!event.entity.worldObj.isRemote && event.entity instanceof EntityPlayer) {
-			NBTTagCompound playerData = proxy.getEntityData(((EntityPlayer) event.entity).getDisplayName());
-			if (playerData != null) {
-				((ExtendedPlayerTooltips) (event.entity.getExtendedProperties(ExtendedPlayerTooltips.EXT_PROP_NAME))).loadNBTData(playerData);
-			}
-
-			((ExtendedPlayerTooltips) (event.entity.getExtendedProperties(ExtendedPlayerTooltips.EXT_PROP_NAME))).sync();
-		}
-
-		// EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
-
-		if (event.entity instanceof EntityVisibombAmmo) {
-			EntityVisibombAmmo arrow = (EntityVisibombAmmo) event.entity;
-			EntityPlayer arrowShooter = arrow.world.getClosestPlayerToEntity(arrow, 2);
-			if (arrowShooter == null)
-				return;
-			if (event.world.isRemote && isEntityForThisClient(arrow, arrowShooter)) {
-				EntityVisibombCamera.getInstance().startCam(arrow, true);
-			}
-
-		}
-
-		if (event.entity != null) {
-			event.entity.getEntityData().setInteger("missilesTargeting", 0);
-		}
-	}
-
+	
 	@SideOnly(Side.CLIENT)
 	private boolean isEntityForThisClient(EntityVisibombAmmo missile, EntityPlayer shooter) {
 		if (shooter == FMLClientHandler.instance().getClientPlayerEntity()) {
@@ -190,12 +119,15 @@ public class RcEventHandler {
 
 	@SubscribeEvent
 	public void onItemPickup(EntityItemPickupEvent event) {
-		ItemStack item = event.item.getEntityItem();
-		ExtendedPlayerBolt props = ExtendedPlayerBolt.get(event.entityPlayer);
+		ItemStack item = event.getItem().getEntityItem();
+		if(event.getEntityPlayer() == null)
+			return;
+		IBolt props = event.getEntityPlayer().getCapability(BoltProvider.BOLT_CAP, null);
 		if (item.getItem() != null && item.getItem() == RcItems.bolt) {
 			props.addBolt(25);
-			event.entityPlayer.worldObj.playSoundAtEntity(event.entityPlayer, "rcmod:BoltCollect", 0.3f, 1.0f);
-			event.item.setDead();
+			//TODO - Fix sounds
+			//event.getEntityPlayer().world.playSoundAtEntity(event.getEntityPlayer(), "rcmod:BoltCollect", 0.3f, 1.0f);
+			event.getItem().setDead();
 			event.setCanceled(true);
 		}
 
@@ -203,14 +135,15 @@ public class RcEventHandler {
 
 		if (item.getItem() != null && item.getItem() instanceof ItemAmmo) {
 			ItemAmmo ammo = (ItemAmmo) item.getItem();
-			ItemStack[] inv = event.entityPlayer.inventory.mainInventory;
-			for (int i = 0; i < inv.length; i++) {
-				if (inv[i] != null) {
-					if (ammo.getGun() == inv[i].getItem()) {
-						ItemRcGun weapon = (ItemRcGun) inv[i].getItem();
-						if (weapon.refill(inv[i], weapon, event, ammo.getAmmount())) {
-							event.entityPlayer.worldObj.playSoundAtEntity(event.entityPlayer, "rcmod:AmmoCollect", 0.3f, 1.0f);
-							event.item.setDead();
+			NonNullList<ItemStack> inv = event.getEntityPlayer().inventory.mainInventory;
+			for (int i = 0; i < inv.size(); i++) {
+				if (inv.get(i) != ItemStack.EMPTY) {
+					if (ammo.getGun() == inv.get(i).getItem()) {
+						ItemRcGun weapon = (ItemRcGun) inv.get(i).getItem();
+						if (weapon.refill(inv.get(i), weapon, event, ammo.getAmmount())) {
+							//TODO - Fix sounds
+							//event.getEntityPlayer().world.playSoundAtEntity(event.getEntityPlayer(), "rcmod:AmmoCollect", 0.3f, 1.0f);
+							event.getItem().setDead();
 							event.setCanceled(true);
 						}
 					}
@@ -239,7 +172,9 @@ public class RcEventHandler {
 	 
 	 */
 
-	@SideOnly(Side.CLIENT)
+	
+	// TODO - Fix weapon-in-hand render
+	/*@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void preRenderPlayer(RenderPlayerEvent.Pre event) {
 		EntityPlayer player = event.getEntityPlayer();
@@ -254,9 +189,10 @@ public class RcEventHandler {
 
 			}
 		}
+	}*/
 
-	}
-
+	//TODO - Fix crosshair render
+	/*
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void renderGameOverlay(RenderGameOverlayEvent event) {
@@ -272,17 +208,5 @@ public class RcEventHandler {
 			}
 		}
 	}
-
-	@SideOnly(Side.CLIENT)
-	@SubscribeEvent
-	public void renderWorldLastEvent(RenderWorldLastEvent event) {
-		final Minecraft mc = Minecraft.getMinecraft();
-
-		ExtendedPlayerTarget props = ExtendedPlayerTarget.get(mc.player);
-		if (props.hasDevastatorTarget) {
-			//TODO: Render an green circle on the target.
-		}
-
-	}
-
+	*/
 }
