@@ -2,20 +2,19 @@ package com.gugu42.rcmod.items;
 
 import java.util.Random;
 
+import com.gugu42.rcmod.RcMod;
+import com.gugu42.rcmod.render.armor.ThrusterPackRender;
+import com.gugu42.rcmod.utils.Vector3;
+
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.gugu42.rcmod.RcMod;
-import com.gugu42.rcmod.render.armor.ThrusterPackRender;
-import com.gugu42.rcmod.utils.Vector3;
 
 public class ItemThrusterPack extends ItemArmor {
 
@@ -70,7 +69,7 @@ public class ItemThrusterPack extends ItemArmor {
 
 					Vector3 v = new Vector3(playerPos).translate(vCenter);
 					world.spawnParticle(
-							EnumParticleTypes.FLAME,
+							"flame",
 							v.x,
 							v.y,
 							v.z,
@@ -91,7 +90,7 @@ public class ItemThrusterPack extends ItemArmor {
 
 					Vector3 v2 = new Vector3(playerPos).translate(vCenter2);
 					world.spawnParticle(
-							EnumParticleTypes.FLAME,
+							"flame",
 							v2.x,
 							v2.y,
 							v2.z,

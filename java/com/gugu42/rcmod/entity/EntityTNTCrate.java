@@ -1,16 +1,18 @@
 package com.gugu42.rcmod.entity;
 
 import io.netty.buffer.ByteBuf;
+
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteArrayDataOutput;
+import com.gugu42.rcmod.TNTCrateExplosion;
+
+import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.gugu42.rcmod.TNTCrateExplosion;
 
 public class EntityTNTCrate extends Entity implements IEntityAdditionalSpawnData
 {
@@ -22,7 +24,7 @@ public class EntityTNTCrate extends Entity implements IEntityAdditionalSpawnData
         super(par1World);
         this.preventEntitySpawning = true;
         this.setSize(0.98F, 0.98F);
-//        this.getYOffset() = this.height / 2.0F;
+        this.yOffset = this.height / 2.0F;
     }
 
     public EntityTNTCrate(World par1World, double par2, double par4, double par6)
@@ -86,7 +88,7 @@ public class EntityTNTCrate extends Entity implements IEntityAdditionalSpawnData
         }
         else
         {
-            this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
+            this.worldObj.spawnParticle("smoke", this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
         }
         
         if(this.fuse == 20){

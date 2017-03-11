@@ -1,15 +1,16 @@
 package com.gugu42.rcmod.items;
 
+import com.gugu42.rcmod.RcMod;
+import com.gugu42.rcmod.render.armor.RenderRatchetEars_Armor;
+
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.gugu42.rcmod.RcMod;
-import com.gugu42.rcmod.render.armor.RenderRatchetEars_Armor;
 
 public class ItemRatchetEars extends ItemArmor {
 
@@ -18,16 +19,18 @@ public class ItemRatchetEars extends ItemArmor {
 	
 	public ItemRatchetEars(ArmorMaterial par2EnumArmorMaterial,
 			int par3, int par4) {
-		super(par2EnumArmorMaterial, par3, par4);
+		super(par2EnumArmorMaterial, par3, EntityEquipmentSlot.HEAD);
 		
 		this.setCreativeTab(RcMod.rcTab);
 	}
 
-	@Override
+	//TODO - Fix ratchet ears
+	
+	/*@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
 			String type) {
 		return "rcmod:models/Ratchet_ears.png";
-	}
+	}*/
 	
 	@SideOnly(Side.CLIENT)
 	public void initModel(){
@@ -36,12 +39,13 @@ public class ItemRatchetEars extends ItemArmor {
 		}
 	}
 	
-	@Override
+	
+	/*
 	@SideOnly(Side.CLIENT)
 	public ModelBiped getArmorModel(EntityLivingBase entityLiving,
 			ItemStack itemStack, int armorSlot) {
 		initModel();
 		return model;
-	}
+	}*/
 
 }

@@ -1,8 +1,10 @@
 package com.gugu42.rcmod.items;
 
+import com.gugu42.rcmod.RcMod;
+
 import net.minecraft.item.ItemRecord;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -13,7 +15,7 @@ public class ItemRcRecord extends ItemRecord {
 	private String recordNameDesc;
 	
 	protected ItemRcRecord(String recordSoundName, String recordName, String recordNameDesc) {
-		super(recordSoundName);
+		super(recordSoundName, new SoundEvent(new ResourceLocation(RcMod.MODID, recordSoundName)));
 		this.recordSoundName = recordSoundName;
 		this.recordName = recordName;
 		this.recordNameDesc = recordNameDesc;
@@ -31,7 +33,7 @@ public class ItemRcRecord extends ItemRecord {
 
 	@SideOnly(Side.CLIENT)
 	public String getRecordNameLocal() {
-		return StatCollector.translateToLocal("item." + this.recordNameDesc + ".desc");
+		return "item." + this.recordNameDesc + ".desc";
 	}
 
 }

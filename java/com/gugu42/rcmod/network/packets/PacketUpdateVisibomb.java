@@ -73,7 +73,7 @@ public class PacketUpdateVisibomb extends AbstractPacket
 
     private void handleBothSides(EntityPlayer player)
     {
-        Entity e = player.worldObj.getEntityByID(id);
+        Entity e = player.world.getEntityByID(id);
         if(e != null)
         {
             e.motionX = mx;
@@ -83,7 +83,7 @@ public class PacketUpdateVisibomb extends AbstractPacket
             e.rotationPitch = pitch;
         }
         
-        e = player.worldObj.getEntityByID(ownerID);
+        e = player.world.getEntityByID(ownerID);
         if(e != null)
         {
             e.rotationYaw = yaw;

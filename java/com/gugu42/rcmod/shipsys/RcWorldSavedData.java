@@ -24,14 +24,15 @@ public class RcWorldSavedData extends WorldSavedData {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbttag) {
+	public NBTTagCompound writeToNBT(NBTTagCompound nbttag) {
 		nbttag.setString("waypoints", ShipSystem.getSaveData());
+		return nbttag;
 	}
 
 	public static RcWorldSavedData forWorld(World world) {
 		// Retrieves this class instance for the given world, creating it if necessary
 		MapStorage storage = world.getMapStorage();
-		RcWorldSavedData result = (RcWorldSavedData) storage.loadData(
+		RcWorldSavedData result = (RcWorldSavedData) storage.getOrLoadData(
 				RcWorldSavedData.class, key);
 		if (result == null) {
 			result = new RcWorldSavedData();

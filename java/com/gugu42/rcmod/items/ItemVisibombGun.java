@@ -9,9 +9,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
-public class ItemVisibombGun extends ItemRcWeap
+public class ItemVisibombGun extends ItemRcGun
 {
 	private int cooldown;
 
@@ -24,21 +27,26 @@ public class ItemVisibombGun extends ItemRcWeap
 		this.hideCrosshair = true;
 		this.heldType = 1;
 		this.setMaxDamage(maxAmmo);
+		this.hasEquipSound = true;
 	}
 	
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
-			EntityPlayer par3EntityPlayer) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		super.onItemRightClick(world, player, hand);
+		
+		ItemStack par1ItemStack = player.getHeldItem(hand);
+		
 		if (maxAmmo - par1ItemStack.getItemDamage() > 0) {
-			if (!par2World.isRemote) {
+			if (!world.isRemote) {
 				if (cooldown <= 0) {
-					par2World.spawnEntityInWorld(new EntityVisibombAmmo(par2World, par3EntityPlayer));
-					par1ItemStack.damageItem(1, par3EntityPlayer);
+					world.spawnEntity(new EntityVisibombAmmo(world, player));
+					par1ItemStack.damageItem(1, player);
 					cooldown = 200;
-					par3EntityPlayer.swingItem();
+					player.swingArm(hand);
 				}
 			}
 		}
-		return par1ItemStack;
+		
+		return new ActionResult(EnumActionResult.SUCCESS, par1ItemStack);
 	}
 
 	public boolean canHarvestBlock(Block par1Block) {
@@ -51,6 +59,7 @@ public class ItemVisibombGun extends ItemRcWeap
 	
 	public void onUpdate(ItemStack par1ItemStack, World par2World,Entity par3Entity, int par4, boolean par5) 
 	{
+		super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
 		if (cooldown >= 1) {
 			cooldown--;
 		}

@@ -2,13 +2,26 @@ package com.gugu42.rcmod.gui;
 
 import java.io.IOException;
 
+import org.lwjgl.opengl.GL11;
+
+import com.gugu42.rcmod.ContainerVendor;
+import com.gugu42.rcmod.RcMod;
+import com.gugu42.rcmod.handler.ExtendedPlayerBolt;
+import com.gugu42.rcmod.items.EnumRcWeapons;
+import com.gugu42.rcmod.items.InventoryGadgetronPDA;
+import com.gugu42.rcmod.items.ItemRcWeap;
+import com.gugu42.rcmod.network.packets.PacketRefill;
+import com.gugu42.rcmod.network.packets.PacketVend;
+import com.gugu42.rcmod.tileentity.TileEntityVendor;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -18,17 +31,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import org.lwjgl.opengl.GL11;
-
-import com.gugu42.rcmod.ContainerVendor;
-import com.gugu42.rcmod.RcMod;
-import com.gugu42.rcmod.handler.ExtendedPlayerBolt;
-import com.gugu42.rcmod.items.EnumRcWeapons;
-import com.gugu42.rcmod.items.ItemRcWeap;
-import com.gugu42.rcmod.network.packets.PacketRefill;
-import com.gugu42.rcmod.network.packets.PacketVend;
-import com.gugu42.rcmod.tileentity.TileEntityVendor;
 
 @SideOnly(Side.CLIENT)
 public class GuiVendor extends GuiContainer {
@@ -58,10 +60,15 @@ public class GuiVendor extends GuiContainer {
 
 	public float rotation;
 
+	public int weaponIndex = 1;
+
+	public int lastID = 0;
+	public int centerID = 1;
+
 	public GuiVendor(InventoryPlayer inventoryPlayer,
 			TileEntityVendor tileEntity, EntityPlayer player,
-			ContainerVendor container) {
-		super(new ContainerVendor(inventoryPlayer, tileEntity));
+			ContainerVendor container, InventoryGadgetronPDA inv) {
+		super(new ContainerVendor(inventoryPlayer, tileEntity, inv));
 		this.player = player;
 		this.tileEntity = tileEntity;
 		this.container = container;
@@ -78,9 +85,9 @@ public class GuiVendor extends GuiContainer {
 		int posY = (this.height - ySize) / 2;
 		this.buttonList.clear();
 		this.buttonList.add(this.buyBtn = new GuiButton(0, posX + 41,
-				posY + 137, 35, 20, "Buy"));
+				posY + 137, 35, 20, I18n.format("gui.vendor.buy")));
 		this.buttonList.add(this.exitBtn = new GuiButton(1, posX + 181,
-				posY + 137, 35, 20, "Exit"));
+				posY + 137, 35, 20, I18n.format("gui.vendor.exit")));
 	}
 
 	@Override
@@ -108,9 +115,7 @@ public class GuiVendor extends GuiContainer {
 			RenderHelper.enableStandardItemLighting();
 
 			if (selectedWeapon >= 0 && selectedItem != null)
-				Minecraft.getMinecraft().getRenderManager().renderEntityWithPosYaw(
-						selectedItemEntity, 0, 0, 0, 0, 0);
-
+				Minecraft.getMinecraft().getRenderManager().doRenderEntity(selectedItemEntity, 0, 0, 0, 0, 0, false);
 			RenderHelper.disableStandardItemLighting();
 
 			GL11.glPopMatrix();
@@ -118,14 +123,19 @@ public class GuiVendor extends GuiContainer {
 			rotation -= 1f;
 
 			if (getItemInInventory(player.inventory, selectedItem.getItem()) == null) {
-				this.mc.fontRendererObj.drawString(""
-						+ EnumRcWeapons.getItemFromID(selectedWeapon + 1)
-								.getPrice(), 30, 105, 0xFFFFFF);
-				this.buyBtn.displayString = "Buy";
+				this.mc.fontRendererObj.drawString(
+						""
+								+ EnumRcWeapons.getPriceFromItem(selectedItem
+										.getItem()), 30, 105, 0xFFFFFF);
+				this.buyBtn.displayString = I18n.format("gui.vendor.buy");
 			} else {
-				this.mc.fontRendererObj.drawString(""
-						+ getItemInInventory(player.inventory, selectedItem.getItem()).getItemDamage() * selectedItemWeap.getPrice(), 30, 105, 0xFFFFFF);
-				this.buyBtn.displayString = "Refill";
+				this.mc.fontRendererObj.drawString(
+						""
+								+ getItemInInventory(player.inventory,
+										selectedItem.getItem()).getItemDamage()
+								* selectedItemWeap.getPrice(), 30, 105,
+						0xFFFFFF);
+				this.buyBtn.displayString = I18n.format("gui.vendor.refill");
 			}
 			this.buyBtn.enabled = true;
 
@@ -149,12 +159,18 @@ public class GuiVendor extends GuiContainer {
 	}
 
 	public void putItemsInSlot() {
-		for (int i = 1; i < 10; i++) {
-			if (EnumRcWeapons.getItemFromID(i) != null) {
-				this.container.putStackInSlot(i - 1, new ItemStack(
-						EnumRcWeapons.getItemFromID(i).getWeapon()));
+		for (int i = 0; i < 9; i++) {
+			if (EnumRcWeapons.getItemFromID(centerID + i) != null) {
+				this.container.putStackInSlot(i, new ItemStack(EnumRcWeapons
+						.getItemFromID(centerID + i).getWeapon()));
+				lastID = i;
 			} else {
-				this.container.putStackInSlot(i, null);
+				if (EnumRcWeapons.getItemFromID(i - lastID) != null) {
+					this.container.putStackInSlot(
+							i,
+							new ItemStack(EnumRcWeapons.getItemFromID(
+									i - lastID).getWeapon()));
+				}
 			}
 		}
 	}
@@ -165,11 +181,27 @@ public class GuiVendor extends GuiContainer {
 		for (int i = 0; i < 9; i++) {
 			if (isMouseOverSlot(container.getSlot(i), mouseX, mouseY)) {
 				selectedWeapon = i;
-				selectedItem = new ItemStack(EnumRcWeapons.getItemFromID(i + 1)
-						.getWeapon(), 1);
-				selectedItemEntity = new EntityItem(this.mc.theWorld, 0, 0, 0,
-						selectedItem);
-				selectedItemWeap = (ItemRcWeap)selectedItem.getItem();
+
+				selectedItem = container.getSlot(i).getStack();
+
+				if (selectedItem != null) {
+					selectedItemEntity = new EntityItem(this.mc.world, 0, 0,
+							0, selectedItem);
+
+					selectedItemWeap = (ItemRcWeap) selectedItem.getItem();
+				}
+				//TODO - Fix sounds
+				/*
+				mc.getSoundHandler()
+						.playSound(
+								PositionedSoundRecord
+										.func_147674_a(new ResourceLocation(
+												"rcmod:MenuSelect"), 1.0F));*/
+
+				weaponIndex = weaponIndex + i;
+				centerID = EnumRcWeapons.getIDFromItem(selectedItemWeap);
+			} else {
+				//ok you can happen if you want, but not too much pls
 			}
 		}
 	}
@@ -178,18 +210,13 @@ public class GuiVendor extends GuiContainer {
 	public void actionPerformed(GuiButton button) {
 		switch (button.id) {
 		case 0:
-			if (!player.inventory.hasItem(selectedItem.getItem())) {
+			if (!player.inventory.hasItemStack(new ItemStack(selectedItem.getItem()))) {
 				ExtendedPlayerBolt props = ExtendedPlayerBolt.get(player);
 				if (props.getCurrentBolt() > 0) {
 
 					try {
-						PacketVend packetVend = new PacketVend(
-								selectedWeapon + 1);
+						PacketVend packetVend = new PacketVend(centerID);
 						RcMod.rcModPacketHandler.sendToServer(packetVend);
-						mc.getSoundHandler().playSound(
-								PositionedSoundRecord
-										.create(new ResourceLocation(
-												"rcmod:vendor.buy"), 1.0F));
 					} catch (Exception exception) {
 						exception.printStackTrace();
 					}
@@ -197,12 +224,16 @@ public class GuiVendor extends GuiContainer {
 			} else {
 				ItemRcWeap weap = (ItemRcWeap) selectedItem.getItem();
 				if (weap.useAmmo) {
-					PacketRefill packet = new PacketRefill(selectedWeapon + 1);
+					PacketRefill packet = new PacketRefill(centerID);
 					RcMod.rcModPacketHandler.sendToServer(packet);
 				}
 			}
 			break;
 		case 1:
+			//TODO - Fix sounds
+			/*mc.getSoundHandler().playSound(
+					PositionedSoundRecord.func_147674_a(new ResourceLocation(
+							"rcmod:vendor.exit"), 1.0F));*/
 			player.closeScreen();
 			break;
 		default:
@@ -218,6 +249,12 @@ public class GuiVendor extends GuiContainer {
 		mouseX = par1;
 		mouseY = par2;
 		handleSelectedWeapon();
+		if (selectedItemEntity != null) { //Using this check to be sure that there is an item selecred, cuz that works.
+			this.mc.fontRendererObj.drawString(
+					EnumRcWeapons.getItemFromID(centerID).getName(), 108, 16,
+					0x00FF00);
+		}
+
 	}
 
 	@Override
@@ -235,24 +272,25 @@ public class GuiVendor extends GuiContainer {
 	@SideOnly(Side.CLIENT)
 	public static void drawTexturedQuadFit(double x, double y, double width,
 			double height, double zLevel) {
-		WorldRenderer tessellator = Tessellator.getInstance().getWorldRenderer();
+		Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();
 		tessellator.addVertexWithUV(x + 0, y + height, zLevel, 0, 1);
 		tessellator.addVertexWithUV(x + width, y + height, zLevel, 1, 1);
 		tessellator.addVertexWithUV(x + width, y + 0, zLevel, 1, 0);
 		tessellator.addVertexWithUV(x + 0, y + 0, zLevel, 0, 0);
-		tessellator.finishDrawing();
+		tessellator.draw();
 	}
 
 	private boolean isMouseOverSlot(Slot par1Slot, int par2, int par3) {
-		return this.isMouseOverSlot(par1Slot, par2, par3);
+		return this.func_146978_c(par1Slot.xPos,
+				par1Slot.yPos, 16, 16, par2, par3);
 
 	}
 
 	private int getSlotContainingItem(InventoryPlayer inventory, Item item) {
-		for (int i = 0; i < inventory.mainInventory.length; ++i) {
-			if (inventory.mainInventory[i] != null
-					&& inventory.mainInventory[i].getItem() == item) {
+		for (int i = 0; i < inventory.mainInventory.size(); ++i) {
+			if (inventory.mainInventory.get(i) != ItemStack.EMPTY
+					&& inventory.mainInventory.get(i).getItem() == item) {
 				return i;
 			}
 		}
@@ -265,9 +303,9 @@ public class GuiVendor extends GuiContainer {
 		int i = this.getSlotContainingItem(inventory, p_146026_1_);
 
 		if (i < 0) {
-			return null;
+			return ItemStack.EMPTY;
 		} else {
-			return inventory.mainInventory[i];
+			return inventory.mainInventory.get(i);
 		}
 	}
 

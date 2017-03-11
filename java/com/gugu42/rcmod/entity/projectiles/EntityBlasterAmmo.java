@@ -1,12 +1,12 @@
 package com.gugu42.rcmod.entity.projectiles;
 
+import com.gugu42.rcmod.RcMod;
+
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntityBlasterAmmo extends EntityThrowable {
@@ -30,29 +30,29 @@ public class EntityBlasterAmmo extends EntityThrowable {
 	}
 
 	@Override
-	protected void onImpact(MovingObjectPosition movingobjectposition) {
-		if (movingobjectposition.entityHit != null) {
-			byte b0 = 4;
+	protected void onImpact(RayTraceResult result) {
+		if (result.entityHit != null) {
+			int dmg = RcMod.config.get("weapon_damage", "blaster", 4).getInt();
 			
 			
-			movingobjectposition.entityHit.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)this.getThrower()), b0);
-			if (!this.worldObj.isRemote) {
+			result.entityHit.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)this.getThrower()), dmg);
+			if (!this.world.isRemote) {
 				setDead();
 			}
 		}
 
 		for (int i = 0; i < 8; i++) {
-			this.worldObj.spawnParticle(EnumParticleTypes.REDSTONE, this.posX, this.posY,
-					this.posZ, 0.0D, 0.0D, 0.0D);
+			/*this.world.spawnParticle("snowballpoof", this.posX, this.posY,
+					this.posZ, 0.0D, 0.0D, 0.0D);*/
 		}
 
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			setDead();
 		}
 
 		if ((!this.isDead)
-				&& (movingobjectposition.typeOfHit == MovingObjectType.BLOCK)
-				&& (!this.worldObj.isRemote))
+				&& (result.typeOfHit == RayTraceResult.Type.BLOCK)
+				&& (!this.world.isRemote))
 			setDead();
 	}
 	

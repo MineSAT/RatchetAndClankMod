@@ -7,6 +7,9 @@ import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
 public class ItemTaunter extends ItemRcWeap
@@ -16,30 +19,35 @@ public class ItemTaunter extends ItemRcWeap
     {
         super();
         this.useAmmo = false;
+        this.weaponName = "taunter";
+        this.hasEquipSound = true;
     }
 
-    @SuppressWarnings("unchecked")
-    public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
-            EntityPlayer par3EntityPlayer)
-    {
-        super.onItemRightClick(par1ItemStack, par2World, par3EntityPlayer);
-        par2World.playSoundAtEntity(par3EntityPlayer, "rcmod:TaunterSound",
-                1.0f, 1.0f);
 
-        if(!par2World.isRemote)
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		super.onItemRightClick(world, player, hand);
+		
+		ItemStack par1ItemStack = player.getHeldItem(hand);
+		
+		//TODO - Fix sounds
+        //world.playSoundAtEntity(player, "rcmod:TaunterSound",
+        //        1.0f, 1.0f);
+
+        if(!world.isRemote)
         {
             float size = 32f;
-            List<Entity> entities = par2World
-                    .getEntitiesWithinAABBExcludingEntity(par3EntityPlayer,
-                            par3EntityPlayer.getBoundingBox().expand(size, size,
+            List<Entity> entities = world
+                    .getEntitiesWithinAABBExcludingEntity(player,
+                            player.getCollisionBoundingBox().expand(size, size,
                                     size));
             for (Entity e : entities)
             {
                 if(e instanceof EntityCreature)
                 {
                     EntityCreature mob = (EntityCreature) e;
-                    mob.setPathToEntity(mob.worldObj.getPathEntityToEntity(mob,
-                            par3EntityPlayer, size, true, true, true, true));
+                    //TODO - Fix taunter aggro
+                    //mob.setPathToEntity(mob.world.getPathToEntity(mob,
+                    //       player, size, true, true, true, true));
                 }
                 if(e instanceof EntityLiving)
                 {
@@ -47,10 +55,17 @@ public class ItemTaunter extends ItemRcWeap
                     living.getNavigator().clearPathEntity();
                     living.getNavigator().setPath(
                             living.getNavigator().getPathToEntityLiving(
-                                    par3EntityPlayer), 1.0);
+                                    player), 1.0);
                 }
             }
         }
-        return par1ItemStack;
+        
+		return new ActionResult(EnumActionResult.SUCCESS, par1ItemStack);
     }
+    
+    @Override
+	public void onUpdate(ItemStack stack, World w, Entity ent, int i,
+			boolean flag) {
+		super.onUpdate(stack, w, ent, i, flag);
+	}
 }

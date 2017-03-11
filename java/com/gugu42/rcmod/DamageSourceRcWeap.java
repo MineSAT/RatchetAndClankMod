@@ -1,15 +1,12 @@
 package com.gugu42.rcmod;
 
+import com.gugu42.rcmod.entity.projectiles.EntityBlasterAmmo;
+import com.gugu42.rcmod.entity.projectiles.EntityRYNOAmmo;
+
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
-import net.minecraft.util.StatCollector;
-
-import com.gugu42.rcmod.entity.projectiles.EntityBlasterAmmo;
-import com.gugu42.rcmod.entity.projectiles.EntityRYNOAmmo;
 
 public class DamageSourceRcWeap extends EntityDamageSource {
 	

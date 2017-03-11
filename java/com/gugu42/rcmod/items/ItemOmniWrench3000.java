@@ -1,17 +1,20 @@
 package com.gugu42.rcmod.items;
 
+import com.gugu42.rcmod.RcMod;
+import com.gugu42.rcmod.entity.projectiles.EntityWrenchThrown;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.gugu42.rcmod.RcMod;
-import com.gugu42.rcmod.entity.projectiles.EntityWrenchThrown;
 
 public class ItemOmniWrench3000 extends ItemRcWeap {
 
@@ -28,27 +31,28 @@ public class ItemOmniWrench3000 extends ItemRcWeap {
 			EntityLivingBase entitySource) {
 		entityTarget
 				.attackEntityFrom(DamageSource
-						.causePlayerDamage((EntityPlayer) entitySource), 6f);
+						.causePlayerDamage((EntityPlayer) entitySource), RcMod.config.get("weapon_damage", "wrench_direct", 6).getInt());
 
 		return true;
 	}
 
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
-			EntityPlayer par3EntityPlayer) {
-		if (par3EntityPlayer.isSneaking()) {
-			if (!par2World.isRemote) {
-				EntityWrenchThrown wrench = new EntityWrenchThrown(par2World,
-						par3EntityPlayer, par1ItemStack);
-				par2World.spawnEntityInWorld(wrench);
-				par3EntityPlayer.swingItem();
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		super.onItemRightClick(world, player, hand);
+		
+		ItemStack par1ItemStack = player.getHeldItem(hand);
+		
+		if (player.isSneaking()) {
+			if (!world.isRemote) {
+				EntityWrenchThrown wrench = new EntityWrenchThrown(world,
+						player, par1ItemStack);
+				world.spawnEntity(wrench);
+				player.swingArm(hand);
+				removeItem(player, par1ItemStack);
 			}
-
-			if (!par3EntityPlayer.capabilities.isCreativeMode) {
-				--par1ItemStack.stackSize;
-			}
+			removeItem(player, par1ItemStack);
 		}
-
-		return par1ItemStack;
+		
+		return new ActionResult(EnumActionResult.SUCCESS, par1ItemStack);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -59,10 +63,10 @@ public class ItemOmniWrench3000 extends ItemRcWeap {
 	public void removeItem(EntityPlayer ep, ItemStack removeitem) {
 		IInventory inv = ep.inventory;
 		for (int i = 0; i < inv.getSizeInventory(); i++) {
-			if (inv.getStackInSlot(i) != null) {
+			if (inv.getStackInSlot(i) != ItemStack.EMPTY) {
 				ItemStack j = inv.getStackInSlot(i);
 				if (j.getItem() != null && j.getItem() == removeitem.getItem()) {
-					inv.setInventorySlotContents(i, null);
+					inv.setInventorySlotContents(i, ItemStack.EMPTY);
 				}
 			}
 		}

@@ -9,16 +9,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.gugu42.rcmod.RcMod;
+
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.SimpleResource;
-import net.minecraft.client.resources.data.IMetadataSerializer;
+import net.minecraft.client.resources.data.MetadataSerializer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.fml.relauncher.Side;
-
-import com.gugu42.rcmod.RcMod;
-
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RcSimpleResourceManager implements IResourceManager
@@ -75,7 +74,7 @@ public class RcSimpleResourceManager implements IResourceManager
         {
             InputStream in = getInputStream(domain, var1);
             if(in == null)continue;
-            SimpleResource resource = new SimpleResource("rcmod", var1, in, null, new IMetadataSerializer());
+            SimpleResource resource = new SimpleResource(domain, var1, in, in, new MetadataSerializer());
             location2resource.put(domain+"/"+var1.getResourcePath(), resource);
         }
     }

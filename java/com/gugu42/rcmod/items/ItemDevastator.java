@@ -9,10 +9,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class ItemDevastator extends ItemRcWeap {
+public class ItemDevastator extends ItemRcGun {
 
 	public ItemDevastator() {
 		super();
@@ -21,48 +24,57 @@ public class ItemDevastator extends ItemRcWeap {
 		this.maxAmmo = 20;
 		this.ammoPrice = 50;
 		this.setMaxDamage(this.maxAmmo);
+		this.hasEquipSound = true;
+		this.weaponName = "devastator";
 	}
 
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
-			EntityPlayer par3EntityPlayer) {
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		super.onItemRightClick(world, player, hand);
+		
+		ItemStack par1ItemStack = player.getHeldItem(hand);
+		
 		if (maxAmmo - par1ItemStack.getItemDamage() > 0) {
-			if (!par2World.isRemote) {
-				if (par3EntityPlayer.getEntityData().getInteger(
+			if (!world.isRemote) {
+				if (player.getEntityData().getInteger(
 						"devastatorCooldown") <= 0) {
-					par3EntityPlayer.getEntityData().setInteger(
+					player.getEntityData().setInteger(
 							"devastatorCooldown", 20);
-					par3EntityPlayer.getEntityData().setBoolean(
+					player.getEntityData().setBoolean(
 							"devastatorFired", true);
-					if (!par3EntityPlayer.capabilities.isCreativeMode) {
+					if (!player.capabilities.isCreativeMode) {
 						if (maxAmmo - par1ItemStack.getItemDamage() > 0) {
-							par1ItemStack.damageItem(1, par3EntityPlayer);
+							par1ItemStack.damageItem(1, player);
 						}
 					}
 				}
 			}
 		}
-		return par1ItemStack;
+		
+		return new ActionResult(EnumActionResult.SUCCESS, par1ItemStack);
 	}
 
 	@Override
 	public void onUpdate(ItemStack par1ItemStack, World par2World,
 			Entity par3Entity, int par4, boolean par5) {
+		super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
+		
 		if (par5 && par3Entity instanceof EntityPlayer && !par2World.isRemote) {
 			EntityPlayer player = (EntityPlayer) par3Entity;
 			ExtendedPlayerTarget props = ExtendedPlayerTarget.get(player);
 			Entity target = null;
 			List entityTagetList = par2World.getEntitiesWithinAABB(
 					Entity.class,
-					player.getBoundingBox().expand(48.0D, 48.0D, 48.0D));
+					player.getCollisionBoundingBox().expand(48.0D, 48.0D, 48.0D));
 			for (int i = 0; i < entityTagetList.size(); i++) {
 				Entity entityTarget = (Entity) entityTagetList.get(i);
 				if (entityTarget != player
 						&& entityTarget instanceof EntityLivingBase) {
 					EntityLivingBase entityLivingTarget = (EntityLivingBase) entityTarget;
-					Vec3 vec3 = player.getLook(1.0F).normalize();
-					Vec3 vec31 = new Vec3(
+					Vec3d vec3 = player.getLook(1.0F).normalize();
+					Vec3d vec31 = new Vec3d(
 									entityLivingTarget.posX - player.posX,
-									entityLivingTarget.getBoundingBox().minY
+									entityLivingTarget.getCollisionBoundingBox().minY
 											+ (double) (entityLivingTarget.height / 2.0F)
 											- (player.posY + (double) player
 													.getEyeHeight()),
@@ -111,12 +123,16 @@ public class ItemDevastator extends ItemRcWeap {
 
 	public void fireRocket(World world, EntityPlayer player) {
 		EntityRYNOAmmo rocket = new EntityRYNOAmmo(world, player);
-		world.spawnEntityInWorld(rocket);
+		world.spawnEntity(rocket);
+		//TODO - Fix sound
+		//player.world.playSoundAtEntity(player, "rcmod:DevastatorShot", 1.0f, 1.0f);
 	}
 
 	public void fireRocket(World world, EntityPlayer player, Entity target) {
 		EntityRYNOAmmo rocket = new EntityRYNOAmmo(world, player, target);
-		world.spawnEntityInWorld(rocket);
+		world.spawnEntity(rocket);
+		//TODO - Fix sound
+		//player.world.playSoundAtEntity(player, "rcmod:DevastatorShot", 1.0f, 1.0f);
 	}
 
 }

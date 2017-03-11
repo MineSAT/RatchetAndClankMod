@@ -1,13 +1,13 @@
 package com.gugu42.rcmod.items;
 
+import com.gugu42.rcmod.RcMod;
+import com.gugu42.rcmod.tileentity.TileEntityShipFiller;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-
-import com.gugu42.rcmod.RcMod;
-import com.gugu42.rcmod.tileentity.TileEntityShipFiller;
 
 public class ItemShip extends Item {
 
@@ -15,18 +15,19 @@ public class ItemShip extends Item {
 
 	}
 
+	//TODO - Fix itemShip
 	public boolean onItemUse(ItemStack itemStack, EntityPlayer player,
 			World world, int x, int y, int z, int side, float xOffset,
 			float yOffset, float zOffset) {
 		if (!player.capabilities.isCreativeMode) {
-			--itemStack.stackSize;
+			itemStack.shrink(1);
 		}
 
 		if (!world.isRemote) {
 			y++;
 			TileEntityShipFiller teShipFiller = null;
 			int direction = MathHelper
-					.floor_double((double) (player.rotationYaw * 4.0F / 360.0F) + 2.5D) & 3;
+					.floor((double) (player.rotationYaw * 4.0F / 360.0F) + 2.5D) & 3;
 			world.setBlock(x, y, z, RcMod.ship, direction, 2);
 			boolean shouldPlaceBlock;
 
@@ -43,6 +44,7 @@ public class ItemShip extends Item {
 									teShipFiller.primary_x = x;
 									teShipFiller.primary_y = y;
 									teShipFiller.primary_z = z;
+									
 								} else {
 									System.out.println("TileEntity is null !");
 								}

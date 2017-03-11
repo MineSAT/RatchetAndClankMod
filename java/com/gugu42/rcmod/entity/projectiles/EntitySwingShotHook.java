@@ -2,21 +2,21 @@ package com.gugu42.rcmod.entity.projectiles;
 
 import java.util.List;
 
+import com.gugu42.rcmod.RcMod;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.play.server.S12PacketEntityVelocity;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.gugu42.rcmod.RcMod;
 
 public class EntitySwingShotHook extends EntityThrowable {
 
@@ -48,8 +48,14 @@ public class EntitySwingShotHook extends EntityThrowable {
 		}
 	}
 
+	public EntitySwingShotHook(World par1World, double par2, double par4,
+			double par6) {
+		super(par1World, par2, par4, par6);
+	}
+	
 	@Override
 	protected void entityInit() {
+		
 		dataWatcher.addObject(10, "1"); // powValue
 		dataWatcher.addObject(11, "0"); // startX
 		dataWatcher.addObject(12, "0"); // startY
@@ -60,7 +66,7 @@ public class EntitySwingShotHook extends EntityThrowable {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			timeLived++;
 		}
 
@@ -79,30 +85,31 @@ public class EntitySwingShotHook extends EntityThrowable {
 				EntityPlayerMP throwerMP = (EntityPlayerMP) thrower;
 
 				// Vec3 playerPos = throwerMP.getPosition(1.0f);
-				Vec3 playerPos =  new Vec3(
+				Vec3d playerPos = new Vec3d(
 								throwerMP.posX,
 								throwerMP.posY
 										+ (throwerMP.getEyeHeight() - throwerMP
 												.getDefaultEyeHeight()),
 								throwerMP.posZ);
 				
-				Vec3 entPos = new Vec3(
+				Vec3d entPos = new Vec3d(
 						this.posX, this.posY, this.posZ);
 
-				Vec3 a = playerPos.subtract(entPos);
+				Vec3d a = playerPos.subtract(entPos);
 
-				Vec3 b = new Vec3(a.xCoord, a.yCoord, a.zCoord);
+				Vec3d b = new Vec3d(a.xCoord, a.yCoord, a.zCoord);
 				double suckingPower = 5;
 				customKnockBack(throwerMP, 0, b.xCoord * suckingPower, b.yCoord
 						* suckingPower, b.zCoord * suckingPower);
 
-				throwerMP.playerNetServerHandler
-						.sendPacket(new S12PacketEntityVelocity(throwerMP));
+				//TODO - Fix network packets
+				//throwerMP.playerNetServerHandler
+				//		.sendPacket(new S12PacketEntityVelocity(throwerMP));
 
 			}
 
-			List entityTagetList = this.worldObj.getEntitiesWithinAABB(
-					Entity.class, this.getBoundingBox().expand(0.3D, 0.3D, 0.3D));
+			List entityTagetList = this.world.getEntitiesWithinAABB(
+					Entity.class, this.getCollisionBoundingBox().expand(0.3D, 0.3D, 0.3D));
 			for (int i = 0; i < entityTagetList.size(); i++) {
 				Entity entityTarget = (Entity) entityTagetList.get(i);
 				if (entityTarget != null && entityTarget == thrower) {
@@ -115,9 +122,9 @@ public class EntitySwingShotHook extends EntityThrowable {
 						throwerMP.motionZ = 0;
 						throwerMP.motionY = 0;
 
-						throwerMP.playerNetServerHandler
+						/*throwerMP.playerNetServerHandler
 								.sendPacket(new S12PacketEntityVelocity(
-										throwerMP));
+										throwerMP));*/
 					}
 
 					thrower.getEntityData()
@@ -128,8 +135,8 @@ public class EntitySwingShotHook extends EntityThrowable {
 
 		if (timeLived >= returnTime && !shouldPullPlayer) {
 			returnToThrower();
-			List entityTagetList = this.worldObj.getEntitiesWithinAABB(
-					Entity.class, this.getBoundingBox().expand(0.3D, 0.3D, 0.3D));
+			List entityTagetList = this.world.getEntitiesWithinAABB(
+					Entity.class, this.getCollisionBoundingBox().expand(0.3D, 0.3D, 0.3D));
 			for (int i = 0; i < entityTagetList.size(); i++) {
 				Entity entityTarget = (Entity) entityTagetList.get(i);
 				if (entityTarget != null && entityTarget == thrower) {
@@ -154,14 +161,13 @@ public class EntitySwingShotHook extends EntityThrowable {
 	}
 
 	@Override
-	protected void onImpact(MovingObjectPosition mop) {
+	protected void onImpact(RayTraceResult mop) {
 		if (mop != null) {
 			if (mop.typeOfHit != null
-					&& mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-				if (worldObj.getBlockState(mop.getBlockPos()).getBlock() != null
-						&& worldObj
-								.getBlockState(mop.getBlockPos()).getBlock() == RcMod.versaTargetGreen) {
-					System.out.println("I should pull the player !");
+					&& mop.typeOfHit == RayTraceResult.Type.BLOCK) {
+				if (world.getBlockState(new BlockPos(mop.getBlockPos().getX(), mop.getBlockPos().getY(), mop.getBlockPos().getZ())) != null
+						&& world
+								.getBlockState(new BlockPos(mop.getBlockPos().getX(), mop.getBlockPos().getY(), mop.getBlockPos().getZ())).getBlock() == RcMod.versaTargetGreen) {
 					shouldPullPlayer = true;
 					motionX = 0;
 					motionY = 0;
@@ -170,6 +176,8 @@ public class EntitySwingShotHook extends EntityThrowable {
 					this.posX = mop.hitVec.xCoord;
 					this.posY = mop.hitVec.yCoord;
 					this.posZ = mop.hitVec.zCoord;
+					//TODO-- sound
+					//this.world.playSoundAtEntity(this.thrower, "rcmod:SwingShotHook", 1.0f, 1.0f);
 				} else {
 					returnToThrower();
 				}
@@ -203,7 +211,7 @@ public class EntitySwingShotHook extends EntityThrowable {
 			double newX = thrower.posX - this.posX;
 			double newY = thrower.posY - this.posY;
 			double newZ = thrower.posZ - this.posZ;
-			setThrowableHeading(newX, newY + 0.5d, newZ, 1.5f,
+			setThrowableHeading(newX, newY + 0.5d, newZ, this.func_70182_d(),
 					0.0F);
 		}
 
@@ -215,7 +223,7 @@ public class EntitySwingShotHook extends EntityThrowable {
 		// par1Entity.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).getAttributeValue())
 		// {
 		par1Entity.isAirBorne = true;
-		float f1 = MathHelper.sqrt_double(par3 * par3 + par5 * par5);
+		float f1 = MathHelper.sqrt(par3 * par3 + par5 * par5);
 		float f2 = 0.4F;
 		par1Entity.motionX /= 2.0D;
 		par1Entity.motionY /= 2.0D;
@@ -235,9 +243,9 @@ public class EntitySwingShotHook extends EntityThrowable {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public Vec3 getPosition(float par1) {
+	public Vec3d getPosition(float par1) {
 		if (par1 == 1.0F) {
-			return new Vec3(this.posX,
+			return new Vec3d(this.posX,
 					this.posY, this.posZ);
 		} else {
 			double d0 = this.prevPosX + (this.posX - this.prevPosX)
@@ -246,7 +254,7 @@ public class EntitySwingShotHook extends EntityThrowable {
 					* (double) par1;
 			double d2 = this.prevPosZ + (this.posZ - this.prevPosZ)
 					* (double) par1;
-			return  new Vec3(d0, d1, d2);
+			return new Vec3d(d0, d1, d2);
 		}
 	}
 
@@ -261,17 +269,17 @@ public class EntitySwingShotHook extends EntityThrowable {
 	}
 
 	public void setStartX(double input) {
-		if (!worldObj.isRemote)
+		if (!world.isRemote)
 			dataWatcher.updateObject(11, "" + input);
 	}
 
 	public void setStartY(double input) {
-		if (!worldObj.isRemote)
+		if (!world.isRemote)
 			dataWatcher.updateObject(12, "" + input);
 	}
 
 	public void setStartZ(double input) {
-		if (!worldObj.isRemote)
+		if (!world.isRemote)
 			dataWatcher.updateObject(13, "" + input);
 	}
 
@@ -307,7 +315,7 @@ public class EntitySwingShotHook extends EntityThrowable {
 	}
 
 	public void setPowValue(double input) {
-		if (!worldObj.isRemote)
+		if (!world.isRemote)
 			dataWatcher.updateObject(10, "" + input);
 	}
 

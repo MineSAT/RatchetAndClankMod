@@ -1,14 +1,13 @@
 package com.gugu42.rcmod.network.packets;
 
+import com.gugu42.rcmod.handler.ExtendedPlayerBolt;
+import com.gugu42.rcmod.items.EnumRcWeapons;
+import com.gugu42.rcmod.utils.ffmtutils.AbstractPacket;
+
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
-
-import com.gugu42.rcmod.handler.ExtendedPlayerBolt;
-import com.gugu42.rcmod.items.EnumRcWeapons;
-import com.gugu42.rcmod.utils.ffmtutils.AbstractPacket;
 
 public class PacketVend extends AbstractPacket {
 
@@ -45,19 +44,23 @@ public class PacketVend extends AbstractPacket {
 	public void handleServerSide(EntityPlayer player) {
 		ExtendedPlayerBolt props = ExtendedPlayerBolt.get(player);
 
-		if (!player.inventory.hasItem(EnumRcWeapons.getItemFromID(this.id)
-				.getWeapon())) {
-			if (player.inventory.getFirstEmptyStack() >= 0 && props.currentBolt >= EnumRcWeapons.getItemFromID(this.id).getPrice() && player.inventory.addItemStackToInventory(new ItemStack(
-					EnumRcWeapons.getItemFromID(this.id).getWeapon(), 1,
+		if (!player.inventory.hasItemStack(new ItemStack(EnumRcWeapons.getItemFromID(this.id)
+				.getWeapon()))) {
+			if (player.inventory.getFirstEmptyStack() >= 0 &&
+					props.currentBolt >= EnumRcWeapons.getItemFromID(this.id).getPrice() &&
+					player.inventory.addItemStackToInventory(new ItemStack(EnumRcWeapons.getItemFromID(this.id).getWeapon(), 1,
 					(EnumRcWeapons.getItemFromID(this.id).getWeapon()
 							.getMaxDamage() / 2))) && props.consumeBolts(EnumRcWeapons.getItemFromID(this.id)
 					.getPrice())) {
-				player.addChatMessage(new ChatComponentText("Your purchase has been added into your inventory !"));
+				//TODO - Fix chat and sound
+				//player.addChatMessage(new ChatComponentText(I18n.format("gui.vendor.buy.success")));
+				//player.world.playSoundAtEntity(player, "rcmod:vendor.buy", 1.0f, 1.0f);
 			} else {
-				player.addChatMessage(new ChatComponentText("Your inventory is full, or you don't have enough money !"));
+				//player.addChatMessage(new ChatComponentText(I18n.format("gui.vendor.buy.error")));
+				//player.world.playSoundAtEntity(player, "rcmod:vendor.maxAmmo", 1.0f, 1.0f);
 			}
 		} else {
-			player.addChatMessage(new ChatComponentText("You already own this weapon !"));
+			//player.addChatMessage(new ChatComponentText(I18n.format("gui.vendor.buy.alreadyhave")));
 		}
 
 	}

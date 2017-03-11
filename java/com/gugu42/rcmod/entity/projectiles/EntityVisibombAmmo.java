@@ -1,13 +1,14 @@
 package com.gugu42.rcmod.entity.projectiles;
 
+import com.gugu42.rcmod.RcMod;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntityVisibombAmmo extends EntityThrowable {
@@ -36,7 +37,7 @@ public class EntityVisibombAmmo extends EntityThrowable {
 		this.motionY *= speed;
 		this.motionZ *= speed;
 		this.entityFiring = (EntityPlayer) par2EntityLivingBase;
-		this.firingEntityName = entityFiring.getDisplayNameString();
+		this.firingEntityName = entityFiring.getDisplayName().getFormattedText();
 		if (entityFiring instanceof EntityPlayerMP) {
 			EntityPlayerMP targetRot = (EntityPlayerMP) entityFiring;
 
@@ -55,19 +56,20 @@ public class EntityVisibombAmmo extends EntityThrowable {
 	}
 
 	@Override
-	protected void onImpact(MovingObjectPosition movingobjectposition) {
+	protected void onImpact(RayTraceResult movingobjectposition) {
 		if (movingobjectposition.entityHit != null) {
-			this.worldObj.createExplosion(this, this.posX, this.posY,
+			this.world.createExplosion(this, this.posX, this.posY,
 					this.posZ, 0.1F, true);
 			movingobjectposition.entityHit.attackEntityFrom(
 					DamageSource.causeThrownDamage(this, this.getThrower()),
-					12.0F);
+					RcMod.config.get("weapon_damage", "visibomb", 12).getInt());
 			// movingobjectposition.entityHit.setFire(5);
-			this.worldObj.spawnParticle(EnumParticleTypes.SNOWBALL, this.posX, this.posY,
-					this.posZ, 0.0D, 0.0D, 0.0D);
+			//TODO - particle
+			/*this.world.spawnParticle("snowballpoof", this.posX, this.posY,
+					this.posZ, 0.0D, 0.0D, 0.0D);*/
 			this.setDead();
 		} else {
-			this.worldObj.createExplosion(this, this.posX, this.posY,
+			this.world.createExplosion(this, this.posX, this.posY,
 					this.posZ, 0.0F, true);
 			this.setDead();
 		}
@@ -90,7 +92,7 @@ public class EntityVisibombAmmo extends EntityThrowable {
 		super.onUpdate();
 		++this.ticksInAir;
 		
-		if(!this.worldObj.isRemote){
+		if(!this.world.isRemote){
 			if(this.getThrower() == null || this.getThrower().isDead){
 				this.setDead();
 			}
@@ -112,7 +114,8 @@ public class EntityVisibombAmmo extends EntityThrowable {
 		this.motionZ = (double) (MathHelper.cos(this.rotationYaw / 180.0F
 				* (float) Math.PI)
 				* MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI) * 0.4f);
-		this.motionY = (double) (MathHelper.sin((this.rotationPitch + 0.0f) / 180.0F * (float) Math.PI) * 0.4f);
+		this.motionY = (double) (MathHelper.sin((this.rotationPitch + this
+				.prevRotationPitch) / 180.0F * (float) Math.PI) * 0.4f);
 
 		if (this.ticksInAir == 200) {
 			this.setDead();
@@ -124,9 +127,10 @@ public class EntityVisibombAmmo extends EntityThrowable {
 		// entityFiringID = nbt.getInteger("entityFiringID");
 	}
 
-	public void writeToNBT(NBTTagCompound nbt) {
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		// nbt.setInteger("entityFiringID", entityFiringID);
+		return nbt;
 	}
 
 	/*

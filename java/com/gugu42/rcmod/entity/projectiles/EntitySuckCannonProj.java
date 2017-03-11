@@ -8,8 +8,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntitySuckCannonProj extends EntityThrowable implements OwnableEntity
@@ -41,37 +40,37 @@ public class EntitySuckCannonProj extends EntityThrowable implements OwnableEnti
 	public void setOwnerID(int ownerID)
 	{
 		this.ownerID = ownerID;
-		if(!worldObj.isRemote)
+		if(!world.isRemote)
 			RcMod.rcModPacketHandler.sendToAll(new PacketUpdateOwnerID(this, ownerID));
 	}
 	
 	@Override
-	protected void onImpact(MovingObjectPosition movingobjectposition)
+	protected void onImpact(RayTraceResult movingobjectposition)
 	{
-		if(movingobjectposition.typeOfHit == MovingObjectType.ENTITY)
+		if(movingobjectposition.typeOfHit == RayTraceResult.Type.ENTITY)
 		{
-    		if(movingobjectposition.entityHit != null && movingobjectposition.entityHit != this.riddenByEntity && movingobjectposition.entityHit.getEntityId() != ownerID)
+    		if(movingobjectposition.entityHit != null && movingobjectposition.entityHit != this.getRidingEntity() && movingobjectposition.entityHit.getEntityId() != ownerID)
     		{
-    			if(!this.worldObj.isRemote)
+    			if(!this.world.isRemote)
     			{
     				setDead();
-    				if(worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"))
-    					worldObj.newExplosion(this, posX, posY, posZ, 1f, false, true);
-    				movingobjectposition.entityHit.attackEntityFrom(DamageSource.generic, 10);
+    				//if(world.getGameRules().getGameRuleBooleanValue("mobGriefing"))
+    					world.newExplosion(this, posX, posY, posZ, 1f, false, true);
+    				movingobjectposition.entityHit.attackEntityFrom(DamageSource.GENERIC, RcMod.config.get("weapon_damage", "suck_cannon", 10).getInt());
     			}
     		}
     		else
     			return;
 		}
 
-		if(!this.worldObj.isRemote)
+		if(!this.world.isRemote)
 		{
 			setDead();
-			if(worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"))
-				worldObj.newExplosion(this, posX, posY, posZ, 1f, false, true);
+			//if(world.getGameRules().getGameRuleBooleanValue("mobGriefing"))
+				world.newExplosion(this, posX, posY, posZ, 1f, false, true);
 			
-			if(this.riddenByEntity != null)
-				riddenByEntity.attackEntityFrom(DamageSource.generic, 0xDEADBEEF);
+			if(this.getRidingEntity() != null)
+				getRidingEntity().attackEntityFrom(DamageSource.GENERIC, 0xDEADBEEF);
 		}
 	}
 
@@ -81,12 +80,12 @@ public class EntitySuckCannonProj extends EntityThrowable implements OwnableEnti
 		return 0.025F;
 	}
 	
-	public void updateRiderPosition()
+	public void updateRidden()
 	{
-		super.updateRiderPosition();
-		this.riddenByEntity.posX = this.posX;
-		this.riddenByEntity.posY = this.posY;
-		this.riddenByEntity.posZ = this.posZ;
+		super.updateRidden();
+		this.getRidingEntity().posX = this.posX;
+		this.getRidingEntity().posY = this.posY;
+		this.getRidingEntity().posZ = this.posZ;
 	}
 
 	@Override

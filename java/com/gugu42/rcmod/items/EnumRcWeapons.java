@@ -11,7 +11,7 @@ public enum EnumRcWeapons {
 	
 	
 	//PAGE 1
-	BLASTER(1000, RcItems.blaster, "Blaster", 1, 1 , new String[] {"The Blaster is a great", "all-purpose weapon", "Even though its range is limited,", "its high rate of fire makes it ideal", "for taking on tough enemies at ", "close and medium ranges"}, 1),
+	BLASTER(2500, RcItems.blaster, "Blaster", 1, 1 , new String[] {"The Blaster is a great", "all-purpose weapon", "Even though its range is limited,", "its high rate of fire makes it ideal", "for taking on tough enemies at ", "close and medium ranges"}, 1),
 	BOMBGLOVE(1000, RcItems.bombGlove, "BombGlove", 1, 2, new String[] {"Bomb Glove! ", "Throw bombs at your enemies!", "BOOM!", "", "", ""}, 2),
 	PYROCITOR(2500, RcItems.pyrocitor, "Pyrocitor", 1, 3, new String[] {"Pyrocitor!", "This fearsome weapon", "really shines at close range.", "", "Great for taking out", "those pesky small enemies."}, 3),
 	RYNO(150000, RcItems.ryno, "R.Y.N.O.", 1, 4, new String[] {"Rip ya ...", "A NEW ONE !", "The R.Y.NO. is the most powerful", "rocket launcher in the galaxy", "", "(It's in WIP)" }, 4),
@@ -23,7 +23,9 @@ public enum EnumRcWeapons {
 	MINEGLOVE(7500, RcItems.mineGlove, "Mine Glove", 2, 4, new String[] {"Mine Glove!", "Be sneaky and set", "EXPLODING traps", "for your enemies!", "", ""}, 8),
 	
 	//PAGE 3
-	DEVASTATOR(10000, RcItems.devastator, "Devastator", 3, 1, new String[] {"The Devastator is the perfect", "combination of effectiveness", "and economy. Less expensive than some", "of Gadgetron's other long range weapons,", " the Devastator can bring down ", "flying enemies with ease."}, 9);
+	DEVASTATOR(10000, RcItems.devastator, "Devastator", 3, 1, new String[] {"The Devastator is the perfect", "combination of effectiveness", "and economy. Less expensive than some", "of Gadgetron's other long range weapons,", " the Devastator can bring down ", "flying enemies with ease."}, 9),
+	SUCK_CANNON(5000, RcItems.suckCannon, "Suck Cannon", 3, 2, new String[] {"", "", "", "", "", ""}, 10);
+	
 	
 	public int price;
 	public Item weapon;
@@ -91,4 +93,27 @@ public enum EnumRcWeapons {
 		
 		return null;
 	}
+	
+	public static int getIDFromItem(Item item){
+		EnumRcWeapons[] weaps = EnumRcWeapons.values();
+		for(int i = 0; i < weaps.length; i++ ){
+			if(weaps[i].getWeapon() == item){
+				return weaps[i].getId();
+			}
+		}
+		
+		return 0;
+	}
+	
+	public static int getPriceFromItem(Item item){
+		EnumRcWeapons[] weaps = EnumRcWeapons.values();
+		for(int i = 0; i < weaps.length; i++ ){
+			if(weaps[i].getWeapon() == item){
+				return weaps[i].getPrice();
+			}
+		}
+		
+		return 0;
+	}
+	
 }

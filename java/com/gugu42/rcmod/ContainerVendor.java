@@ -1,60 +1,60 @@
 package com.gugu42.rcmod;
 
+import com.gugu42.rcmod.gui.SlotVendor;
+import com.gugu42.rcmod.items.InventoryGadgetronPDA;
+import com.gugu42.rcmod.tileentity.TileEntityVendor;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-import com.gugu42.rcmod.gui.SlotVendShow;
-import com.gugu42.rcmod.gui.SlotVendor;
-import com.gugu42.rcmod.tileentity.TileEntityVendor;
-
 public class ContainerVendor extends Container {
 
 	protected TileEntityVendor tileEntity;
-	public ContainerVendor(InventoryPlayer inventoryPlayer, TileEntityVendor te) {
+	protected InventoryGadgetronPDA inv;
+	public ContainerVendor(InventoryPlayer inventoryPlayer, TileEntityVendor te, InventoryGadgetronPDA inv) {
 		tileEntity = te;
-
-//		addSlotToContainer(new Slot(tileEntity, 1, 8, 18));
-		
-//		addSlotToContainer(new SlotVendShow(tileEntity, 3, 80, 10));
-		addSlotToContainer(new SlotVendor(tileEntity, 1, 48, 173)); 
-		addSlotToContainer(new SlotVendor(tileEntity, 2, 66, 173)); 
-		addSlotToContainer(new SlotVendor(tileEntity, 3, 84, 173)); 
-		addSlotToContainer(new SlotVendor(tileEntity, 4, 102, 173)); 
-		addSlotToContainer(new SlotVendor(tileEntity, 5, 120, 173)); 
-		addSlotToContainer(new SlotVendor(tileEntity, 6, 138, 173)); 
-		addSlotToContainer(new SlotVendor(tileEntity, 7, 156, 173)); 
-		addSlotToContainer(new SlotVendor(tileEntity, 8, 174, 173)); 
-		addSlotToContainer(new SlotVendor(tileEntity, 9, 192, 173)); 
-		
-//		bindPlayerInventory(inventoryPlayer);
+		this.inv = inv;
+		if(inv != null){
+			System.out.println("Item gui");
+			addSlotToContainer(new SlotVendor(inv, 1, 48, 173)); 
+			addSlotToContainer(new SlotVendor(inv, 2, 66, 173)); 
+			addSlotToContainer(new SlotVendor(inv, 3, 84, 173)); 
+			addSlotToContainer(new SlotVendor(inv, 4, 102, 173)); 
+			addSlotToContainer(new SlotVendor(inv, 5, 120, 173)); 
+			addSlotToContainer(new SlotVendor(inv, 6, 138, 173)); 
+			addSlotToContainer(new SlotVendor(inv, 7, 156, 173)); 
+			addSlotToContainer(new SlotVendor(inv, 8, 174, 173)); 
+			addSlotToContainer(new SlotVendor(inv, 9, 192, 173)); 
+		} else {
+			addSlotToContainer(new SlotVendor(tileEntity, 1, 48, 173)); 
+			addSlotToContainer(new SlotVendor(tileEntity, 2, 66, 173)); 
+			addSlotToContainer(new SlotVendor(tileEntity, 3, 84, 173)); 
+			addSlotToContainer(new SlotVendor(tileEntity, 4, 102, 173)); 
+			addSlotToContainer(new SlotVendor(tileEntity, 5, 120, 173)); 
+			addSlotToContainer(new SlotVendor(tileEntity, 6, 138, 173)); 
+			addSlotToContainer(new SlotVendor(tileEntity, 7, 156, 173)); 
+			addSlotToContainer(new SlotVendor(tileEntity, 8, 174, 173)); 
+			addSlotToContainer(new SlotVendor(tileEntity, 9, 192, 173)); 
+		}
 	}
 
 	
 	
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
+		if(tileEntity != null){
 		return tileEntity.isUseableByPlayer(player);
+		} else {
+			return true;
+		}
 	}
-
-//	protected void bindPlayerInventory(InventoryPlayer inventoryPlayer) {
-//		for (int i = 0; i < 3; i++) {
-//			for (int j = 0; j < 9; j++) {
-//				addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9,
-//						8 + j * 18, (84 + 56) + i * 18));
-//			}
-//		}
-//
-//		for (int i = 0; i < 9; i++) {
-//			addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 198));
-//		}
-//	}
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slot) {
-        ItemStack stack = null;
+        ItemStack stack = ItemStack.EMPTY;
         Slot slotObject = (Slot) inventorySlots.get(slot);
 
         if (slotObject != null && slotObject.getHasStack()) {
@@ -63,23 +63,23 @@ public class ContainerVendor extends Container {
                 
                 if (slot < 1) {
                     if (!this.mergeItemStack(stackInSlot, 5, 42, true)) {
-                            return null;
+                            return ItemStack.EMPTY;
                     }
                 }
                 
                 else if (!this.mergeItemStack(stackInSlot, 0, 1, false)) {
-                	return null;
+                	return ItemStack.EMPTY;
                 }
-                if (stackInSlot.stackSize == 0) {
-                        slotObject.putStack(null);
+                if (stackInSlot.getCount() == 0) {
+                        slotObject.putStack(ItemStack.EMPTY);
                 } else {
                         slotObject.onSlotChanged();
                 }
 
-                if (stackInSlot.stackSize == stack.stackSize) {
-                        return null;
+                if (stackInSlot.getCount() == stack.getCount()) {
+                        return ItemStack.EMPTY;
                 }
-                slotObject.onPickupFromSlot(player, stackInSlot);
+                slotObject.onTake(player, stackInSlot);
         }
         return stack;
 	}

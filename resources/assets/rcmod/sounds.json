@@ -25,6 +25,12 @@
             "ExplosiveCrateExplosion"
         ]
     },
+    "crate.break": {
+        "category": "block",
+        "sounds": [
+            "CrateWoodBreak"
+        ]
+    },
     "MenuOpen": {
         "category": "block",
         "sounds": [
@@ -63,6 +69,12 @@
             "BoltCollect3"
         ]
     },
+    "AmmoPickup": {
+        "category": "block",
+        "sounds": [
+            "AmmoPickup"
+        ]
+    },
     "TaunterSound": {
         "category": "block",
         "sounds": [
@@ -70,7 +82,8 @@
             "TaunterSound2",
             "TaunterSound3",
             "TaunterSound4",
-            "TaunterSound5"
+            "TaunterSound5",
+			"TaunterSound6"
         ]
     },
     "recordmetropolis": {
@@ -86,6 +99,78 @@
         "category": "block",
         "sounds": [
             "achievement"
+        ]
+    },
+    "SuckCannonShot": {
+        "category": "block",
+        "sounds": [
+            "SuckCannonShot"
+        ]
+    },
+    "DevastatorShot": {
+        "category": "block",
+        "sounds": [
+            "DevastatorShot"
+        ]
+    },
+    "SwingShotShoot": {
+        "category": "block",
+        "sounds": [
+            "SwingShotShoot"
+        ]
+    },
+    "SwingShotPull": {
+        "category": "block",
+        "sounds": [
+            "SwingShotPull"
+        ]
+    },
+    "SwingShotHook": {
+        "category": "block",
+        "sounds": [
+            "SwingShotHook"
+        ]
+    },
+    "blasterEquip": {
+        "category": "block",
+        "sounds": [
+            "BlasterEquipStart"
+        ]
+    },
+    "devastatorEquip": {
+        "category": "block",
+        "sounds": [
+            "DevastatorEquipStart"
+        ]
+    },
+    "pyrocitorEquip": {
+        "category": "block",
+        "sounds": [
+            "PyrocitorEquipStart"
+        ]
+    },
+    "swingShotEquip": {
+        "category": "block",
+        "sounds": [
+            "SwingShotEquipStart"
+        ]
+    },
+    "taunterEquip": {
+        "category": "block",
+        "sounds": [
+            "TaunterEquipStart"
+        ]
+    },
+    "teslaClawEquip": {
+        "category": "block",
+        "sounds": [
+            "TeslaClawEquipStart"
+        ]
+    },
+    "visibombEquip": {
+        "category": "block",
+        "sounds": [
+            "VisiBombGunEquip"
         ]
     }
 }

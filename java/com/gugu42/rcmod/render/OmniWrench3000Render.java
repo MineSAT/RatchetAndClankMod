@@ -1,24 +1,21 @@
 package com.gugu42.rcmod.render;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.client.IItemRenderer.ItemRenderType;
+import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
+import net.minecraftforge.client.model.AdvancedModelLoader;
+import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
-import com.gugu42.rcmod.utils.glutils.TessellatorModel;
-//import net.minecraftforge.client.model.AdvancedModelLoader;
-//import net.minecraftforge.client.model.IModelCustom;
-
 public class OmniWrench3000Render implements IItemRenderer
 {
-//    private IModelCustom model1 = AdvancedModelLoader.loadModel(new ResourceLocation("rcmod:models/Omniwrench.obj"));
-//    public static final ResourceLocation textureLocation = new ResourceLocation("rcmod:models/Omniwrench.png");
-	private TessellatorModel wrenchModel;
-	
-	public OmniWrench3000Render(){
-		wrenchModel = new TessellatorModel("/assets/rcmod/models/Omniwrench.obj");
-	}
+    private IModelCustom model1 = AdvancedModelLoader.loadModel(new ResourceLocation("rcmod:models/Omniwrench.obj"));
+    public static final ResourceLocation textureLocation = new ResourceLocation("rcmod:models/Omniwrench.png");
 
     @Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -51,10 +48,8 @@ public class OmniWrench3000Render implements IItemRenderer
 	        GL11.glRotatef(100.0F, 0.0F, 360.0F, 0.0F);
 	        GL11.glRotatef(50.0F, 0.0F, 1.0F, 0.0F);
 	        GL11.glRotatef(-50.0F, 0.0F, 0.0F, 1.0F);
-//	        Minecraft.getMinecraft().renderEngine.bindTexture(textureLocation);
-//	        this.model1.renderAll();
-	        wrenchModel.regenerateNormals();
-	        wrenchModel.render();
+	        Minecraft.getMinecraft().renderEngine.bindTexture(textureLocation);
+	        this.model1.renderAll();
 	        GL11.glPopMatrix();
 			break;
 		}
@@ -66,10 +61,8 @@ public class OmniWrench3000Render implements IItemRenderer
 	        GL11.glScalef(0.4F, 0.4F, 0.4F);
 	        GL11.glRotatef(50.0F, 0.0F, 1.0F, 0.0F);
 	        GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
-//	        Minecraft.getMinecraft().renderEngine.bindTexture(textureLocation);
-//	        this.model1.renderAll();
-	        wrenchModel.regenerateNormals();
-	        wrenchModel.render();
+	        Minecraft.getMinecraft().renderEngine.bindTexture(textureLocation);
+	        this.model1.renderAll();
 	        GL11.glPopMatrix();
 			break;
 		}
@@ -80,10 +73,8 @@ public class OmniWrench3000Render implements IItemRenderer
 			GL11.glScalef(0.3F, 0.3F, 0.3F);
 			GL11.glScalef(0.39F, 0.39F, 0.39F);
 			GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-//			Minecraft.getMinecraft().renderEngine.bindTexture(textureLocation);
-//			this.model1.renderAll();
-	        wrenchModel.regenerateNormals();
-	        wrenchModel.render();
+			Minecraft.getMinecraft().renderEngine.bindTexture(textureLocation);
+			this.model1.renderAll();
 			GL11.glPopMatrix();
 			break;
 		}

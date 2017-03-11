@@ -2,16 +2,16 @@ package com.gugu42.rcmod.gui;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.util.StringTranslate;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class GuiShipSelectDest extends GuiScreen {
 
 	private GuiShip parent;
 	protected GuiShipDestList list;
 
-	public GuiShipSelectDest(GuiShip parent) {
+	public GuiShipSelectDest(GuiShip parent, EntityPlayer player) {
 		this.parent = parent;
-		this.list = new GuiShipDestList(parent);
+		this.list = new GuiShipDestList(parent, player);
 	}
 
 	/**

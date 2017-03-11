@@ -2,18 +2,15 @@ package com.gugu42.rcmod.entity.projectiles;
 
 import java.util.List;
 
+import com.gugu42.rcmod.TNTCrateExplosion;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-
-import com.gugu42.rcmod.RcMod;
-import com.gugu42.rcmod.TNTCrateExplosion;
 
 public class EntityMineGloveAmmo extends EntityThrowable implements IProjectile {
 
@@ -42,13 +39,13 @@ public class EntityMineGloveAmmo extends EntityThrowable implements IProjectile 
 	}
 
 	@Override
-	protected void onImpact(MovingObjectPosition movingobjectposition) {
+	protected void onImpact(RayTraceResult movingobjectposition) {
 		if (movingobjectposition != null) {
-			if (movingobjectposition.typeOfHit == MovingObjectType.ENTITY) {
+			if (movingobjectposition.typeOfHit == RayTraceResult.Type.ENTITY) {
 
 				// this.explode();
 			}
-			if (movingobjectposition.typeOfHit == MovingObjectType.BLOCK) {
+			if (movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK) {
 				this.motionX = 0;
 				this.motionY = 0;
 				this.motionZ = 0;
@@ -68,8 +65,8 @@ public class EntityMineGloveAmmo extends EntityThrowable implements IProjectile 
 		super.onUpdate();
 
 		if (isActive) {
-			List entityTagetList = this.worldObj.getEntitiesWithinAABB(
-					Entity.class, this.getBoundingBox().expand(0.5D, 0.5D, 0.5D));
+			List entityTagetList = this.world.getEntitiesWithinAABB(
+					Entity.class, this.getCollisionBoundingBox().expand(0.5D, 0.5D, 0.5D));
 			for (int i = 0; i < entityTagetList.size(); i++) {
 				Entity entityTarget = (Entity) entityTagetList.get(i);
 				if (entityTarget != null && entityTarget != this) {
@@ -80,12 +77,12 @@ public class EntityMineGloveAmmo extends EntityThrowable implements IProjectile 
 	}
 
 	private void explode() {
-		TNTCrateExplosion explosion = new TNTCrateExplosion(this.worldObj,
+		TNTCrateExplosion explosion = new TNTCrateExplosion(this.world,
 				this, this.posX, this.posY, this.posZ, 2.0f);
 		explosion.doExplosionA(false);
 		explosion.doExplosionB(true, false);
-		this.worldObj.playSoundAtEntity(this, "rcmod:BombGloveExplosion",
-				10.0f, 1.0f);
+		/*this.world.playSoundAtEntity(this, "rcmod:BombGloveExplosion",
+				10.0f, 1.0f);*/
 		this.setDead();
 	}
 

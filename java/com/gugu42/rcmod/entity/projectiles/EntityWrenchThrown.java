@@ -2,6 +2,8 @@ package com.gugu42.rcmod.entity.projectiles;
 
 import java.util.List;
 
+import com.gugu42.rcmod.RcMod;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -11,14 +13,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IThrowableEntity;
-
-import com.gugu42.rcmod.RcMod;
 
 public class EntityWrenchThrown extends EntityThrowable implements
 		IThrowableEntity {
@@ -47,21 +47,21 @@ public class EntityWrenchThrown extends EntityThrowable implements
 	}
 
 	@Override
-	protected void onImpact(MovingObjectPosition mop) {
-		if (!this.worldObj.isRemote) {
+	protected void onImpact(RayTraceResult mop) {
+		if (!this.world.isRemote) {
 			if (this.ticksExisted > 1) {
 				if (mop.entityHit != null
 						&& mop.entityHit instanceof EntityLiving) {
 					if (mop.entityHit != this.getThrower()) {
 						mop.entityHit.attackEntityFrom(DamageSource
 								.causePlayerDamage((EntityPlayer) this
-										.getThrower()), 5f);
+										.getThrower()), RcMod.config.get("weapon_damage", "wrench_thrown", 5).getInt());
 						this.setReturningToOwner(true);
 					}
-				} else if (worldObj
-						.getBlockState(mop.getBlockPos()).getBlock() != null) {
-					if (worldObj.getBlockState(mop.getBlockPos()).getBlock() == RcMod.crate
-							|| worldObj.getBlockState(mop.getBlockPos()).getBlock() == RcMod.tntCrate) {
+				} else if (world
+						.getBlockState(new BlockPos(mop.getBlockPos().getX(), mop.getBlockPos().getY(), mop.getBlockPos().getZ())).getBlock() != null) {
+					if (world.getBlockState(new BlockPos(mop.getBlockPos().getX(), mop.getBlockPos().getY(), mop.getBlockPos().getZ())).getBlock() == RcMod.crate
+							|| world.getBlockState(new BlockPos(mop.getBlockPos().getX(), mop.getBlockPos().getY(), mop.getBlockPos().getZ())).getBlock() == RcMod.tntCrate) {
 						//Continue
 					} else {
 						this.setReturningToOwner(true);
@@ -84,12 +84,12 @@ public class EntityWrenchThrown extends EntityThrowable implements
 			this.setReturningToOwner(true);
 		}
 
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			if (this.ticksExisted >= 60) {
 				if (this.getThrower() instanceof EntityPlayer) {
 					EntityPlayer owner = (EntityPlayer) this.getThrower();
 					if (itemThrown != null) {
-						worldObj.spawnEntityInWorld(new EntityItem(worldObj,
+						world.spawnEntity(new EntityItem(world,
 								this.posX, this.posY, this.posZ, itemThrown));
 					}
 
@@ -98,7 +98,7 @@ public class EntityWrenchThrown extends EntityThrowable implements
 			}
 		}
 
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			if (this.getThrower() == null || this.getThrower().isDead) {
 				this.setDead();
 			}
@@ -109,8 +109,8 @@ public class EntityWrenchThrown extends EntityThrowable implements
 		}
 
 		if (this.isReturningToOwner) {
-			List entityTagetList = this.worldObj.getEntitiesWithinAABB(
-					Entity.class, this.getBoundingBox().expand(1.0D, 1.0D, 1.0D));
+			List entityTagetList = this.world.getEntitiesWithinAABB(
+					Entity.class, this.getCollisionBoundingBox().expand(1.0D, 1.0D, 1.0D));
 			for (int i = 0; i < entityTagetList.size(); i++) {
 				Entity entityTarget = (Entity) entityTagetList.get(i);
 				if (entityTarget != null
@@ -119,11 +119,13 @@ public class EntityWrenchThrown extends EntityThrowable implements
 					if (itemThrown != null) {
 						int slot = owner.inventory.getFirstEmptyStack();
 						if(slot >= 0){
-							owner.inventory.mainInventory[slot] = itemThrown.copy();
+							owner.inventory.mainInventory.set(slot, itemThrown.copy());
+							this.setDead();
 						} else {
-							worldObj.spawnEntityInWorld(new EntityItem(
-							worldObj, this.posX, this.posY, this.posZ,
+							world.spawnEntity(new EntityItem(
+							world, this.posX, this.posY, this.posZ,
 							itemThrown));
+							this.setDead();
 						}
 					}
 					this.setDead();
@@ -131,7 +133,7 @@ public class EntityWrenchThrown extends EntityThrowable implements
 			}
 		}
 		
-		if(!worldObj.isRemote)
+		if(!world.isRemote)
 		{
     		destroyBoltCrates();
     		destroyTNTCrates();
@@ -145,31 +147,31 @@ public class EntityWrenchThrown extends EntityThrowable implements
 	}
 	
 	private void destroyBoltCrates() {
-		int x = MathHelper.floor_double(posX);
-		int y = MathHelper.floor_double(posY);
-		int z = MathHelper.floor_double(posZ);
-		Block block = worldObj.getBlockState(new BlockPos(x, y, z)).getBlock();
+		int x = MathHelper.floor(posX);
+		int y = MathHelper.floor(posY);
+		int z = MathHelper.floor(posZ);
+		Block block = world.getBlockState(new BlockPos(x, y, z)).getBlock();
 		if (block == RcMod.crate) {
-			block.dropBlockAsItem(worldObj, new BlockPos(x, y, z),
-					this.worldObj.getBlockState(new BlockPos(x, y, z)), 0);
-			this.worldObj.setBlockState(new BlockPos(x, y, z), Blocks.air.getDefaultState());
+			block.dropBlockAsItem(world, new BlockPos(x, y, z),
+					RcMod.crate.getDefaultState(), 0);
+			this.world.setBlockState(new BlockPos(x, y, z), Blocks.AIR.getDefaultState());
 		}
 	}
 
 	private void destroyTNTCrates() {
-		int x = MathHelper.floor_double(posX);
-		int y = MathHelper.floor_double(posY);
-		int z = MathHelper.floor_double(posZ);
-		Block block = worldObj.getBlockState(new BlockPos(x, y, z)).getBlock();
+		int x = MathHelper.floor(posX);
+		int y = MathHelper.floor(posY);
+		int z = MathHelper.floor(posZ);
+		Block block = world.getBlockState(new BlockPos(x, y, z)).getBlock();
 		if (block == RcMod.tntCrate) {
-			block.dropBlockAsItem(worldObj, new BlockPos(x, y, z),
-					this.worldObj.getBlockState(new BlockPos(x, y, z)), 0);
-			this.worldObj.setBlockState(new BlockPos(x, y, z), Blocks.air.getDefaultState());
+			block.dropBlockAsItem(world, new BlockPos(x, y, z),
+					RcMod.tntCrate.getDefaultState(), 0);
+			this.world.setBlockState(new BlockPos(x, y, z), Blocks.AIR.getDefaultState());
 		}
 	}
 
 	public void returnToOwner() {
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			if (this.getThrower() == null) {
 				this.setDead();
 			} else {

@@ -1,14 +1,14 @@
 package com.gugu42.rcmod.entity.projectiles;
 
+import com.gugu42.rcmod.RcMod;
+
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntityPyrocitorAmmo extends EntityThrowable {
@@ -59,9 +59,12 @@ public class EntityPyrocitorAmmo extends EntityThrowable {
 		this.motionZ = (double) (MathHelper.cos(this.rotationYaw / 180.0F
 				* (float) Math.PI)
 				* MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI) * f);
-		this.motionY = (double) (-MathHelper.sin((this.rotationPitch + 0.0F) / 180.0F * (float) Math.PI) * f);
+		
+		//TODO - Find the .func meanings
+		/*this.motionY = (double) (-MathHelper.sin((this.rotationPitch + this
+				.func_70183_g()) / 180.0F * (float) Math.PI) * f);
 		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ,
-				1.5F + (rand.nextFloat() * 5f), random);
+				this.func_70182_d() + (rand.nextFloat() * 5f), random);*/
 		this.startX = posX;
 		this.startY = posY;
 		this.startZ = posZ;
@@ -84,39 +87,39 @@ public class EntityPyrocitorAmmo extends EntityThrowable {
 		double MAX_DISTANCE = 3;
 		if (Math.sqrt(Math.pow(posX - startX, 2) + Math.pow(posY - startY, 2)
 				+ Math.pow(posZ - startZ, 2)) > MAX_DISTANCE * 2
-				&& !worldObj.isRemote) {
+				&& !world.isRemote) {
 			setDead();
 		}
 	}
 
 	@Override
-	protected void onImpact(MovingObjectPosition movingobjectposition) {
+	protected void onImpact(RayTraceResult movingobjectposition) {
 		if (movingobjectposition.entityHit != null
 				&& movingobjectposition.entityHit != this
 				&& !(movingobjectposition.entityHit instanceof EntityPyrocitorAmmo)) {
-			byte b0 = 6;
+			int b0 = RcMod.config.get("weapon_damage", "pyrocitor", 6).getInt();
 			if (movingobjectposition.entityHit == this.getThrower())
 				return;
 			movingobjectposition.entityHit.attackEntityFrom(
-					DamageSource.inFire, b0);
+					DamageSource.IN_FIRE, b0);
 			movingobjectposition.entityHit.setFire(8);
-			if (!this.worldObj.isRemote) {
+			if (!this.world.isRemote) {
 				setDead();
 			}
 		}
 
 		for (int i = 0; i < 8; i++) {
-			this.worldObj.spawnParticle(EnumParticleTypes.FLAME, this.posX, this.posY,
-					this.posZ, 0.0D, 0.0D, 0.0D);
+			/*this.world.spawnParticle("snowballpoof", this.posX, this.posY,
+					this.posZ, 0.0D, 0.0D, 0.0D);*/
 		}
 
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			setDead();
 		}
 
 		if ((!this.isDead)
-				&& (movingobjectposition.typeOfHit == MovingObjectType.BLOCK)
-				&& (!this.worldObj.isRemote))
+				&& (movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK)
+				&& (!this.world.isRemote))
 			setDead();
 	}
 
@@ -127,11 +130,13 @@ public class EntityPyrocitorAmmo extends EntityThrowable {
 		startZ = nbt.getDouble("First Z");
 	}
 
-	public void writeToNBT(NBTTagCompound nbt) {
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setDouble("First X", startX);
 		nbt.setDouble("First Y", startY);
 		nbt.setDouble("First Z", startZ);
+		
+		return nbt;
 	}
 
 	@Override

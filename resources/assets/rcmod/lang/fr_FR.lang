@@ -1,35 +1,91 @@
+# Traduit et ordonnée par: xXGugu42Xx, RatchetCinemaESP
+# Mod créé par: xXGugu42Xx
+########################Divers##############################
+#
 tile.tntCrate.name=Caisse de TNT
 tile.crate.name=Caisse de Boulons
 tile.vendor.name=Vendeur Gadgetron
+tile.ship.name=Vaisseau de Ratchet
+item.vendorCore.name=Coeur du Vendeur
+tile.ammoCrate.name=Caisse de munitions
+tile.shipPlatform.name=Plateforme pour vaisseau
+item.clankCore.name=Coeur de Clank
+item.clank.name=Clank (Vide)
+item.helipackHelice.name=Helice d'Helipack
+item.clankHeli.helipack.name=Clank (Helipack)
+item.clankHeli.helipack-deployed.name=Clank (Helipack)
+item.metropolisRecord.name=R&C Mod - Disque
+item.metropolisRecord.desc=Metropolis - Kerwan
+item.ratchetEars.name=Oreilles de Ratchet
+#
+#####################Fin divers###########################
 
-death.attack.rcweap=%1$s was shot to death.
-death.attack.rcweap.player=%1$s was shot to death by %2$s.
-death.attack.rcweap.item=%1$s was shot to death by %2$s using %3$s
-
-item.bolt.name=Boulon
+####################Armes#######################
+#
 item.blaster.name=Plasmo-Mitrail
-item.bombglove.name=Gant a Bombe
-item.omwr3000.name=Super clé 3000
+item.bombglove.name=Gant � Bombes
+item.omwr3000.name=Super Cle 8000
 item.ryno.name=T.E.L.T.
 item.pyrocitor.name=Pyrolanceur
 item.walloper.name=Repousseur
 item.visibombGun.name=Canon Visibombe
-item.decoyGlove.name=Gant a leurre
-item.devastator.name=Dévastateur
+item.decoyGlove.name=Gant � Leurres
+item.devastator.name=Devastateur
 item.droneDevice.name=Dronomatic
-item.gloveOfDoom.name=Gant a Ravageurs
-item.mineGlove.name=Gant a mines
+item.gloveOfDoom.name=Gant Ravageur
+item.mineGlove.name=Gant � Mines
 item.morphORay.name=Morpho-Rayon
-item.suckCannon.name=Aspiro-Cannon
-item.taunter.name=Attrape Nigaud
+item.suckCannon.name=Aspiro-Canon
+item.taunter.name=Attrape-Nigaud
 item.teslaClaw.name=Griffeur Tesla
 
-item.vendorCore.name=Coeur du Vendeur
-item.clankCore.name=Coeur de Clank
-item.clank.name=Clank (Vide)
-item.helipackHelice.name=Helice d'Helipack
+item.ammoblaster.name=Munitions de Plasmo-Mitrail
+item.ammodecoyGlove.name=Munitions de gant � leurres
+item.ammodevastator.name=Munitions de d�vastateur
+item.ammoryno.name=Munitions de T.E.L.T.
+item.ammopyrocitor.name=Munitions de Pyrocitor
+item.ammomineGlove.name=Munitions de gant � mines
+item.ammoteslaClaw.name=Munitions de griffeur tesla
+item.ammogloveofDoom.name=Munitions de gant ravageur
+item.ammobombGlove.name=Munitions de gant � bombes
+item.ammodroneDevice.name=Munition de Dronomatic
+item.ammovisibombGun.name=Munition de canon � visibombe
+#
+##################Fin d'Armes#######################
 
-item.clankHeli.name=Clank (Helipack)
+######################Gadgets#######################
+#
+item.swingShot.name=Swingueur
+item.clankHeli.name=Clank (Hélipack)
+item.thrusterpack.name=Clank (Propulsopack)
+item.gadgetronHelper.name=APL Gadgetron
+tile.versaTargetGreen.name=Versa Orbe ( Verte )
+#
+###################Fin d'Gadgets####################
 
-itemGroup.rcTab=Ratchet & Clank Mod
-itemGroup.rcWeapTab=Ratchet & Clank Armes
+########################Succès#############################
+#
+achievement.vendor=Devenir un Lombax
+achievement.vendor.desc=Vous avez frabriqué un vendeur!
+#
+achievement.helipack=Le grand duo
+achievement.helipack.desc=Vous avez réussi à faire un Hélipack!
+#
+#####################Fin des sucès##########################
+
+########################Messages########################
+#
+death.attack.rcweap=%1$s a été tué par des coups de feu.
+death.attack.rcweap.player=%1$s a été assassiné par des coups de feu de %2$s.
+death.attack.rcweap.item=%1$s a été assassiné par des coups de feu de %2$s avec %3$s
+#
+#####################Fin d'Messages#####################
+
+######################Divers##########################
+#
+itemGroup.rcTab=Ratchet & Clank: Divers
+itemGroup.rcWeapTab=Ratchet & Clank: Armes
+itemGroup.rcGadgTab=Ratchet & Clank: Gadgets
+item.bolt.name=Boulon
+#
+###################Fin divers#######################

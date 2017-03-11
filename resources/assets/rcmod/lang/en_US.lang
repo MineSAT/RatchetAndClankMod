@@ -1,15 +1,30 @@
+# Translate and ordered by: xXGugu42Xx, RatchetCinemaESP
+# Mod created by: xXGugu42Xx
+########################Various##############################
+#
 tile.tntCrate.name=TNT Crate
 tile.crate.name=Bolt Crate
 tile.vendor.name=Gadgetron Vendor
+tile.ship.name=Ratchet's Ship
+tile.ammoCrate.name=Ammo Crate
+tile.shipPlatform.name=Ship Beacon
+item.vendorCore.name=Vendor Core
+item.clankCore.name=Clank Core
+item.clank.name=Clank (Empty)
+item.helipackHelice.name=Helipack Helice
+item.clankHeli.helipack.name=Clank (Helipack)
+item.clankHeli.helipack-deployed.name=Clank (Helipack)
+item.ratchetEars.name=Ratchet's Ears
+item.metropolisRecord.name=R&C Mod - Music disc
+item.metropolisRecord.desc=Metropolis - Kerwan
+#
+#######################End Various###########################
 
-death.attack.rcweap=%1$s was shot to death.
-death.attack.rcweap.player=%1$s was shot to death by %2$s.
-death.attack.rcweap.item=%1$s was shot to death by %2$s using %3$s
-
-item.bolt.name=Bolt
+################Weapons#######################
+#
 item.blaster.name=Blaster
 item.bombglove.name=Bomb Glove
-item.omwr3000.name=OmniWrench 3000
+item.omwr3000.name=OmniWrench 8000
 item.ryno.name=R.Y.N.O.
 item.pyrocitor.name=Pyrocitor
 item.walloper.name=Walloper
@@ -24,30 +39,110 @@ item.suckCannon.name=Suck Cannon
 item.taunter.name=Taunter
 item.teslaClaw.name=Tesla Claw
 
+item.ammoblaster.name=Blaster Ammo
+item.ammodecoyGlove.name=Decoy Glove Ammo
+item.ammodevastator.name=Devastator Ammo
+item.ammoryno.name=RYNO Ammo
+item.ammopyrocitor.name=Pyrocitor Ammo
+item.ammomineGlove.name=Mine Glove Ammo
+item.ammoteslaClaw.name=Tesla Claw Ammo
+item.ammogloveofDoom.name=Glove of Doom Ammo
+item.ammobombGlove.name=Bomb Glove Ammo
+item.ammodroneDevice.name=Drone Device Ammo
+item.ammovisibombGun.name=Visisomb Gun Ammo
+#
+#############End Weapons######################
+
+#################Gadgets###################
+#
 item.swingShot.name=Swing Shot
-
-item.vendorCore.name=Vendor Core
-item.clankCore.name=Clank Core
-item.clank.name=Clank (Empty)
-item.helipackHelice.name=Helipack Helice
-item.clankHeli.helipack.name=Clank (Helipack)
-item.clankHeli.helipack-deployed.name=Clank (Helipack)
-
 item.clankHeli.name=Clank (Helipack)
 item.thrusterpack.name=Clank (Thrusterpack)
+item.gadgetronHelper.name=Gadgetron PDA
+tile.versaTargetGreen.name=Versa orb (Green)
+#
+###############End Gadgets#################
 
+########################Archievements#############################
+#
 achievement.vendor=Becoming a Lombax
 achievement.vendor.desc=You crafted a Vendor !
-
+#
 achievement.helipack=A great duo
 achievement.helipack.desc=You crafted an Helipack !
+#
+#####################End Archievements############################
+
+#######################Messages#############################
+#
+death.attack.rcweap=%1$s was shot to death.
+death.attack.rcweap.player=%1$s was shot to death by %2$s.
+death.attack.rcweap.item=%1$s was shot to death by %2$s using %3$s
+#
+######################End Messages##########################
 
 
-item.ratchetEars.name=Ratchet's Ears
-item.metropolisRecord.name=R&C Mod - Music disc
-item.metropolisRecord.desc=Metropolis - Kerwan
+######################GUI text###########################
+#
+##Ship GUI##
+gui.ship.nodest=You must select a destination !
+gui.ship.select=Select destination
+gui.ship.go=Go to destination
+##End Ship GUI##
 
+##Vendor GUI##
+gui.vendor.buy=Buy
+gui.vendor.refill=Refill
+gui.vendor.exit=Exit
 
-itemGroup.rcTab=Ratchet & Clank Mod
-itemGroup.rcWeapTab=Ratchet & Clank Weapons
-itemGroup.rcGadgTab=Ratchet & Clank Gadgets
+gui.vendor.refill.success=Your weapon has been refilled !
+gui.vendor.refill.bolt=You don't seem to have enough bolts !
+gui.vendor.refill.error=There was an error when trying to refill your weapon.
+
+gui.vendor.buy.success=Your purchase has been added into your inventory !
+gui.vendor.buy.error=Your inventory is full, or you don't have enough bolts !
+gui.vendor.buy.alreadyhave=You already own this weapon !
+##End Vendor GUI##
+
+##Tooltips GUI##
+gui.tooltip.blaster.1=The §e§lblaster§r is a small, powerful
+gui.tooltip.blaster.2=mid-range weapon.
+gui.tooltip.blaster.3=Use §6right-click§r to fire it.
+gui.tooltip.blaster.4=
+
+gui.tooltip.bombGlove.1=The §e§lBomb-Glove§r is a devastating
+gui.tooltip.bombGlove.2=mid-range weapon. It holds bombs.
+gui.tooltip.bombGlove.3=Use §6right-click§r to throw a bomb.
+gui.tooltip.bombGlove.4=
+
+gui.tooltip.ryno.1=The §e§lR.Y.N.O§r is the
+gui.tooltip.ryno.2=most powerful rocket launcher. 
+gui.tooltip.ryno.3=Use §6right-click§r to fire
+gui.tooltip.ryno.4=9 deadly missiles.
+
+gui.tooltip.pyrocitor.1=The §e§lPyrocitor§r is a
+gui.tooltip.pyrocitor.2=simple but deadly flame-thrower. 
+gui.tooltip.pyrocitor.3=Use §6right-click§r to use it.
+gui.tooltip.pyrocitor.4=
+
+gui.tooltip.visibomb.1=The §e§lVisibomb§r is a
+gui.tooltip.visibomb.2=RC missile launcher. 
+gui.tooltip.visibomb.3=Use §6right-click§r to fire, and
+gui.tooltip.visibomb.4=your mouse to control the missile.
+
+gui.tooltip.devastator.1=The §e§lDevastator§r is a
+gui.tooltip.devastator.2=guided rocket launcher. 
+gui.tooltip.devastator.3=Use §6right-click§r to fire it.
+gui.tooltip.devastator.4=
+##End Tooltips GUI##
+#
+######################End GUI text###############################
+
+#######################Others###############################
+#
+itemGroup.rcTab=Ratchet & Clank: Mod
+itemGroup.rcWeapTab=Ratchet & Clank: Weapons
+itemGroup.rcGadgTab=Ratchet & Clank: Gadgets
+item.bolt.name=Bolt
+#
+#####################End Others#############################

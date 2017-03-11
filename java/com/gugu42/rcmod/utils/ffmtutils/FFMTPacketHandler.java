@@ -1,11 +1,5 @@
 package com.gugu42.rcmod.utils.ffmtutils;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.MessageToMessageCodec;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
@@ -14,12 +8,22 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.reflect.ClassPath;
+import com.google.common.reflect.ClassPath.ClassInfo;
+import com.gugu42.rcmod.RcMod;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.MessageToMessageCodec;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.NetHandlerPlayServer;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.Packet;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.FMLEmbeddedChannel;
 import net.minecraftforge.fml.common.network.FMLOutboundHandler;
@@ -27,11 +31,6 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.google.common.collect.ImmutableSet;
-import com.google.common.reflect.ClassPath;
-import com.google.common.reflect.ClassPath.ClassInfo;
-import com.gugu42.rcmod.RcMod;
 
 @ChannelHandler.Sharable
 public class FFMTPacketHandler extends
@@ -102,6 +101,7 @@ public class FFMTPacketHandler extends
 			return false;
 		}
 
+		RcMod.rcLogger.info("Successfully registred packet "+clazz.getCanonicalName());
 		this.packets.add(clazz);
 		return true;
 	}
@@ -119,7 +119,7 @@ public class FFMTPacketHandler extends
 		byte discriminator = (byte) this.packets.indexOf(clazz);
 		buffer.writeByte(discriminator);
 		msg.encodeInto(ctx, buffer);
-		FMLProxyPacket proxyPacket = new FMLProxyPacket(new PacketBuffer(buffer.copy()), ctx
+		FMLProxyPacket proxyPacket = new FMLProxyPacket(buffer.copy(), ctx
 				.channel().attr(NetworkRegistry.FML_CHANNEL).get());
 		out.add(proxyPacket);
 	}
@@ -189,7 +189,7 @@ public class FFMTPacketHandler extends
 
 	@SideOnly(Side.CLIENT)
 	private EntityPlayer getClientPlayer() {
-		return Minecraft.getMinecraft().thePlayer;
+		return Minecraft.getMinecraft().player;
 	}
 
 	public void sendToAll(AbstractPacket message) {
@@ -197,6 +197,13 @@ public class FFMTPacketHandler extends
 				.attr(FMLOutboundHandler.FML_MESSAGETARGET)
 				.set(FMLOutboundHandler.OutboundTarget.ALL);
 		this.channels.get(Side.SERVER).writeAndFlush(message);
+	}
+	
+	public void sendToAll(Packet packet){
+		this.channels.get(Side.SERVER)
+		.attr(FMLOutboundHandler.FML_MESSAGETARGET)
+		.set(FMLOutboundHandler.OutboundTarget.ALL);
+		this.channels.get(Side.SERVER).writeAndFlush(packet);
 	}
 
 	public void sendTo(AbstractPacket message, EntityPlayerMP player) {

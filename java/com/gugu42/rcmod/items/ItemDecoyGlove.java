@@ -4,12 +4,15 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
 import com.gugu42.rcmod.RcMod;
 import com.gugu42.rcmod.entity.projectiles.EntityDecoyGloveAmmo;
 
-public class ItemDecoyGlove extends ItemRcWeap{
+public class ItemDecoyGlove extends ItemRcGun{
 
     private int ammo;
     private int cooldown;
@@ -27,22 +30,24 @@ public class ItemDecoyGlove extends ItemRcWeap{
         this.setCreativeTab(RcMod.rcTab);
     }
 
-    public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
-            EntityPlayer par3EntityPlayer) {
-        super.onItemRightClick(par1ItemStack, par2World, par3EntityPlayer);
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		super.onItemRightClick(world, player, hand);
+		
+		ItemStack par1ItemStack = player.getHeldItem(hand);
+		
         if (maxAmmo - par1ItemStack.getItemDamage() > 0) {
-            if (!par2World.isRemote) {
+            if (!world.isRemote) {
                 if (cooldown <= 0) {
                     EntityDecoyGloveAmmo decoy = new EntityDecoyGloveAmmo(
-                            par2World, par3EntityPlayer, par3EntityPlayer.rotationYawHead);
-                    par2World.spawnEntityInWorld(decoy);
-                    par1ItemStack.damageItem(1, par3EntityPlayer);
+                            world, player, player.rotationYawHead);
+                    world.spawnEntity(decoy);
+                    par1ItemStack.damageItem(1, player);
                     cooldown = 20;
-                    par3EntityPlayer.swingItem();
+                    player.swingArm(hand);
                 }
             }
         }
-        return par1ItemStack;
+		return new ActionResult(EnumActionResult.SUCCESS, par1ItemStack);
     }
 
     public boolean canHarvestBlock(Block par1Block) {

@@ -6,14 +6,16 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 import com.gugu42.rcmod.RcMod;
+import com.gugu42.rcmod.items.ItemRcWeap;
 import com.gugu42.rcmod.items.RcItems;
 import com.gugu42.rcmod.shipsys.RcWorldSavedData;
+
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 public class RcTickHandler {
 
@@ -59,7 +61,7 @@ public class RcTickHandler {
 				World world = player.worldObj;
 
 				List entities = world.getEntitiesWithinAABB(EntityItem.class,
-						AxisAlignedBB.fromBounds(player.posX - 16.0D,
+						AxisAlignedBB.getBoundingBox(player.posX - 16.0D,
 								player.posY - 16.0D, player.posZ - 16.0D,
 								player.posX + 16.0D, player.posY + 16.0D,
 								player.posZ + 16.0D));
@@ -84,7 +86,6 @@ public class RcTickHandler {
 						player.fallDistance = 0.0F;
 					}
 				}
-
 			}
 
 		}
@@ -162,8 +163,10 @@ public class RcTickHandler {
 		double closeness = 16.0D;
 		EntityPlayer player = par1.worldObj.getClosestPlayerToEntity(par1,
 				closeness);
-
-		if ((player != null) && par1.getEntityItem().getItem() == RcItems.bolt) {
+		if(par1.age > 15)
+		{
+		if ((player != null) && par1.getEntityItem().getItem() == RcItems.bolt)
+		{
 			double var3 = (player.posX - par1.posX) / closeness;
 			double var5 = (player.posY + player.getEyeHeight() - par1.posY)
 					/ closeness;
@@ -177,6 +180,6 @@ public class RcTickHandler {
 				par1.motionY += var5 / var9 * var11 * 0.1D;
 				par1.motionZ += var7 / var9 * var11 * 0.1D;
 			}
-		}
+		}}
 	}
 }

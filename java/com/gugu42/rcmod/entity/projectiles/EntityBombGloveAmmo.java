@@ -1,15 +1,13 @@
 package com.gugu42.rcmod.entity.projectiles;
 
+import com.gugu42.rcmod.TNTCrateExplosion;
+
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-
-import com.gugu42.rcmod.TNTCrateExplosion;
 
 public class EntityBombGloveAmmo extends EntityThrowable implements IProjectile {
 
@@ -31,12 +29,12 @@ public class EntityBombGloveAmmo extends EntityThrowable implements IProjectile 
 	}
 
 	@Override
-	protected void onImpact(MovingObjectPosition movingobjectposition) {
+	protected void onImpact(RayTraceResult movingobjectposition) {
 		if (movingobjectposition != null) {
-			if(movingobjectposition.typeOfHit == MovingObjectType.ENTITY){
+			if(movingobjectposition.typeOfHit == RayTraceResult.Type.ENTITY){
 				this.explode();
 			}
-			if(movingobjectposition.typeOfHit == MovingObjectType.BLOCK){
+			if(movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK){
 				this.explode();
 			}
 			
@@ -45,16 +43,16 @@ public class EntityBombGloveAmmo extends EntityThrowable implements IProjectile 
 
 	@Override
 	protected float getGravityVelocity() {
-		return 0.30F;
+		return 0.15F;
 	}
 
 	private void explode() {
-		TNTCrateExplosion explosion = new TNTCrateExplosion(this.worldObj,
+		TNTCrateExplosion explosion = new TNTCrateExplosion(this.world,
 				this, this.posX, this.posY, this.posZ, 3.0f);
 		explosion.doExplosionA(false);
 		explosion.doExplosionB(true, false);
-		this.worldObj.playSoundAtEntity(this, "rcmod:BombGloveExplosion",
-				10.0f, 1.0f);
+		//this.world.playSoundAtEntity(this, "rcmod:BombGloveExplosion",
+		//		10.0f, 1.0f);
 		this.setDead();
 	}
 

@@ -2,8 +2,8 @@ package com.gugu42.rcmod.utils;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 
 public class Vector3 implements Cloneable {
 
@@ -37,22 +37,22 @@ public class Vector3 implements Cloneable {
         this(par1.getPos().getX(), par1.getPos().getY(), par1.getPos().getZ());
     }
 
-    public Vector3(Vec3 par1) {
+    public Vector3(Vec3d par1) {
         this(par1.xCoord, par1.yCoord, par1.zCoord);
 
     }
 
-    public Vector3(MovingObjectPosition par1) {
+    public Vector3(RayTraceResult par1) {
         this(par1.getBlockPos().getX(), par1.getBlockPos().getY(), par1.getBlockPos().getZ());
     }
 
-//    public Vector3(ChunkCoordinates par1) {
-//        this(par1.posX, par1.posY, par1.posZ);
-//    }
-//
-//    public Vector3(ForgeDirection direction) {
-//        this(direction.offsetX, direction.offsetY, direction.offsetZ);
-//    }
+    /*public Vector3(ChunkCoordinates par1) {
+        this(par1.posX, par1.posY, par1.posZ);
+    }
+
+    public Vector3(ForgeDirection direction) {
+        this(direction.offsetX, direction.offsetY, direction.offsetZ);
+    }*/
 
     public Vector3(float rotationYaw, float rotationPitch) {
         this(Math.cos(Math.toRadians(rotationYaw + 90)), Math.sin(Math.toRadians(-rotationPitch)), Math.sin(Math.toRadians(rotationYaw + 90)));
@@ -87,9 +87,9 @@ public class Vector3 implements Cloneable {
         return new Vector3(this);
     }
 
-//    public Vec3 toVec3() {
-//	    return Vec3.createVectorHelper(this.x, this.y, this.z);
-//    }
+    public Vec3d toVec3() {
+        return new Vec3d(this.x, this.y, this.z);
+    }
 
     public Vector3 translate(Vector3 par1) {
         this.x += par1.x;

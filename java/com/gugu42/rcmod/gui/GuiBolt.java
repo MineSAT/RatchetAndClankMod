@@ -1,5 +1,10 @@
 package com.gugu42.rcmod.gui;
 
+import org.lwjgl.opengl.GL11;
+
+import com.gugu42.rcmod.handler.ExtendedPlayerBolt;
+import com.gugu42.rcmod.items.ItemRcWeap;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiIngameMenu;
@@ -7,7 +12,6 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -16,11 +20,6 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import org.lwjgl.opengl.GL11;
-
-import com.gugu42.rcmod.handler.ExtendedPlayerBolt;
-import com.gugu42.rcmod.items.ItemRcWeap;
 
 @SideOnly(Side.CLIENT)
 public class GuiBolt extends Gui {
@@ -42,11 +41,11 @@ public class GuiBolt extends Gui {
 
 	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void onRenderExperienceBar(RenderGameOverlayEvent event) {
-		if (event.isCancelable() || event.type != ElementType.EXPERIENCE) {
+		if (event.isCancelable() || event.getType() != ElementType.EXPERIENCE) {
 			return;
 		}
 
-		ExtendedPlayerBolt props = ExtendedPlayerBolt.get(this.mc.thePlayer);
+		ExtendedPlayerBolt props = ExtendedPlayerBolt.get(this.mc.player);
 
 		if (props == null || props.getMaxBolts() == 0) {
 			return;
@@ -80,7 +79,7 @@ public class GuiBolt extends Gui {
 					87 * 233 * 255);
 		}
 
-		ItemStack itemInHand = this.mc.thePlayer.inventory.getCurrentItem();
+		ItemStack itemInHand = this.mc.player.inventory.getCurrentItem();
 		if (itemInHand != null && itemInHand.getItem() instanceof ItemRcWeap) {
 			ItemRcWeap weap = (ItemRcWeap) itemInHand.getItem();
 			if (weap.isUsingAmmo()) {
@@ -127,8 +126,7 @@ public class GuiBolt extends Gui {
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 				GL11.glDisable(GL11.GL_ALPHA_TEST);
 				ScaledResolution sr = new ScaledResolution(
-						this.mc, this.mc.displayWidth,
-						this.mc.displayHeight);
+						this.mc);
 				drawTexturedQuadFit((sr.getScaledWidth() / 2) - 16,
 						(sr.getScaledHeight() / 2) - 16, 32, 32, 0);
 				GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -138,18 +136,18 @@ public class GuiBolt extends Gui {
 			}
 		}
 		
-		this.mc.getTextureManager().bindTexture(icons);
+		this.mc.getTextureManager().bindTexture(ICONS);
 	}
 
 	@SideOnly(Side.CLIENT)
 	public static void drawTexturedQuadFit(double x, double y, double width,
 			double height, double zLevel) {
-		WorldRenderer tessellator = Tessellator.getInstance().getWorldRenderer();
+		Tessellator tessellator = Tessellator.getInstance();
 		tessellator.startDrawingQuads();
 		tessellator.addVertexWithUV(x + 0, y + height, zLevel, 0, 1);
 		tessellator.addVertexWithUV(x + width, y + height, zLevel, 1, 1);
 		tessellator.addVertexWithUV(x + width, y + 0, zLevel, 1, 0);
 		tessellator.addVertexWithUV(x + 0, y + 0, zLevel, 0, 0);
-		tessellator.finishDrawing();
+		tessellator.draw();
 	}
 }

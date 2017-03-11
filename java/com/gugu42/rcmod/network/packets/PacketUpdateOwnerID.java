@@ -42,7 +42,7 @@ public class PacketUpdateOwnerID extends AbstractPacket
 	@Override
 	public void handleClientSide(EntityPlayer player)
 	{
-		Entity e = player.worldObj.getEntityByID(entityAffected);
+		Entity e = player.world.getEntityByID(entityAffected);
 		if(e != null && e instanceof OwnableEntity)
 			((OwnableEntity)e).setOwnerID(ownerID);
 	}
