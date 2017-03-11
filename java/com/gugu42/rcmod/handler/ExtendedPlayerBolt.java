@@ -1,20 +1,15 @@
 package com.gugu42.rcmod.handler;
 
-import ibxm.Player;
-
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
+import com.gugu42.rcmod.CommonProxy;
+import com.gugu42.rcmod.RcMod;
+import com.gugu42.rcmod.network.packets.PacketBolts;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraftforge.common.IExtendedEntityProperties;
 
-import com.gugu42.rcmod.CommonProxy;
-import com.gugu42.rcmod.RcMod;
-import com.gugu42.rcmod.network.packets.PacketBolts;
 
 public class ExtendedPlayerBolt implements IExtendedEntityProperties {
 

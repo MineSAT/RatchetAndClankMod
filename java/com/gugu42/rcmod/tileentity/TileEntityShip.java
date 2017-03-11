@@ -8,14 +8,13 @@ import com.gugu42.rcmod.RcMod;
 import com.gugu42.rcmod.network.packets.PacketShipTeleportation;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.ITickable;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 
-public class TileEntityShip extends TileEntity {
+public class TileEntityShip extends TileEntity implements ITickable{
 
 	public boolean hasLaunched = false;
 	public boolean isLanding = false;
@@ -107,7 +106,7 @@ public class TileEntityShip extends TileEntity {
 	}
 
 	@Override
-	public void updateEntity() {
+	public void tick() {
 		if (hasLaunched) {
 			tickSinceLaunched++;
 			if(tickSinceLaunched <= 100)
@@ -117,15 +116,15 @@ public class TileEntityShip extends TileEntity {
 			else
 			{
 				PacketShipTeleportation packet = new PacketShipTeleportation(
-						wpData, xCoord, yCoord, zCoord);
+						wpData, this.getPos().getX(), this.getPos().getY(), this.getPos().getZ());
 				RcMod.rcModPacketHandler.sendToServer(packet);
-				this.worldObj.removeTileEntity(xCoord, yCoord, zCoord);
-				this.worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.air,
-						0, 1);
+				this.world.removeTileEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()));
+				this.world.setBlockState(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()), Blocks.AIR.getDefaultState(),
+						1);
 
-				Block bl = this.worldObj.getBlock(xCoord, yCoord + 1,
-						zCoord);
-				bl.breakBlock(worldObj, xCoord, yCoord + 1, zCoord, bl, 0);
+				Block bl = this.world.getBlockState(new BlockPos(this.getPos().getX(), this.getPos().getY() + 1,
+						this.getPos().getZ())).getBlock();
+				bl.breakBlock(world, new BlockPos(this.getPos().getX(), this.getPos().getY() + 1, this.getPos().getZ()), bl.getDefaultState());
 			}
 		}
 
@@ -154,7 +153,7 @@ public class TileEntityShip extends TileEntity {
         float xOffsetMultiplier = 0f;
         float zOffsetMultiplier = 0f;
         this.renderY = offsetData.y;
-        switch(blockMetadata)
+        switch(getBlockMetadata())
         {
             case 0:
             {
@@ -186,19 +185,20 @@ public class TileEntityShip extends TileEntity {
     }
 
     @Override
-	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
+	public NBTTagCompound writeToNBT(NBTTagCompound par1NBTTagCompound) {
 		super.writeToNBT(par1NBTTagCompound);
-		par1NBTTagCompound.setInteger("rot", this.blockMetadata);
+		par1NBTTagCompound.setInteger("rot", this.getBlockMetadata());
 		par1NBTTagCompound.setBoolean("isLanding", this.isLanding);
 		par1NBTTagCompound.setFloat("renderAngle", this.pitch);
 		par1NBTTagCompound.setFloat("renderDoorRot", this.renderDoorRot);
 		par1NBTTagCompound.setFloat("renderY", this.renderY);
+		
+		return par1NBTTagCompound;
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
 		super.readFromNBT(par1NBTTagCompound);
-		this.blockMetadata = par1NBTTagCompound.getInteger("rot");
 		this.blockRot = par1NBTTagCompound.getInteger("rot");
 		this.isLanding = par1NBTTagCompound.getBoolean("isLanding");
 		this.pitch = par1NBTTagCompound.getFloat("renderAngle");
@@ -206,7 +206,7 @@ public class TileEntityShip extends TileEntity {
 		this.renderY = par1NBTTagCompound.getFloat("renderY");
 	} 
 
-	@Override
+	/*@Override
 	public Packet getDescriptionPacket() {
 		NBTTagCompound tag = new NBTTagCompound();
 		writeToNBT(tag);
@@ -217,5 +217,5 @@ public class TileEntityShip extends TileEntity {
 	public void onDataPacket(NetworkManager net,
 			S35PacketUpdateTileEntity packet) {
 		readFromNBT(packet.func_148857_g());
-	}
+	}*/
 }

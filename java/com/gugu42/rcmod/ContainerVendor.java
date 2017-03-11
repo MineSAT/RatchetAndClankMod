@@ -46,7 +46,7 @@ public class ContainerVendor extends Container {
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		if(tileEntity != null){
-		return tileEntity.isUseableByPlayer(player);
+		return tileEntity.isUsableByPlayer(player);
 		} else {
 			return true;
 		}

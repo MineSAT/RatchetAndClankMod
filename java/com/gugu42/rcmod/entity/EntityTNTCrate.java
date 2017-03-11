@@ -1,18 +1,16 @@
 package com.gugu42.rcmod.entity;
 
-import io.netty.buffer.ByteBuf;
-
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
 import com.gugu42.rcmod.TNTCrateExplosion;
 
-import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.MoverType;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityTNTCrate extends Entity implements IEntityAdditionalSpawnData
 {
@@ -24,7 +22,7 @@ public class EntityTNTCrate extends Entity implements IEntityAdditionalSpawnData
         super(par1World);
         this.preventEntitySpawning = true;
         this.setSize(0.98F, 0.98F);
-        this.yOffset = this.height / 2.0F;
+        this.setRenderYawOffset(this.height / 2.0F);
     }
 
     public EntityTNTCrate(World par1World, double par2, double par4, double par6)
@@ -64,7 +62,7 @@ public class EntityTNTCrate extends Entity implements IEntityAdditionalSpawnData
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
         this.motionY -= 0.03999999910593033D;
-        this.moveEntity(this.motionX, this.motionY, this.motionZ);
+        this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
         this.motionX *= 0.9800000190734863D;
         this.motionY *= 0.9800000190734863D;
         this.motionZ *= 0.9800000190734863D;
@@ -80,7 +78,7 @@ public class EntityTNTCrate extends Entity implements IEntityAdditionalSpawnData
         {
             this.setDead();
             
-            if (!this.worldObj.isRemote)
+            if (!this.world.isRemote)
             {
                 this.explode();
             }
@@ -88,17 +86,19 @@ public class EntityTNTCrate extends Entity implements IEntityAdditionalSpawnData
         }
         else
         {
-            this.worldObj.spawnParticle("smoke", this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
+        	//TODO - Fix particles
+            //this.world.spawnParticle("smoke", this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
         }
         
+        //TODO - Fix sounds
         if(this.fuse == 20){
-            this.worldObj.playSoundAtEntity(this, "rcmod:tntcrate.countdown", 1.0f, 1.0f);
+            //this.world.playSoundAtEntity(this, "rcmod:tntcrate.countdown", 1.0f, 1.0f);
         }
         if(this.fuse == 40){
-            this.worldObj.playSoundAtEntity(this, "rcmod:tntcrate.countdown", 1.0f, 1.0f);
+            //this.world.playSoundAtEntity(this, "rcmod:tntcrate.countdown", 1.0f, 1.0f);
         }
         if(this.fuse == 60){
-            this.worldObj.playSoundAtEntity(this, "rcmod:tntcrate.countdown", 1.0f, 1.0f);
+            //this.world.playSoundAtEntity(this, "rcmod:tntcrate.countdown", 1.0f, 1.0f);
         }
         
     }
@@ -106,9 +106,9 @@ public class EntityTNTCrate extends Entity implements IEntityAdditionalSpawnData
     private void explode()
     {
         float f = 4.0F;
-        TNTCrateExplosion explosion = new TNTCrateExplosion(this.worldObj, (Entity)null, this.posX, this.posY, this.posZ, f);
-        explosion.doExplosionA(true);
-        explosion.doExplosionB(true, true);
+        TNTCrateExplosion explosion = new TNTCrateExplosion(this.world, (Entity)null, this.posX, this.posY, this.posZ, f);
+        explosion.doExplosionA();
+        explosion.doExplosionB(true);
     }
 
     protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)

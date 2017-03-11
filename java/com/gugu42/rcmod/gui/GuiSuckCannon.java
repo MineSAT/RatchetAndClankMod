@@ -139,9 +139,9 @@ public class GuiSuckCannon extends Gui
         entity.rotationPitch = -((float)Math.atan((double)(pitch / 40.0F))) * 20.0F;
         entity.rotationYawHead = entity.rotationYaw;
         entity.prevRotationYawHead = entity.rotationYaw;
-        GL11.glTranslatef(0.0F, entity.yOffset, 0.0F);
-        RenderManager.instance.playerViewY = 180.0F;
-        RenderManager.instance.func_147939_a(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, true);
+        GL11.glTranslated(0.0F, entity.getYOffset(), 0.0F);
+        Minecraft.getMinecraft().getRenderManager().playerViewY = 180.0F;
+        Minecraft.getMinecraft().getRenderManager().doRenderEntity(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, true);
         entity.renderYawOffset = f2;
         entity.rotationYaw = f3;
         entity.rotationPitch = f4;
@@ -155,17 +155,5 @@ public class GuiSuckCannon extends Gui
         OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
 
         glColor4f(1, 1, 1, 1);
-    }
-
-    @SideOnly(Side.CLIENT)
-    public static void drawTexturedQuadFit(double x, double y, double width, double height, double zLevel)
-    {
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV(x + 0, y + height, zLevel, 0, 1);
-        tessellator.addVertexWithUV(x + width, y + height, zLevel, 1, 1);
-        tessellator.addVertexWithUV(x + width, y + 0, zLevel, 1, 0);
-        tessellator.addVertexWithUV(x + 0, y + 0, zLevel, 0, 0);
-        tessellator.draw();
     }
 }

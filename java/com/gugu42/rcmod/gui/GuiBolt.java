@@ -70,7 +70,8 @@ public class GuiBolt extends Gui {
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			GL11.glDisable(GL11.GL_ALPHA_TEST);
-			drawTexturedQuadFit(360, 5, 16, 16, 0);
+			//drawTexturedQuadFit(360, 5, 16, 16, 0);
+			drawTexturedModalRect(360, 5, 0, 0, 16, 16);
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
 			GL11.glDepthMask(true);
 			GL11.glPopMatrix();
@@ -97,7 +98,7 @@ public class GuiBolt extends Gui {
 							GL11.GL_ONE_MINUS_SRC_ALPHA);
 					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 					GL11.glDisable(GL11.GL_ALPHA_TEST);
-					drawTexturedQuadFit(10, 5, 16, 16, 0);
+					drawTexturedModalRect(10, 5, 0, 0, 16, 16);
 					GL11.glEnable(GL11.GL_DEPTH_TEST);
 					GL11.glDepthMask(true);
 					GL11.glPopMatrix();
@@ -127,8 +128,8 @@ public class GuiBolt extends Gui {
 				GL11.glDisable(GL11.GL_ALPHA_TEST);
 				ScaledResolution sr = new ScaledResolution(
 						this.mc);
-				drawTexturedQuadFit((sr.getScaledWidth() / 2) - 16,
-						(sr.getScaledHeight() / 2) - 16, 32, 32, 0);
+				drawTexturedModalRect((sr.getScaledWidth() / 2) - 16,
+				(sr.getScaledHeight() / 2) - 16, 0, 0, 32, 32);
 				GL11.glEnable(GL11.GL_DEPTH_TEST);
 				GL11.glDepthMask(true);
 				GL11.glPopMatrix();
@@ -137,17 +138,5 @@ public class GuiBolt extends Gui {
 		}
 		
 		this.mc.getTextureManager().bindTexture(ICONS);
-	}
-
-	@SideOnly(Side.CLIENT)
-	public static void drawTexturedQuadFit(double x, double y, double width,
-			double height, double zLevel) {
-		Tessellator tessellator = Tessellator.getInstance();
-		tessellator.startDrawingQuads();
-		tessellator.addVertexWithUV(x + 0, y + height, zLevel, 0, 1);
-		tessellator.addVertexWithUV(x + width, y + height, zLevel, 1, 1);
-		tessellator.addVertexWithUV(x + width, y + 0, zLevel, 1, 0);
-		tessellator.addVertexWithUV(x + 0, y + 0, zLevel, 0, 0);
-		tessellator.draw();
 	}
 }

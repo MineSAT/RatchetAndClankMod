@@ -9,39 +9,40 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 
 public class TileEntityVendor extends TileEntity implements IInventory {
 
 	public boolean     isPlayerNear = false;
-	public ItemStack[] inv;
+	public NonNullList<ItemStack> inv = NonNullList.withSize(12, ItemStack.EMPTY);
 	public int         renderCountdown;
 
 	public TileEntityVendor() {
-		inv = new ItemStack[12];
 		renderCountdown = 0;
 	}
 
 	@Override
 	public int getSizeInventory() {
 
-		return inv.length;
+		return inv.size();
 	}
 
 	@Override
 	public ItemStack getStackInSlot(int i) {
-		return inv[i];
+		return inv.get(i);
 	}
 
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
 		ItemStack stack = getStackInSlot(i);
 		if (stack != null) {
-			if (stack.stackSize <= j) {
+			if (stack.getCount() <= j) {
 				setInventorySlotContents(i, null);
 			} else {
 				stack = stack.splitStack(j);
-				if (stack.stackSize == 0) {
+				if (stack.getCount() == 0) {
 					setInventorySlotContents(i, null);
 				}
 			}
@@ -50,19 +51,10 @@ public class TileEntityVendor extends TileEntity implements IInventory {
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		ItemStack stack = getStackInSlot(i);
-		if (stack != null) {
-			setInventorySlotContents(i, null);
-		}
-		return stack;
-	}
-
-	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
-		inv[i] = itemstack;
-		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()) {
-			itemstack.stackSize = getInventoryStackLimit();
+		inv.set(i, itemstack);
+		if (itemstack != null && itemstack.getCount() > getInventoryStackLimit()) {
+			itemstack.setCount(getInventoryStackLimit());
 		}
 	}
 
@@ -84,9 +76,9 @@ public class TileEntityVendor extends TileEntity implements IInventory {
 
 	public boolean isPlayerStandingNear() {
 
-		AxisAlignedBB axisalignedbb = AxisAlignedBB.getBoundingBox((double) this.xCoord, (double) this.yCoord, (double) this.zCoord, (double) (this.xCoord + 1), (double) (this.yCoord + 1), (double) (this.zCoord + 1)).expand(2, 2, 2);
-		axisalignedbb.maxY = (double) this.worldObj.getHeight();
-		List list = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, axisalignedbb);
+		AxisAlignedBB axisalignedbb = new AxisAlignedBB((double) this.getPos().getX(), (double) this.getPos().getY(), (double) this.getPos().getZ(), (double) (this.getPos().getX() + 1), (double) (this.getPos().getY() + 1), (double) (this.getPos().getZ() + 1)).expand(2, 2, 2);
+		axisalignedbb.setMaxY((double) this.world.getHeight());
+		List list = this.world.getEntitiesWithinAABB(EntityPlayer.class, axisalignedbb);
 		Iterator iterator = list.iterator();
 		EntityPlayer entityplayer;
 
@@ -104,11 +96,6 @@ public class TileEntityVendor extends TileEntity implements IInventory {
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && entityplayer.getDistanceSq(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) < 64;
-	}
-
-	@Override
 	public void readFromNBT(NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
 
@@ -116,19 +103,19 @@ public class TileEntityVendor extends TileEntity implements IInventory {
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound tag = (NBTTagCompound) tagList.getCompoundTagAt(i);
 			byte slot = tag.getByte("Slot");
-			if (slot >= 0 && slot < inv.length) {
-				inv[slot] = ItemStack.loadItemStackFromNBT(tag);
+			if (slot >= 0 && slot < inv.size()) {
+				inv.set(slot, new ItemStack(tag));
 			}
 		}
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound tagCompound) {
+	public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
 
 		NBTTagList itemList = new NBTTagList();
-		for (int i = 0; i < inv.length; i++) {
-			ItemStack stack = inv[i];
+		for (int i = 0; i < inv.size(); i++) {
+			ItemStack stack = inv.get(i);
 			if (stack != null) {
 				NBTTagCompound tag = new NBTTagCompound();
 				tag.setByte("Slot", (byte) i);
@@ -137,6 +124,8 @@ public class TileEntityVendor extends TileEntity implements IInventory {
 			}
 		}
 		tagCompound.setTag("Inventory", itemList);
+		
+		return tagCompound;
 	}
 
 	@Override
@@ -146,27 +135,70 @@ public class TileEntityVendor extends TileEntity implements IInventory {
 	}
 
 	@Override
-	public String getInventoryName() {
+	public String getName() {
 		// TODO Auto-generated method stub
 		return "rcmod.tileentityvendor";
 	}
 
 	@Override
-	public boolean hasCustomInventoryName() {
+	public boolean hasCustomName() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public void openInventory() {
+	public boolean isEmpty() {
 		// TODO Auto-generated method stub
-
+		return false;
 	}
 
 	@Override
-	public void closeInventory() {
-		// TODO Auto-generated method stub
-
+	public ItemStack removeStackFromSlot(int index) {
+		ItemStack stack = getStackInSlot(index);
+		if (stack != ItemStack.EMPTY) {
+			setInventorySlotContents(index, ItemStack.EMPTY);
+		}
+		return stack;
 	}
 
+	@Override
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		return world.getTileEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ())) == this && player.getDistanceSq(this.getPos().getX() + 0.5, this.getPos().getY() + 0.5, this.getPos().getZ() + 0.5) < 64;
+	}
+
+	@Override
+	public void openInventory(EntityPlayer player) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void closeInventory(EntityPlayer player) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getField(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -2,20 +2,19 @@ package com.gugu42.rcmod.handler;
 
 import java.util.List;
 
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
-
 import com.gugu42.rcmod.RcMod;
-import com.gugu42.rcmod.items.ItemRcWeap;
 import com.gugu42.rcmod.items.RcItems;
 import com.gugu42.rcmod.shipsys.RcWorldSavedData;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 public class RcTickHandler {
 
@@ -58,10 +57,10 @@ public class RcTickHandler {
 		if (event.phase != null && event.phase == TickEvent.Phase.END) {
 			if (event.player != null) {
 				EntityPlayer player = (EntityPlayer) event.player;
-				World world = player.worldObj;
+				World world = player.world;
 
 				List entities = world.getEntitiesWithinAABB(EntityItem.class,
-						AxisAlignedBB.getBoundingBox(player.posX - 16.0D,
+						new AxisAlignedBB(player.posX - 16.0D,
 								player.posY - 16.0D, player.posZ - 16.0D,
 								player.posX + 16.0D, player.posY + 16.0D,
 								player.posZ + 16.0D));
@@ -75,7 +74,7 @@ public class RcTickHandler {
 					if ((!player.onGround) && (player.motionY < 0.0D)) {
 						player.motionY *= 0.7D;
 						player.fallDistance = 0.0F;
-						player.getCurrentArmor(2).setItemDamage(1);
+						player.inventory.armorItemInSlot(2).setItemDamage(1);
 					}
 				}
 
@@ -108,7 +107,7 @@ public class RcTickHandler {
 
 	private boolean canHelipack(EntityPlayer player) {
 		if (player.motionY < 0.0f
-				&& player.inventory.armorItemInSlot(2) != null
+				&& player.inventory.armorItemInSlot(2) != ItemStack.EMPTY
 				&& player.inventory.armorItemInSlot(2).getItem() == RcMod.clankBackpack) {
 			if (player.getEntityData().getBoolean("clankJumped")) {
 				if (player.getEntityData().getInteger("clankCooldown") >= 1) {
@@ -117,7 +116,7 @@ public class RcTickHandler {
 								"clankCooldown",
 								player.getEntityData().getInteger(
 										"clankCooldown") - 1);
-						player.getCurrentArmor(2).setItemDamage(0);
+						player.inventory.armorItemInSlot(2).setItemDamage(0);
 					}
 
 					return true;
@@ -161,9 +160,9 @@ public class RcTickHandler {
 
 	private void updateEntityItem(EntityItem par1) {
 		double closeness = 16.0D;
-		EntityPlayer player = par1.worldObj.getClosestPlayerToEntity(par1,
+		EntityPlayer player = par1.world.getClosestPlayerToEntity(par1,
 				closeness);
-		if(par1.age > 15)
+		if(par1.getAge() > 15)
 		{
 		if ((player != null) && par1.getEntityItem().getItem() == RcItems.bolt)
 		{

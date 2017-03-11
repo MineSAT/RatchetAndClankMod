@@ -149,7 +149,8 @@ public class GuiVendor extends GuiContainer {
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			GL11.glDisable(GL11.GL_ALPHA_TEST);
-			drawTexturedQuadFit(xSize - 185, ySize - 86, 8, 8, 0);
+			//drawTexturedQuadFit(xSize - 185, ySize - 86, 8, 8, 0);
+			drawModalRectWithCustomSizedTexture(xSize - 185, ySize - 86, 0, 0, 8, 8, 64, 64);
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
 			GL11.glDepthMask(true);
 			GL11.glPopMatrix();
@@ -265,24 +266,13 @@ public class GuiVendor extends GuiContainer {
 		this.mc.renderEngine.bindTexture(texturepath);
 		int x = (width - xSize) / 2;
 		int y = (height - ySize) / 2;
-		this.drawTexturedQuadFit(x, y, 256, 256, 0);
+		//this.drawTexturedQuadFit(x, y, 256, 256, 0);
+		this.drawTexturedModalRect(x, y, 0, 0, 256, 256);
 		GL11.glDisable(GL11.GL_BLEND);
 	}
 
-	@SideOnly(Side.CLIENT)
-	public static void drawTexturedQuadFit(double x, double y, double width,
-			double height, double zLevel) {
-		Tessellator tessellator = Tessellator.instance;
-		tessellator.startDrawingQuads();
-		tessellator.addVertexWithUV(x + 0, y + height, zLevel, 0, 1);
-		tessellator.addVertexWithUV(x + width, y + height, zLevel, 1, 1);
-		tessellator.addVertexWithUV(x + width, y + 0, zLevel, 1, 0);
-		tessellator.addVertexWithUV(x + 0, y + 0, zLevel, 0, 0);
-		tessellator.draw();
-	}
-
 	private boolean isMouseOverSlot(Slot par1Slot, int par2, int par3) {
-		return this.func_146978_c(par1Slot.xPos,
+		return this.isPointInRegion(par1Slot.xPos,
 				par1Slot.yPos, 16, 16, par2, par3);
 
 	}

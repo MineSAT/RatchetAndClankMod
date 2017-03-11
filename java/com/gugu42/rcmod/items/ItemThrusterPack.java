@@ -3,13 +3,13 @@ package com.gugu42.rcmod.items;
 import java.util.Random;
 
 import com.gugu42.rcmod.RcMod;
-import com.gugu42.rcmod.render.armor.ThrusterPackRender;
 import com.gugu42.rcmod.utils.Vector3;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -18,42 +18,34 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemThrusterPack extends ItemArmor {
 
-	@SideOnly(Side.CLIENT)
-	public ThrusterPackRender model;
 
 	public Random rand = new Random();
 
 	public ItemThrusterPack(ArmorMaterial p_i45325_1_, int p_i45325_2_,
 			int p_i45325_3_) {
-		super(p_i45325_1_, p_i45325_2_, p_i45325_3_);
+		super(p_i45325_1_, p_i45325_2_, EntityEquipmentSlot.CHEST);
 		this.setCreativeTab(RcMod.rcGadgTab);
 	}
 
-	@Override
+	/*@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
 			String type) {
 		return "rcmod:models/ThrusterPack0.png";
-	}
+	}*/
 
-	@SideOnly(Side.CLIENT)
-	public void initModel() {
-		if (model == null) {
-			model = new ThrusterPackRender();
-		}
-	}
 
-	@Override
+	/*@Override
 	@SideOnly(Side.CLIENT)
 	public ModelBiped getArmorModel(EntityLivingBase entityLiving,
 			ItemStack itemStack, int armorSlot) {
 		initModel();
 		return model;
-	}
+	}*/
 
 	public void onArmorTick(World world, EntityPlayer player,
 			ItemStack itemstack) {
 		if (player != null) {
-			if (player.getCurrentArmor(2).getItem() == this) {
+			if (player.inventory.armorItemInSlot(2).getItem() == this) {
 				if (player.getEntityData().getBoolean("clankJumped")) {
 
 					Vector3 playerPos = new Vector3(player);
@@ -68,7 +60,8 @@ public class ItemThrusterPack extends ItemArmor {
 							-player.motionX, -player.motionY, -player.motionZ));
 
 					Vector3 v = new Vector3(playerPos).translate(vCenter);
-					world.spawnParticle(
+					//TODO - Fix particles
+					/*world.spawnParticle(
 							"flame",
 							v.x,
 							v.y,
@@ -77,7 +70,7 @@ public class ItemThrusterPack extends ItemArmor {
 									/ 180)),
 							-0.1D,
 							0.05D * (Math.sin(player.renderYawOffset * Math.PI
-									/ 180)));
+									/ 180))); */
 
 					Vector3 vCenter2 = new Vector3();
 					vCenter2.z -= 0.35;
@@ -89,7 +82,8 @@ public class ItemThrusterPack extends ItemArmor {
 							-player.motionX, -player.motionY, -player.motionZ));
 
 					Vector3 v2 = new Vector3(playerPos).translate(vCenter2);
-					world.spawnParticle(
+					//TODO - Fix particles
+					/*world.spawnParticle(
 							"flame",
 							v2.x,
 							v2.y,
@@ -100,7 +94,7 @@ public class ItemThrusterPack extends ItemArmor {
 							-0.1D,
 							-0.05D
 									* (Math.sin(player.renderYawOffset
-											* Math.PI / 180)));
+											* Math.PI / 180)));*/
 				}
 			}
 		}

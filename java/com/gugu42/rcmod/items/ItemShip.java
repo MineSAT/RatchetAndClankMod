@@ -6,6 +6,7 @@ import com.gugu42.rcmod.tileentity.TileEntityShipFiller;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
@@ -28,7 +29,7 @@ public class ItemShip extends Item {
 			TileEntityShipFiller teShipFiller = null;
 			int direction = MathHelper
 					.floor((double) (player.rotationYaw * 4.0F / 360.0F) + 2.5D) & 3;
-			world.setBlock(x, y, z, RcMod.ship, direction, 2);
+			world.setBlockState(new BlockPos(x, y, z), RcMod.ship.getDefaultState());
 			boolean shouldPlaceBlock;
 
 			for (int i = x - 2; i < x + 3; i++) {
@@ -36,10 +37,10 @@ public class ItemShip extends Item {
 					for (int k = z - 2; k < z + 3; k++) {
 						shouldPlaceBlock = true;
 						if (shouldPlaceBlock) {
-							if (world.isAirBlock(i, j, k)) {
-								world.setBlock(i, j, k, RcMod.shipFiller, 0, 2);
+							if (world.isAirBlock(new BlockPos(i, j, k))) {
+								world.setBlockState(new BlockPos(i, j, k), RcMod.shipFiller.getDefaultState(), 2);
 								teShipFiller = (TileEntityShipFiller) world
-										.getTileEntity(i, j, k);
+										.getTileEntity(new BlockPos(i, j, k));
 								if (teShipFiller != null) {
 									teShipFiller.primary_x = x;
 									teShipFiller.primary_y = y;

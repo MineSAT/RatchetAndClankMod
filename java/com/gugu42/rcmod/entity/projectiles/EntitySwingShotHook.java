@@ -10,6 +10,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -29,6 +32,11 @@ public class EntitySwingShotHook extends EntityThrowable {
 	public double startX;
 	public double startY;
 	public double startZ;
+	
+	private static final DataParameter<Float> POW_VALUE = EntityDataManager.<Float>createKey(Entity.class, DataSerializers.FLOAT);
+	private static final DataParameter<Float> START_X = EntityDataManager.<Float>createKey(Entity.class, DataSerializers.FLOAT);
+	private static final DataParameter<Float> START_Y = EntityDataManager.<Float>createKey(Entity.class, DataSerializers.FLOAT);
+	private static final DataParameter<Float> START_Z = EntityDataManager.<Float>createKey(Entity.class, DataSerializers.FLOAT);
 
 	public EntitySwingShotHook(World par1World) {
 		super(par1World);
@@ -55,12 +63,10 @@ public class EntitySwingShotHook extends EntityThrowable {
 	
 	@Override
 	protected void entityInit() {
-		
-		dataWatcher.addObject(10, "1"); // powValue
-		dataWatcher.addObject(11, "0"); // startX
-		dataWatcher.addObject(12, "0"); // startY
-		dataWatcher.addObject(13, "0"); // startZ
-
+		this.dataManager.set(POW_VALUE, 0.0f);
+		this.dataManager.set(START_X, 0.0f);
+		this.dataManager.set(START_Y, 0.0f);
+		this.dataManager.set(START_Z, 0.0f);
 	}
 
 	@Override
@@ -71,7 +77,7 @@ public class EntitySwingShotHook extends EntityThrowable {
 		}
 
 		if (getPowValue() < 2D) {
-			setPowValue(getPowValue() + 0.05);
+			setPowValue((float)(getPowValue() + 0.05));
 		}
 
 		if (thrower != null && !thrower.isDead) {
@@ -191,9 +197,9 @@ public class EntitySwingShotHook extends EntityThrowable {
 	}
 
 	public void setStartCoordinates(double x, double y, double z) {
-		setStartX(x);
-		setStartY(y);
-		setStartZ(z);
+		setStartX((float)x);
+		setStartY((float)y);
+		setStartZ((float)z);
 		updateEntPos();
 	}
 
@@ -211,7 +217,7 @@ public class EntitySwingShotHook extends EntityThrowable {
 			double newX = thrower.posX - this.posX;
 			double newY = thrower.posY - this.posY;
 			double newZ = thrower.posZ - this.posZ;
-			setThrowableHeading(newX, newY + 0.5d, newZ, this.func_70182_d(),
+			setThrowableHeading(newX, newY + 0.5d, newZ, 1,
 					0.0F);
 		}
 
@@ -268,31 +274,31 @@ public class EntitySwingShotHook extends EntityThrowable {
 		return (int) Math.rint(getRopeAbsLength() / 0.5D);
 	}
 
-	public void setStartX(double input) {
+	public void setStartX(float input) {
 		if (!world.isRemote)
-			dataWatcher.updateObject(11, "" + input);
+			this.dataManager.set(START_X, input);
 	}
 
-	public void setStartY(double input) {
+	public void setStartY(float input) {
 		if (!world.isRemote)
-			dataWatcher.updateObject(12, "" + input);
+			this.dataManager.set(START_Y, input);
 	}
 
-	public void setStartZ(double input) {
+	public void setStartZ(float input) {
 		if (!world.isRemote)
-			dataWatcher.updateObject(13, "" + input);
+			this.dataManager.set(START_Z, input);
 	}
 
-	public double getStartX() {
-		return Double.valueOf(dataWatcher.getWatchableObjectString(11));
+	public float getStartX() {
+		return dataManager.get(START_X);
 	}
 
-	public double getStartY() {
-		return Double.valueOf(dataWatcher.getWatchableObjectString(12));
+	public float getStartY() {
+		return dataManager.get(START_Y);
 	}
 
-	public double getStartZ() {
-		return Double.valueOf(dataWatcher.getWatchableObjectString(13));
+	public float getStartZ() {
+		return dataManager.get(START_Z);
 	}
 
 	private double getEndZ() {
@@ -310,13 +316,13 @@ public class EntitySwingShotHook extends EntityThrowable {
 		return this.posX;
 	}
 
-	public double getPowValue() {
-		return Double.valueOf(dataWatcher.getWatchableObjectString(10));
+	public float getPowValue() {
+		return dataManager.get(POW_VALUE);
 	}
 
-	public void setPowValue(double input) {
+	public void setPowValue(float input) {
 		if (!world.isRemote)
-			dataWatcher.updateObject(10, "" + input);
+			this.dataManager.set(POW_VALUE, input);
 	}
 
 	public double[] getCoordsAtRelativeLength(float relativeDistance) {
@@ -341,19 +347,19 @@ public class EntitySwingShotHook extends EntityThrowable {
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound compound) {
-		setStartX(compound.getDouble("startX"));
-		setStartY(compound.getDouble("startY"));
-		setStartZ(compound.getDouble("startZ"));
-		setPowValue(compound.getDouble("ropePOWvalue"));
+		setStartX(compound.getFloat("startX"));
+		setStartY(compound.getFloat("startY"));
+		setStartZ(compound.getFloat("startZ"));
+		setPowValue(compound.getFloat("ropePOWvalue"));
 
 	}
 
 	@Override
 	public void writeEntityToNBT(NBTTagCompound compound) {
-		compound.setDouble("startX", getStartX());
-		compound.setDouble("startY", getStartY());
-		compound.setDouble("startZ", getStartZ());
-		compound.setDouble("ropePOWvalue", getPowValue());
+		compound.setFloat("startX", getStartX());
+		compound.setFloat("startY", getStartY());
+		compound.setFloat("startZ", getStartZ());
+		compound.setFloat("ropePOWvalue", getPowValue());
 	}
 
 }

@@ -1,7 +1,13 @@
 package com.gugu42.rcmod.entity.projectiles;
 
+import java.io.IOException;
+
+import com.google.gson.JsonSyntaxException;
+import com.gugu42.rcmod.ClientProxy;
+import com.gugu42.rcmod.testing.MathHelper;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.shader.ShaderGroup;
@@ -10,11 +16,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-
-import com.gugu42.rcmod.ClientProxy;
-import com.gugu42.rcmod.testing.MathHelper;
-
-import cpw.mods.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 public class EntityVisibombCamera extends EntityLiving {
 	private static EntityVisibombCamera instance;
@@ -44,7 +46,7 @@ public class EntityVisibombCamera extends EntityLiving {
 		super(null);
 
 		setSize(0.0F, 0.0F);
-		yOffset = 0.0F;
+		//yOffset = 0.0F;
 	}
 
 	public static EntityVisibombCamera getInstance() {
@@ -76,7 +78,7 @@ public class EntityVisibombCamera extends EntityLiving {
 
 		mc.gameSettings.hideGUI = true;
 	//	mc.gameSettings.thirdPersonView = 1;
-		mc.renderViewEntity = this;
+		mc.setRenderViewEntity(this);
 
 		enabled = true;
 		isReturning = false;
@@ -85,15 +87,15 @@ public class EntityVisibombCamera extends EntityLiving {
 		this.maxLife = maxLife;
 		this.despawnDelay = despawnDelay;
 		this.isDead = false;
-		worldObj = target.worldObj;
-		worldObj.spawnEntityInWorld(this);
-		this.oldRotYaw = mc.thePlayer.rotationYaw;
-		this.oldRotYawHead = mc.thePlayer.rotationYawHead;
-		this.oldRotPitch = mc.thePlayer.rotationPitch;
+		world = target.world;
+		world.spawnEntity(this);
+		this.oldRotYaw = mc.player.rotationYaw;
+		this.oldRotYawHead = mc.player.rotationYawHead;
+		this.oldRotPitch = mc.player.rotationPitch;
 		
 		
-		setPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
-		setRotation(mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch);
+		setPosition(mc.player.posX, mc.player.posY, mc.player.posZ);
+		setRotation(mc.player.rotationYaw, mc.player.rotationPitch);
 		activateGreenScreenShader();
 		doCameraMove();
 	}
@@ -112,19 +114,25 @@ public class EntityVisibombCamera extends EntityLiving {
             catch (JsonException e)
             {
                 e.printStackTrace();
-            }
+            } catch (JsonSyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    }
     }
 	
 	private void desactivateGreenScreenShader()
     {
-        Minecraft.getMinecraft().entityRenderer.deactivateShader();
+        Minecraft.getMinecraft().entityRenderer.stopUseShader();
     }
 
     public void stopCam() {
 		Minecraft mc = Minecraft.getMinecraft();
-		if (worldObj != null)
-			worldObj.removeEntity(this);
+		if (world != null)
+			world.removeEntity(this);
 
 		if (!enabled)
 			return;
@@ -134,10 +142,10 @@ public class EntityVisibombCamera extends EntityLiving {
 		mc.gameSettings.hideGUI = hideGUI;
 		mc.gameSettings.fovSetting = fovSetting;
 		mc.gameSettings.thirdPersonView = thirdPersonView;
-		mc.renderViewEntity = mc.thePlayer;
-		mc.thePlayer.rotationPitch = oldRotPitch;
-		mc.thePlayer.rotationYaw = oldRotYaw;
-		mc.thePlayer.rotationYawHead = oldRotYawHead;
+		mc.setRenderViewEntity(mc.player);
+		mc.player.rotationPitch = oldRotPitch;
+		mc.player.rotationYaw = oldRotYaw;
+		mc.player.rotationYawHead = oldRotYawHead;
 	}
 
 	private void doCameraMove() {
@@ -174,7 +182,7 @@ public class EntityVisibombCamera extends EntityLiving {
 	
 	public void setThrowableHeading(double par1, double par3, double par5, float par7, float par8)
     {
-        float f2 = net.minecraft.util.MathHelper.sqrt_double(par1 * par1 + par3 * par3 + par5 * par5);
+        float f2 = net.minecraft.util.math.MathHelper.sqrt(par1 * par1 + par3 * par3 + par5 * par5);
         par1 /= (double)f2;
         par3 /= (double)f2;
         par5 /= (double)f2;
@@ -187,7 +195,7 @@ public class EntityVisibombCamera extends EntityLiving {
         this.motionX = par1;
         this.motionY = par3;
         this.motionZ = par5;
-        float f3 = net.minecraft.util.MathHelper.sqrt_double(par1 * par1 + par5 * par5);
+        float f3 = net.minecraft.util.math.MathHelper.sqrt(par1 * par1 + par5 * par5);
         this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(par1, par5) * 180.0D / Math.PI);
         this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(par3, (double)f3) * 180.0D / Math.PI);
     }
@@ -198,12 +206,12 @@ public class EntityVisibombCamera extends EntityLiving {
 		oldPosZ = posZ;
 		float oldYaw = rotationYaw;
 		float oldPitch = rotationPitch;
-		startCam(Minecraft.getMinecraft().thePlayer, false, 20);
+		startCam(Minecraft.getMinecraft().player, false, 20);
 		setPosition(oldPosX, oldPosY, oldPosZ);
 		setRotation(oldYaw, oldPitch);
 		startedReturningTime = System.currentTimeMillis();
 		isReturning = true;
-		EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
+		EntityPlayerSP player = Minecraft.getMinecraft().player;
         target = player;
         desactivateGreenScreenShader();
 	}
@@ -231,10 +239,10 @@ public class EntityVisibombCamera extends EntityLiving {
 		 * { // stopCam(); // return; // } // }
 		 */
 		if (maxLife < 0 || despawnDelay < 0) {
-			if (target != Minecraft.getMinecraft().thePlayer) {
+			if (target != Minecraft.getMinecraft().player) {
 				setIsReturning();
 			} else {
-				if(Minecraft.getMinecraft().thePlayer.getDistanceSqToEntity(this) <= 2)
+				if(Minecraft.getMinecraft().player.getDistanceSqToEntity(this) <= 2)
 				    stopCam();
 			}
 		} else if (target.isDead) {
@@ -247,7 +255,7 @@ public class EntityVisibombCamera extends EntityLiving {
 
 		if (isReturning) 
 		{
-			EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
+			EntityPlayerSP player = Minecraft.getMinecraft().player;
 //			if (Math.abs(posX - player.posX) < 1
 //					&& Math.abs(posY - player.posY) < 1
 //					&& Math.abs(posZ - player.posZ) < 1) {
@@ -264,11 +272,6 @@ public class EntityVisibombCamera extends EntityLiving {
 		doCameraMove();
 
 		motionX = motionY = motionZ = 0;
-	}
-
-	@Override
-	public boolean isEntityInvulnerable() {
-		return true;
 	}
 
 	@Override

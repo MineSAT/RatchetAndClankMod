@@ -4,10 +4,8 @@ import com.gugu42.rcmod.RcMod;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class TileEntityShipFiller extends TileEntity {
@@ -22,11 +20,12 @@ public class TileEntityShipFiller extends TileEntity {
 	
 	
     @Override
-	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
+	public NBTTagCompound writeToNBT(NBTTagCompound par1NBTTagCompound) {
 		super.writeToNBT(par1NBTTagCompound);
 		par1NBTTagCompound.setInteger("px", primary_x);
 		par1NBTTagCompound.setInteger("py", primary_y);
 		par1NBTTagCompound.setInteger("pz", primary_z);
+		return par1NBTTagCompound;
 	}
 
     @Override
@@ -37,7 +36,7 @@ public class TileEntityShipFiller extends TileEntity {
 		this.primary_z = par1NBTTagCompound.getInteger("pz");
 	}
     
-    @Override
+   /* @Override
 	public Packet getDescriptionPacket() {
 		NBTTagCompound tag = new NBTTagCompound();
 		writeToNBT(tag);
@@ -49,9 +48,9 @@ public class TileEntityShipFiller extends TileEntity {
 			S35PacketUpdateTileEntity packet) {
 		readFromNBT(packet.func_148857_g());
 	}
-    
+    */
     public TileEntity getOriginalTileEntity(){
-    	TileEntity te = this.worldObj.getTileEntity(primary_x, primary_y, primary_z);
+    	TileEntity te = this.world.getTileEntity(new BlockPos(primary_x, primary_y, primary_z));
     	return te;
     }
     

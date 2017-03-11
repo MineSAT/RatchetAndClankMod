@@ -1,73 +1,10 @@
 package com.gugu42.rcmod;
 
-import com.gugu42.rcmod.entity.EntityTNTCrate;
-import com.gugu42.rcmod.entity.projectiles.EntityBlasterAmmo;
-import com.gugu42.rcmod.entity.projectiles.EntityBombGloveAmmo;
-import com.gugu42.rcmod.entity.projectiles.EntityDecoyGloveAmmo;
-import com.gugu42.rcmod.entity.projectiles.EntityMineGloveAmmo;
-import com.gugu42.rcmod.entity.projectiles.EntityPyrocitorAmmo;
-import com.gugu42.rcmod.entity.projectiles.EntityRYNOAmmo;
-import com.gugu42.rcmod.entity.projectiles.EntitySuckCannonProj;
-import com.gugu42.rcmod.entity.projectiles.EntitySwingShotHook;
-import com.gugu42.rcmod.entity.projectiles.EntityVisibombAmmo;
-import com.gugu42.rcmod.entity.projectiles.EntityWrenchThrown;
 import com.gugu42.rcmod.handler.RcSoundHandler;
-import com.gugu42.rcmod.items.RcItems;
-import com.gugu42.rcmod.render.BlasterRender;
-import com.gugu42.rcmod.render.BombGloveRender;
-import com.gugu42.rcmod.render.DecoyGloveRender;
-import com.gugu42.rcmod.render.DevastatorRender;
-import com.gugu42.rcmod.render.DroneDeviceRender;
-import com.gugu42.rcmod.render.GadgetronPDARender;
-import com.gugu42.rcmod.render.GloveOfDoomRender;
-import com.gugu42.rcmod.render.MineGloveRender;
-import com.gugu42.rcmod.render.MorphORayRender;
-import com.gugu42.rcmod.render.OmniWrench3000Render;
-import com.gugu42.rcmod.render.PyrocitorRender;
-import com.gugu42.rcmod.render.RYNORender;
-import com.gugu42.rcmod.render.RenderBlasterAmmo;
-import com.gugu42.rcmod.render.RenderBombGloveAmmo;
-import com.gugu42.rcmod.render.RenderDecoyGloveAmmo;
-import com.gugu42.rcmod.render.RenderMineGloveAmmo;
-import com.gugu42.rcmod.render.RenderPyrocitorAmmo;
-import com.gugu42.rcmod.render.RenderRYNOAmmo;
-import com.gugu42.rcmod.render.RenderSuckCannonProj;
-import com.gugu42.rcmod.render.RenderSwingShotHook;
-import com.gugu42.rcmod.render.RenderTNTCrate;
-import com.gugu42.rcmod.render.RenderThrownWrench;
-import com.gugu42.rcmod.render.RenderVisibombAmmo;
-import com.gugu42.rcmod.render.SuckCannonRender;
-import com.gugu42.rcmod.render.SwingShotRender;
-import com.gugu42.rcmod.render.TESRInventoryRenderer;
-import com.gugu42.rcmod.render.TESRInventoryRenderer.TESRIndex;
-import com.gugu42.rcmod.render.TaunterRender;
-import com.gugu42.rcmod.render.TeslaClawRender;
-import com.gugu42.rcmod.render.TileEntityShipSpecialRenderer;
-import com.gugu42.rcmod.render.TileEntityVendorSpecialRenderer;
-import com.gugu42.rcmod.render.TileEntityVersaTargetGSpecialRenderer;
-import com.gugu42.rcmod.render.VisibombRender;
-import com.gugu42.rcmod.render.WalloperRender;
-import com.gugu42.rcmod.render.ammoItems.AmmoBlasterItem;
-import com.gugu42.rcmod.render.ammoItems.AmmoBombGlove;
-import com.gugu42.rcmod.render.ammoItems.AmmoDecoyGlove;
-import com.gugu42.rcmod.render.ammoItems.AmmoDevastator;
-import com.gugu42.rcmod.render.ammoItems.AmmoDroneDevice;
-import com.gugu42.rcmod.render.ammoItems.AmmoGloveofDoom;
-import com.gugu42.rcmod.render.ammoItems.AmmoMineGlove;
-import com.gugu42.rcmod.render.ammoItems.AmmoPyrocitor;
-import com.gugu42.rcmod.render.ammoItems.AmmoRYNO;
-import com.gugu42.rcmod.render.ammoItems.AmmoTeslaClaw;
-import com.gugu42.rcmod.render.ammoItems.AmmoVisibombGun;
-import com.gugu42.rcmod.tileentity.TileEntityShip;
-import com.gugu42.rcmod.tileentity.TileEntityVendor;
-import com.gugu42.rcmod.tileentity.TileEntityVersaTargetG;
 import com.gugu42.rcmod.utils.RcSimpleResourceManager;
 
 import net.minecraft.client.resources.IResourceManager;
-import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy {
 
@@ -78,7 +15,10 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void registerRenderInformation() {
-		RenderingRegistry.registerEntityRenderingHandler(EntityTNTCrate.class, new RenderTNTCrate());
+		
+		//TODO - Redo all rendering
+		
+		/*RenderingRegistry.registerEntityRenderingHandler(EntityTNTCrate.class, new RenderTNTCrate());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBlasterAmmo.class, new RenderBlasterAmmo(0.1f));
 		RenderingRegistry.registerEntityRenderingHandler(EntityRYNOAmmo.class, new RenderRYNOAmmo(0.1f));
 		RenderingRegistry.registerEntityRenderingHandler(EntityBombGloveAmmo.class, new RenderBombGloveAmmo(0.5f));
@@ -90,7 +30,7 @@ public class ClientProxy extends CommonProxy {
 
 		RenderingRegistry.registerEntityRenderingHandler(EntitySwingShotHook.class, new RenderSwingShotHook());
 
-		RenderingRegistry.registerEntityRenderingHandler(EntitySuckCannonProj.class, new RenderSuckCannonProj());
+		RenderingRegistry.registerEntityRenderingHandler(EntitySuckCannonProj.class, new RenderSuckCannonProj());*/
 
 		/* WEAPONS */
 		//TODO - Fix item renders
@@ -133,17 +73,20 @@ public class ClientProxy extends CommonProxy {
 
 		//renderInventoryTESRId = RenderingRegistry.getNextAvailableRenderId();
 		//RenderingRegistry.registerBlockHandler(new TESRInventoryRenderer());
-		TESRInventoryRenderer.blockByTESR.put(new TESRIndex(RcMod.vendor, 0), new TileEntityVendorSpecialRenderer());
+		
+		/*TESRInventoryRenderer.blockByTESR.put(new TESRIndex(RcMod.vendor, 0), new TileEntityVendorSpecialRenderer());
 		TESRInventoryRenderer.blockByTESR.put(new TESRIndex(RcMod.ship, 0), new TileEntityShipSpecialRenderer());
 		TESRInventoryRenderer.blockByTESR.put(new TESRIndex(RcMod.versaTargetGreen, 0), new TileEntityVersaTargetGSpecialRenderer());
+		*/
 		MinecraftForge.EVENT_BUS.register(new RcSoundHandler());
 	}
 
 	@Override
 	public void registerTileEntityRender() {
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVendor.class, new TileEntityVendorSpecialRenderer());
+		/*ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVendor.class, new TileEntityVendorSpecialRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityShip.class, new TileEntityShipSpecialRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVersaTargetG.class, new TileEntityVersaTargetGSpecialRenderer());
+		*/
 	}
 
 }

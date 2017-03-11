@@ -1,24 +1,21 @@
 package com.gugu42.rcmod.handler;
 
-import java.util.List;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
+import com.gugu42.rcmod.CommonProxy;
+import com.gugu42.rcmod.RcMod;
+import com.gugu42.rcmod.entity.projectiles.EntityVisibombAmmo;
+import com.gugu42.rcmod.entity.projectiles.EntityVisibombCamera;
+import com.gugu42.rcmod.items.ItemAmmo;
+import com.gugu42.rcmod.items.ItemRcGun;
+import com.gugu42.rcmod.items.ItemRcWeap;
+import com.gugu42.rcmod.items.RcItems;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -29,23 +26,11 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
-
-import com.gugu42.rcmod.CommonProxy;
-import com.gugu42.rcmod.RcMod;
-import com.gugu42.rcmod.entity.projectiles.EntityVisibombAmmo;
-import com.gugu42.rcmod.entity.projectiles.EntityVisibombCamera;
-import com.gugu42.rcmod.items.EnumRcWeapons;
-import com.gugu42.rcmod.items.ItemAmmo;
-import com.gugu42.rcmod.items.ItemBlaster;
-import com.gugu42.rcmod.items.ItemRcGun;
-import com.gugu42.rcmod.items.ItemRcWeap;
-import com.gugu42.rcmod.items.RcItems;
-
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.ObfuscationReflectionHelper;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class RcEventHandler {
 
@@ -54,41 +39,41 @@ public class RcEventHandler {
 	@SubscribeEvent
 	public void onEntityConstructing(EntityConstructing event) {
 
-		if (event.entity instanceof EntityPlayer && ExtendedPlayerBolt.get((EntityPlayer) event.entity) == null)
-			ExtendedPlayerBolt.register((EntityPlayer) event.entity);
+		if (event.getEntity() instanceof EntityPlayer && ExtendedPlayerBolt.get((EntityPlayer) event.entity) == null)
+			ExtendedPlayerBolt.register((EntityPlayer) event.getEntity());
 
-		if (event.entity instanceof EntityPlayer && event.entity.getExtendedProperties(ExtendedPlayerBolt.EXT_PROP_NAME) == null) {
-			event.entity.registerExtendedProperties(ExtendedPlayerBolt.EXT_PROP_NAME, new ExtendedPlayerBolt((EntityPlayer) event.entity));
+		if (event.getEntity() instanceof EntityPlayer && event.getEntity().getExtendedProperties(ExtendedPlayerBolt.EXT_PROP_NAME) == null) {
+			event.getEntity().registerExtendedProperties(ExtendedPlayerBolt.EXT_PROP_NAME, new ExtendedPlayerBolt((EntityPlayer) event.getEntity()));
 		}
-		if (event.entity instanceof EntityPlayer && event.entity.getExtendedProperties(ExtendedPropsSuckCannon.IDENTIFIER) == null) {
-			event.entity.registerExtendedProperties(ExtendedPropsSuckCannon.IDENTIFIER, new ExtendedPropsSuckCannon((EntityPlayer) event.entity));
-		}
-
-		if (event.entity instanceof EntityPlayer && event.entity.getExtendedProperties(ExtendedPlayerTarget.EXT_PROP_NAME) == null) {
-			event.entity.registerExtendedProperties(ExtendedPlayerTarget.EXT_PROP_NAME, new ExtendedPlayerTarget((EntityPlayer) event.entity));
+		if (event.getEntity() instanceof EntityPlayer && event.getEntity().getExtendedProperties(ExtendedPropsSuckCannon.IDENTIFIER) == null) {
+			event.getEntity().registerExtendedProperties(ExtendedPropsSuckCannon.IDENTIFIER, new ExtendedPropsSuckCannon((EntityPlayer) event.getEntity()));
 		}
 
-		if (event.entity instanceof EntityPlayer && ExtendedPlayerTooltips.get((EntityPlayer) event.entity) == null)
-			ExtendedPlayerTooltips.register((EntityPlayer) event.entity);
+		if (event.getEntity() instanceof EntityPlayer && event.getEntity().getExtendedProperties(ExtendedPlayerTarget.EXT_PROP_NAME) == null) {
+			event.getEntity().registerExtendedProperties(ExtendedPlayerTarget.EXT_PROP_NAME, new ExtendedPlayerTarget((EntityPlayer) event.getEntity()));
+		}
 
-		if (event.entity != null) {
-			event.entity.getEntityData().setInteger("missilesTargeting", 0);
+		if (event.getEntity() instanceof EntityPlayer && ExtendedPlayerTooltips.get((EntityPlayer) event.entity) == null)
+			ExtendedPlayerTooltips.register((EntityPlayer) event.getEntity());
+
+		if (event.getEntity() != null) {
+			event.getEntity().getEntityData().setInteger("missilesTargeting", 0);
 		}
 
 	}
 
 	@SubscribeEvent
 	public void onLivingJumpEvent(LivingJumpEvent event) {
-		if (event.entity instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) event.entity;
-			if (player.inventory.armorItemInSlot(2) != null && player.isSneaking()) {
+		if (event.getEntity() instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) event.getEntity();
+			if (player.inventory.armorItemInSlot(2) != ItemStack.EMPTY && player.isSneaking()) {
 				if (player.inventory.armorItemInSlot(2).getItem() == RcMod.thrusterPack || player.inventory.armorItemInSlot(2).getItem() == RcMod.clankBackpack) {
 					if (player.inventory.armorItemInSlot(2).getItem() == RcMod.clankBackpack)
-						event.entity.motionY += 0.3D;
+						event.getEntity().motionY += 0.3D;
 					else
-						event.entity.motionY += 0.35D;
-					event.entity.getEntityData().setBoolean("clankJumped", true);
-					event.entity.getEntityData().setInteger("clankCooldown", 2);
+						event.getEntity().motionY += 0.35D;
+					event.getEntity().getEntityData().setBoolean("clankJumped", true);
+					event.getEntity().getEntityData().setInteger("clankCooldown", 2);
 				}
 			}
 
@@ -100,8 +85,8 @@ public class RcEventHandler {
 
 					player.motionX += x;
 					player.motionZ += z;
-					event.entity.getEntityData().setBoolean("clankJumped", true);
-					event.entity.getEntityData().setInteger("clankCooldown", 2);
+					event.getEntity().getEntityData().setBoolean("clankJumped", true);
+					event.getEntity().getEntityData().setInteger("clankCooldown", 2);
 
 				}
 			}
@@ -110,8 +95,8 @@ public class RcEventHandler {
 
 	@SubscribeEvent
 	public void onLivingFallEvent(LivingFallEvent event) {
-		if (event.entity instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) event.entity;
+		if (event.getEntity() instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) event.getEntity();
 			if (player.inventory.armorItemInSlot(2) != null && player.inventory.armorItemInSlot(2).getItem() == RcMod.clankBackpack || player.inventory.armorItemInSlot(2) != null && player.inventory.armorItemInSlot(2).getItem() == RcMod.thrusterPack) {
 				event.setCanceled(true);
 			}
@@ -120,12 +105,12 @@ public class RcEventHandler {
 
 	@SubscribeEvent
 	public void onLivingUpdateEvent(LivingUpdateEvent event) {
-		if (event.entity instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) event.entity;
+		if (event.getEntity() instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) event.getEntity();
 			if (player.inventory.armorItemInSlot(2) != null && player.inventory.armorItemInSlot(2).getItem() == RcMod.clankBackpack || player.inventory.armorItemInSlot(2) != null && player.inventory.armorItemInSlot(2).getItem() == RcMod.thrusterPack) {
 				if (player.fallDistance > 1.6F) {
-					event.entity.getEntityData().setBoolean("clankJumped", true);
-					event.entity.getEntityData().setInteger("clankCooldown", 2);
+					event.getEntity().getEntityData().setBoolean("clankJumped", true);
+					event.getEntity().getEntityData().setInteger("clankCooldown", 2);
 				}
 			}
 		}
@@ -133,21 +118,21 @@ public class RcEventHandler {
 
 	@SubscribeEvent
 	public void onLivingDeathEvent(LivingDeathEvent event) {
-		if (!event.entity.worldObj.isRemote && event.entity instanceof EntityPlayer) {
+		if (!event.getEntity().world.isRemote && event.getEntity() instanceof EntityPlayer) {
 			NBTTagCompound playerData = new NBTTagCompound();
-			((ExtendedPlayerBolt) (event.entity.getExtendedProperties(ExtendedPlayerBolt.EXT_PROP_NAME))).saveNBTData(playerData);
-			proxy.storeEntityData(((EntityPlayer) event.entity).getDisplayName(), playerData);
-			ExtendedPlayerBolt.saveProxyData((EntityPlayer) event.entity);
-			ExtendedPropsSuckCannon.saveProxyData((EntityPlayer) event.entity);
+			((ExtendedPlayerBolt) (event.getEntity().getExtendedProperties(ExtendedPlayerBolt.EXT_PROP_NAME))).saveNBTData(playerData);
+			proxy.storeEntityData(((EntityPlayer) event.getEntity()).getDisplayName(), playerData);
+			ExtendedPlayerBolt.saveProxyData((EntityPlayer) event.getEntity());
+			ExtendedPropsSuckCannon.saveProxyData((EntityPlayer) event.getEntity());
 		} else {
 
 		}
 
-		if (!event.entity.worldObj.isRemote && event.entity instanceof EntityPlayer) {
+		if (!event.getEntity().worldObj.isRemote && event.getEntity() instanceof EntityPlayer) {
 			NBTTagCompound playerData = new NBTTagCompound();
-			((ExtendedPlayerTooltips) (event.entity.getExtendedProperties(ExtendedPlayerTooltips.EXT_PROP_NAME))).saveNBTData(playerData);
-			proxy.storeEntityData(((EntityPlayer) event.entity).getDisplayName(), playerData);
-			ExtendedPlayerTooltips.saveProxyData((EntityPlayer) event.entity);
+			((ExtendedPlayerTooltips) (event.getEntity().getExtendedProperties(ExtendedPlayerTooltips.EXT_PROP_NAME))).saveNBTData(playerData);
+			proxy.storeEntityData(((EntityPlayer) event.getEntity()).getDisplayName(), playerData);
+			ExtendedPlayerTooltips.saveProxyData((EntityPlayer) event.getEntity());
 		} else {
 
 		}
@@ -181,7 +166,7 @@ public class RcEventHandler {
 
 		if (event.entity instanceof EntityVisibombAmmo) {
 			EntityVisibombAmmo arrow = (EntityVisibombAmmo) event.entity;
-			EntityPlayer arrowShooter = arrow.worldObj.getClosestPlayerToEntity(arrow, 2);
+			EntityPlayer arrowShooter = arrow.world.getClosestPlayerToEntity(arrow, 2);
 			if (arrowShooter == null)
 				return;
 			if (event.world.isRemote && isEntityForThisClient(arrow, arrowShooter)) {
@@ -257,7 +242,7 @@ public class RcEventHandler {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void preRenderPlayer(RenderPlayerEvent.Pre event) {
-		EntityPlayer player = event.entityPlayer;
+		EntityPlayer player = event.getEntityPlayer();
 		ItemStack is = player.getCurrentEquippedItem();
 		if ((is != null) && (is.getItem() instanceof ItemRcWeap)) {
 			ItemRcWeap itemInHand = (ItemRcWeap) is.getItem();
@@ -275,10 +260,10 @@ public class RcEventHandler {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void renderGameOverlay(RenderGameOverlayEvent event) {
-		if (Minecraft.getMinecraft().thePlayer == null || Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem() == null)
+		if (Minecraft.getMinecraft().player == null || Minecraft.getMinecraft().player.getCurrentEquippedItem() == null)
 			return;
-		if (Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem().getItem() instanceof ItemRcWeap) {
-			ItemRcWeap item = (ItemRcWeap) Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem().getItem();
+		if (Minecraft.getMinecraft().player.getCurrentEquippedItem().getItem() instanceof ItemRcWeap) {
+			ItemRcWeap item = (ItemRcWeap) Minecraft.getMinecraft().player.getCurrentEquippedItem().getItem();
 			if (item.hasCrosshair || item.hideCrosshair) {
 				if (event.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS) {
 					event.setCanceled(true);
@@ -293,7 +278,7 @@ public class RcEventHandler {
 	public void renderWorldLastEvent(RenderWorldLastEvent event) {
 		final Minecraft mc = Minecraft.getMinecraft();
 
-		ExtendedPlayerTarget props = ExtendedPlayerTarget.get(mc.thePlayer);
+		ExtendedPlayerTarget props = ExtendedPlayerTarget.get(mc.player);
 		if (props.hasDevastatorTarget) {
 			//TODO: Render an green circle on the target.
 		}

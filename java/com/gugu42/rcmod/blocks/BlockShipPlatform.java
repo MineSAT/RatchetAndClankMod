@@ -1,36 +1,39 @@
 package com.gugu42.rcmod.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.world.World;
-
 import com.gugu42.rcmod.RcMod;
 import com.gugu42.rcmod.shipsys.ShipSystem;
 import com.gugu42.rcmod.tileentity.TileEntityShipPlatform;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+
 public class BlockShipPlatform extends Block {
 
 	public BlockShipPlatform() {
-		super(Material.iron);
+		super(Material.IRON);
 	}
 
-	public boolean onBlockActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
-		if (par5EntityPlayer.isSneaking()) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (playerIn.isSneaking()) {
 			return false;
 		}
 
-		TileEntity te = par1World.getTileEntity(x, y, z);
+		TileEntity te = worldIn.getTileEntity(pos);
 		if (te instanceof TileEntityShipPlatform) {
 			TileEntityShipPlatform tileEntity = (TileEntityShipPlatform) te;
 			if (tileEntity.ownerName == "") {
-				tileEntity.setOwnerName(par5EntityPlayer.getDisplayName());
+				tileEntity.setOwnerName(playerIn.getDisplayName().getFormattedText());
 			}
 		}
 
-		par5EntityPlayer.openGui(RcMod.instance, 4, par1World, x, y, z);
+		playerIn.openGui(RcMod.instance, 4, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
 
@@ -42,26 +45,28 @@ public class BlockShipPlatform extends Block {
 		return true;
 	}
 
-	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z)
+	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
     {
 		if (!world.isRemote) {
-			TileEntity te = world.getTileEntity(x, y, z);
+			TileEntity te = world.getTileEntity(pos);
 			if (te instanceof TileEntityShipPlatform) {
 				TileEntityShipPlatform tileEntity = (TileEntityShipPlatform) te;
 				
+				
+				//TODO - Fix chat
 				if (player.getDisplayName().equals(tileEntity.ownerName) && ShipSystem.isNameTaken(tileEntity.wpName)) {
 					ShipSystem.removeWaypoint(tileEntity.wpName);
-					player.addChatMessage(new ChatComponentText("Your waypoint \"" + tileEntity.wpName + "\" was deleted !"));
-					return world.setBlockToAir(x, y, z);
+					//player.addChatMessage(new ChatComponentText("Your waypoint \"" + tileEntity.wpName + "\" was deleted !"));
+					return world.setBlockToAir(pos);
 				} else if (player.capabilities.isCreativeMode){
-					player.addChatMessage(new ChatComponentText("This waypoint does not belong to you ! Since you're in creative, I let you break it. Please tell " + tileEntity.ownerName + " that you did it."));
-					return world.setBlockToAir(x, y, z);
+					//player.addChatMessage(new ChatComponentText("This waypoint does not belong to you ! Since you're in creative, I let you break it. Please tell " + tileEntity.ownerName + " that you did it."));
+					return world.setBlockToAir(pos);
 				} else {
-					player.addChatMessage(new ChatComponentText("This waypoint does not belong to you !!!"));
+					//player.addChatMessage(new ChatComponentText("This waypoint does not belong to you !!!"));
 					return false;
 				}
 			} else {
-				return world.setBlockToAir(x, y, z);
+				return world.setBlockToAir(pos);
 			}
 		} else {
 			return false;
@@ -70,10 +75,10 @@ public class BlockShipPlatform extends Block {
 		
 	}
 
-	public void onBlockAdded(World par1World, int par2, int par3, int par4) {
-		super.onBlockAdded(par1World, par2, par3, par4);
+	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+		super.onBlockAdded(worldIn, pos, state);
 
-		TileEntity te = par1World.getTileEntity(par2, par3, par4);
+		TileEntity te = worldIn.getTileEntity(pos);
 		if (te instanceof TileEntityShipPlatform) {
 			TileEntityShipPlatform tileEntity = (TileEntityShipPlatform) te;
 			tileEntity.setOwnerName("");

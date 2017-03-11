@@ -1,9 +1,6 @@
 package com.gugu42.rcmod.tileentity;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityShipPlatform extends TileEntity {
@@ -17,11 +14,13 @@ public class TileEntityShipPlatform extends TileEntity {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
+	public NBTTagCompound writeToNBT(NBTTagCompound par1NBTTagCompound) {
 		super.writeToNBT(par1NBTTagCompound);
 		par1NBTTagCompound.setString("oName", ownerName);
 		par1NBTTagCompound.setString("wpName", wpName);
 		par1NBTTagCompound.setBoolean("isPrivate", isPrivate);
+		
+		return par1NBTTagCompound;
 	}
 
 	@Override
@@ -32,6 +31,7 @@ public class TileEntityShipPlatform extends TileEntity {
 		this.isPrivate = par1NBTTagCompound.getBoolean("isPrivate");
 	}
 
+	/*
 	@Override
 	public Packet getDescriptionPacket() {
 		NBTTagCompound tag = new NBTTagCompound();
@@ -43,6 +43,7 @@ public class TileEntityShipPlatform extends TileEntity {
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
 		readFromNBT(packet.func_148857_g());
 	}
+	*/
 
 	public void setOwnerName(String ownerName) {
 		this.ownerName = ownerName;

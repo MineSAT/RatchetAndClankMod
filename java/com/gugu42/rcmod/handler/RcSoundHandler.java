@@ -3,7 +3,7 @@ package com.gugu42.rcmod.handler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.sound.SoundLoadEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class RcSoundHandler {
 	@SubscribeEvent
@@ -40,8 +40,8 @@ public class RcSoundHandler {
 	
 	
 	public static void playSoundAtPlayer(EntityPlayer player, String sound, float volume, float pitch){
-		World world = player.worldObj;
-		world.playSoundAtEntity(player, sound, volume, pitch);
+		World world = player.world;
+		//world.playSoundAtEntity(player, sound, volume, pitch);
 	}
 	
 }

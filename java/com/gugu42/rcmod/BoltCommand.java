@@ -3,8 +3,6 @@ package com.gugu42.rcmod;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gugu42.rcmod.handler.ExtendedPlayerBolt;
-
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
@@ -47,21 +45,21 @@ public class BoltCommand implements ICommand {
 		if (sender instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender;
 
-			ExtendedPlayerBolt props = ExtendedPlayerBolt.get(player);
+			/*ExtendedPlayerBolt props = ExtendedPlayerBolt.get(player);
 			if (props != null) {
 				int amount;
 				amount = Integer.parseInt(args[0]);
 				if (amount > props.getMaxBolts()) {
 					/*player.addChatMessage(new ChatComponentText("Number too high ! You entered "
 							+ amount + " while the maximum is "
-							+ props.getMaxBolts() + " !"));*/
+							+ props.getMaxBolts() + " !"));
 				} else {
 					/*player.addChatMessage(new ChatComponentText("You had " + props.getCurrentBolt()
-							+ " bolts. You now have " + amount + " bolts."));*/
+							+ " bolts. You now have " + amount + " bolts."));
 					props.setCurrentBolt(amount);
 				}
 
-			}
+			}*/
 		}
 	}
 	

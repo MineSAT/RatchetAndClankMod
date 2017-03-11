@@ -1,78 +1,79 @@
 package com.gugu42.rcmod.blocks;
 
+import com.gugu42.rcmod.tileentity.TileEntityShipFiller;
+
 import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import com.gugu42.rcmod.tileentity.TileEntityShipFiller;
-
-public class BlockShipFiller extends Block {
+public class BlockShipFiller extends Block implements ITileEntityProvider {
 
 	public BlockShipFiller(Material p_i45394_1_) {
 		super(p_i45394_1_);
 		// TODO Auto-generated constructor stub
 	}
 
-	public boolean onBlockActivated(World par1World, int x, int y, int z,
-			EntityPlayer par5EntityPlayer, int par6, float par7, float par8,
-			float par9) {
-
-		TileEntityShipFiller tileEntity = (TileEntityShipFiller) par1World
-				.getTileEntity(x, y, z);
-		if (tileEntity == null || par5EntityPlayer.isSneaking()) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		
+		TileEntityShipFiller tileEntity = (TileEntityShipFiller) worldIn.getTileEntity(pos);
+		if (tileEntity == null || playerIn.isSneaking()) {
 			return false;
 		}
 
-		tileEntity.activated(par5EntityPlayer, par1World);
+		tileEntity.activated(playerIn, worldIn);
 
 		return true;
 
 	}
 
 	@Override
-	public void breakBlock(World world, int i, int j, int k, Block p_149749_5_,
-			int p_149749_6_) {
-		if (world.getTileEntity(i, j, k) instanceof TileEntityShipFiller) {
-			TileEntityShipFiller tileEntity = (TileEntityShipFiller) world
-					.getTileEntity(i, j, k);
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+		if (worldIn.getTileEntity(pos) instanceof TileEntityShipFiller) {
+			TileEntityShipFiller tileEntity = (TileEntityShipFiller) worldIn
+					.getTileEntity(pos);
 			if (tileEntity != null) {
-				world.setBlockToAir(tileEntity.primary_x, tileEntity.primary_y,
-						tileEntity.primary_z);
-				world.removeTileEntity(tileEntity.primary_x,
-						tileEntity.primary_y, tileEntity.primary_z);
+				worldIn.setBlockToAir(new BlockPos(tileEntity.primary_x, tileEntity.primary_y,
+						tileEntity.primary_z));
+				worldIn.removeTileEntity(new BlockPos(tileEntity.primary_x,
+						tileEntity.primary_y, tileEntity.primary_z));
 			}
 
-			world.removeTileEntity(i, j, k);
+			worldIn.removeTileEntity(pos);
 		}
-		super.breakBlock(world, i, j, k, p_149749_5_, p_149749_6_);
+		super.breakBlock(worldIn, pos, state);
 	}
 
 	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z,
-			Block block) {
+	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
 		TileEntityShipFiller tileEntity = (TileEntityShipFiller) world
-				.getTileEntity(x, y, z);
+				.getTileEntity(pos);
 		if (tileEntity != null) {
-			if (world.getTileEntity(tileEntity.primary_x, tileEntity.primary_y,
-					tileEntity.primary_z) == null) {
-				world.setBlockToAir(x, y, z);
-				world.removeTileEntity(x, y, z);
+			if (world.getTileEntity(new BlockPos(tileEntity.primary_x, tileEntity.primary_y,
+					tileEntity.primary_z)) == null) {
+				tileEntity.getWorld().setBlockToAir(pos);
+				tileEntity.getWorld().removeTileEntity(pos);
 			}
 		}
 	}
 
 	@Override
-	public boolean shouldSideBeRendered(IBlockAccess iblockaccess, int i,
-			int j, int k, int l) {
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
+    {
 		return false;
 		// return true;
 	}
 
 	@Override
-	public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState state)
+    {
 		return false;
 	}
 
@@ -81,7 +82,7 @@ public class BlockShipFiller extends Block {
 	}
 
 	@Override
-	public TileEntity createTileEntity(World world, int metadata) {
+	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return new TileEntityShipFiller();
 	}
 

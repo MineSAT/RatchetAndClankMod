@@ -49,8 +49,8 @@ public class EntityBombGloveAmmo extends EntityThrowable implements IProjectile 
 	private void explode() {
 		TNTCrateExplosion explosion = new TNTCrateExplosion(this.world,
 				this, this.posX, this.posY, this.posZ, 3.0f);
-		explosion.doExplosionA(false);
-		explosion.doExplosionB(true, false);
+		explosion.doExplosionA();
+		explosion.doExplosionB(true);
 		//this.world.playSoundAtEntity(this, "rcmod:BombGloveExplosion",
 		//		10.0f, 1.0f);
 		this.setDead();
