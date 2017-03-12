@@ -19,6 +19,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -54,8 +58,8 @@ public class RcEventHandler {
 		if (event.getEntity() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.getEntity();
 			if (player.inventory.armorItemInSlot(2) != ItemStack.EMPTY && player.isSneaking()) {
-				if (player.inventory.armorItemInSlot(2).getItem() == RcMod.thrusterPack || player.inventory.armorItemInSlot(2).getItem() == RcMod.clankBackpack) {
-					if (player.inventory.armorItemInSlot(2).getItem() == RcMod.clankBackpack)
+				if (player.inventory.armorItemInSlot(2).getItem() == RcItems.thrusterPack || player.inventory.armorItemInSlot(2).getItem() == RcItems.clankBackpack) {
+					if (player.inventory.armorItemInSlot(2).getItem() == RcItems.clankBackpack)
 						event.getEntity().motionY += 0.3D;
 					else
 						event.getEntity().motionY += 0.35D;
@@ -65,7 +69,7 @@ public class RcEventHandler {
 			}
 
 			if (player.inventory.armorItemInSlot(2) != null && player.isSprinting()) {
-				if (player.inventory.armorItemInSlot(2).getItem() == RcMod.thrusterPack || player.inventory.armorItemInSlot(2).getItem() == RcMod.clankBackpack) {
+				if (player.inventory.armorItemInSlot(2).getItem() == RcItems.thrusterPack || player.inventory.armorItemInSlot(2).getItem() == RcItems.clankBackpack) {
 					double x = Math.cos(Math.toRadians(player.rotationYawHead + 90.0F)) * 0.15d;
 
 					double z = Math.sin(Math.toRadians(player.rotationYawHead + 90.0F)) * 0.15d;
@@ -84,7 +88,7 @@ public class RcEventHandler {
 	public void onLivingFallEvent(LivingFallEvent event) {
 		if (event.getEntity() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.getEntity();
-			if (player.inventory.armorItemInSlot(2) != null && player.inventory.armorItemInSlot(2).getItem() == RcMod.clankBackpack || player.inventory.armorItemInSlot(2) != null && player.inventory.armorItemInSlot(2).getItem() == RcMod.thrusterPack) {
+			if (player.inventory.armorItemInSlot(2) != null && player.inventory.armorItemInSlot(2).getItem() == RcItems.clankBackpack || player.inventory.armorItemInSlot(2) != null && player.inventory.armorItemInSlot(2).getItem() == RcItems.thrusterPack) {
 				event.setCanceled(true);
 			}
 		}
@@ -94,7 +98,7 @@ public class RcEventHandler {
 	public void onLivingUpdateEvent(LivingUpdateEvent event) {
 		if (event.getEntity() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.getEntity();
-			if (player.inventory.armorItemInSlot(2) != null && player.inventory.armorItemInSlot(2).getItem() == RcMod.clankBackpack || player.inventory.armorItemInSlot(2) != null && player.inventory.armorItemInSlot(2).getItem() == RcMod.thrusterPack) {
+			if (player.inventory.armorItemInSlot(2) != null && player.inventory.armorItemInSlot(2).getItem() == RcItems.clankBackpack || player.inventory.armorItemInSlot(2) != null && player.inventory.armorItemInSlot(2).getItem() == RcItems.thrusterPack) {
 				if (player.fallDistance > 1.6F) {
 					event.getEntity().getEntityData().setBoolean("clankJumped", true);
 					event.getEntity().getEntityData().setInteger("clankCooldown", 2);
@@ -125,8 +129,7 @@ public class RcEventHandler {
 		IBolt props = event.getEntityPlayer().getCapability(BoltProvider.BOLT_CAP, null);
 		if (item.getItem() != null && item.getItem() == RcItems.bolt) {
 			props.addBolt(25);
-			//TODO - Fix sounds
-			//event.getEntityPlayer().world.playSoundAtEntity(event.getEntityPlayer(), "rcmod:BoltCollect", 0.3f, 1.0f);
+			event.getEntityPlayer().world.playSound(null, new BlockPos(event.getEntityPlayer().posX, event.getEntityPlayer().posY, event.getEntityPlayer().posZ), new SoundEvent(new ResourceLocation("rcmod:BoltCollect")), SoundCategory.BLOCKS, 0.3f, 1.0f);
 			event.getItem().setDead();
 			event.setCanceled(true);
 		}
@@ -141,8 +144,7 @@ public class RcEventHandler {
 					if (ammo.getGun() == inv.get(i).getItem()) {
 						ItemRcGun weapon = (ItemRcGun) inv.get(i).getItem();
 						if (weapon.refill(inv.get(i), weapon, event, ammo.getAmmount())) {
-							//TODO - Fix sounds
-							//event.getEntityPlayer().world.playSoundAtEntity(event.getEntityPlayer(), "rcmod:AmmoCollect", 0.3f, 1.0f);
+							event.getEntityPlayer().world.playSound(null, new BlockPos(event.getEntityPlayer().posX, event.getEntityPlayer().posY, event.getEntityPlayer().posZ), new SoundEvent(new ResourceLocation("rcmod:AmmoCollect")), SoundCategory.BLOCKS, 0.3f, 1.0f);
 							event.getItem().setDead();
 							event.setCanceled(true);
 						}
@@ -191,22 +193,19 @@ public class RcEventHandler {
 		}
 	}*/
 
-	//TODO - Fix crosshair render
-	/*
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void renderGameOverlay(RenderGameOverlayEvent event) {
-		if (Minecraft.getMinecraft().player == null || Minecraft.getMinecraft().player.getCurrentEquippedItem() == null)
+		if (Minecraft.getMinecraft().player == null || Minecraft.getMinecraft().player.getHeldItemMainhand() == ItemStack.EMPTY)
 			return;
-		if (Minecraft.getMinecraft().player.getCurrentEquippedItem().getItem() instanceof ItemRcWeap) {
-			ItemRcWeap item = (ItemRcWeap) Minecraft.getMinecraft().player.getCurrentEquippedItem().getItem();
+		if (Minecraft.getMinecraft().player.getHeldItemMainhand().getItem() instanceof ItemRcWeap) {
+			ItemRcWeap item = (ItemRcWeap) Minecraft.getMinecraft().player.getHeldItemMainhand().getItem();
 			if (item.hasCrosshair || item.hideCrosshair) {
-				if (event.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS) {
+				if (event.getType() == RenderGameOverlayEvent.ElementType.CROSSHAIRS) {
 					event.setCanceled(true);
-					Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);
+					Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.ICONS);
 				}
 			}
 		}
 	}
-	*/
 }

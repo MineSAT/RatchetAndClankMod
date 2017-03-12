@@ -3,9 +3,11 @@ package com.gugu42.rcmod.entity.projectiles;
 import com.gugu42.rcmod.RcMod;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
@@ -22,6 +24,7 @@ public class EntityBlasterAmmo extends EntityThrowable {
 
 	public EntityBlasterAmmo(World par1World, EntityPlayer par2EntityLiving) {
 		super(par1World, par2EntityLiving);
+		//this.setHeadingFromThrower(entityThrower, rotationPitchIn, rotationYawIn, pitchOffset, velocity, inaccuracy);
 	}
 	
 	public EntityBlasterAmmo(World par1World, double par2, double par4,

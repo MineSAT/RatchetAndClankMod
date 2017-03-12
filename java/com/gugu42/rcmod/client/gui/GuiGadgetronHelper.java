@@ -1,4 +1,4 @@
-package com.gugu42.rcmod.gui;
+package com.gugu42.rcmod.client.gui;
 
 import java.io.InputStream;
 import java.util.ArrayList;

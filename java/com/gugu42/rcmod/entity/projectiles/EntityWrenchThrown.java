@@ -3,6 +3,7 @@ package com.gugu42.rcmod.entity.projectiles;
 import java.util.List;
 
 import com.gugu42.rcmod.RcMod;
+import com.gugu42.rcmod.blocks.RcBlocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -60,8 +61,8 @@ public class EntityWrenchThrown extends EntityThrowable implements
 					}
 				} else if (world
 						.getBlockState(new BlockPos(mop.getBlockPos().getX(), mop.getBlockPos().getY(), mop.getBlockPos().getZ())).getBlock() != null) {
-					if (world.getBlockState(new BlockPos(mop.getBlockPos().getX(), mop.getBlockPos().getY(), mop.getBlockPos().getZ())).getBlock() == RcMod.crate
-							|| world.getBlockState(new BlockPos(mop.getBlockPos().getX(), mop.getBlockPos().getY(), mop.getBlockPos().getZ())).getBlock() == RcMod.tntCrate) {
+					if (world.getBlockState(new BlockPos(mop.getBlockPos().getX(), mop.getBlockPos().getY(), mop.getBlockPos().getZ())).getBlock() == RcBlocks.CRATE
+							|| world.getBlockState(new BlockPos(mop.getBlockPos().getX(), mop.getBlockPos().getY(), mop.getBlockPos().getZ())).getBlock() == RcBlocks.TNT_CRATE) {
 						//Continue
 					} else {
 						this.setReturningToOwner(true);
@@ -151,9 +152,9 @@ public class EntityWrenchThrown extends EntityThrowable implements
 		int y = MathHelper.floor(posY);
 		int z = MathHelper.floor(posZ);
 		Block block = world.getBlockState(new BlockPos(x, y, z)).getBlock();
-		if (block == RcMod.crate) {
+		if (block == RcBlocks.CRATE) {
 			block.dropBlockAsItem(world, new BlockPos(x, y, z),
-					RcMod.crate.getDefaultState(), 0);
+					RcBlocks.CRATE.getDefaultState(), 0);
 			this.world.setBlockState(new BlockPos(x, y, z), Blocks.AIR.getDefaultState());
 		}
 	}
@@ -163,9 +164,9 @@ public class EntityWrenchThrown extends EntityThrowable implements
 		int y = MathHelper.floor(posY);
 		int z = MathHelper.floor(posZ);
 		Block block = world.getBlockState(new BlockPos(x, y, z)).getBlock();
-		if (block == RcMod.tntCrate) {
+		if (block == RcBlocks.TNT_CRATE) {
 			block.dropBlockAsItem(world, new BlockPos(x, y, z),
-					RcMod.tntCrate.getDefaultState(), 0);
+					RcBlocks.TNT_CRATE.getDefaultState(), 0);
 			this.world.setBlockState(new BlockPos(x, y, z), Blocks.AIR.getDefaultState());
 		}
 	}

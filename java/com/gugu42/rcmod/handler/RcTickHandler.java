@@ -108,7 +108,7 @@ public class RcTickHandler {
 	private boolean canHelipack(EntityPlayer player) {
 		if (player.motionY < 0.0f
 				&& player.inventory.armorItemInSlot(2) != ItemStack.EMPTY
-				&& player.inventory.armorItemInSlot(2).getItem() == RcMod.clankBackpack) {
+				&& player.inventory.armorItemInSlot(2).getItem() == RcItems.clankBackpack) {
 			if (player.getEntityData().getBoolean("clankJumped")) {
 				if (player.getEntityData().getInteger("clankCooldown") >= 1) {
 					if (player.onGround) {
@@ -135,7 +135,7 @@ public class RcTickHandler {
 	private boolean canThrusterpack(EntityPlayer player) {
 		if (player.motionY < 0.0f
 				&& player.inventory.armorItemInSlot(2) != null
-				&& player.inventory.armorItemInSlot(2).getItem() == RcMod.thrusterPack) {
+				&& player.inventory.armorItemInSlot(2).getItem() == RcItems.thrusterPack) {
 			if (player.getEntityData().getBoolean("clankJumped")) {
 				if (player.getEntityData().getInteger("clankCooldown") >= 1) {
 					if (player.onGround) {

@@ -1,12 +1,16 @@
-package com.gugu42.rcmod;
+package com.gugu42.rcmod.client;
 
-import com.gugu42.rcmod.handler.RcSoundHandler;
+import com.gugu42.rcmod.CommonProxy;
+import com.gugu42.rcmod.RcMod;
+import com.gugu42.rcmod.blocks.RcBlocks;
+import com.gugu42.rcmod.client.render.EntityRenderers;
+import com.gugu42.rcmod.client.render.RenderTNTCrate;
+import com.gugu42.rcmod.entity.EntityTNTCrate;
 import com.gugu42.rcmod.items.RcItems;
 import com.gugu42.rcmod.utils.RcSimpleResourceManager;
 
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraftforge.client.model.obj.OBJLoader;
-import net.minecraftforge.common.MinecraftForge;
 
 public class ClientProxy extends CommonProxy {
 
@@ -21,11 +25,20 @@ public class ClientProxy extends CommonProxy {
 		super.preInit();
 		OBJLoader.INSTANCE.addDomain(RcMod.MODID);
 		RcItems.registerItemRenders();
+		EntityRenderers.registerEntityRenderer(EntityTNTCrate.class, RenderTNTCrate.class);
+	}
+	
+	@Override
+	public void init()
+	{
+		super.init();
+		RcBlocks.registerBlockRenders();
 	}
 	
 	@Override
 	public void registerRenderInformation() {
-		
+		super.registerRenderInformation();
+
 		//TODO - Redo all rendering
 		
 		/*RenderingRegistry.registerEntityRenderingHandler(EntityTNTCrate.class, new RenderTNTCrate());
@@ -41,6 +54,8 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntitySwingShotHook.class, new RenderSwingShotHook());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntitySuckCannonProj.class, new RenderSuckCannonProj());*/
+		
+
 
 		/* WEAPONS */
 		//TODO - Fix item renders
@@ -88,8 +103,6 @@ public class ClientProxy extends CommonProxy {
 		TESRInventoryRenderer.blockByTESR.put(new TESRIndex(RcMod.ship, 0), new TileEntityShipSpecialRenderer());
 		TESRInventoryRenderer.blockByTESR.put(new TESRIndex(RcMod.versaTargetGreen, 0), new TileEntityVersaTargetGSpecialRenderer());
 		*/
-		
-		MinecraftForge.EVENT_BUS.register(new RcSoundHandler());
 		
 	}
 

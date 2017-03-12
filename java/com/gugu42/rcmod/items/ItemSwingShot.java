@@ -11,6 +11,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ItemSwingShot extends ItemRcWeap {
@@ -37,8 +41,8 @@ public class ItemSwingShot extends ItemRcWeap {
 					world.spawnEntity(hook);
 					cooldown = 90;
 					player.swingArm(hand);
-					//TODO - Fix sounds
 					//player.world.playSoundAtEntity(player, "rcmod:SwingShotShoot", 1.0f, 1.0f);
+					player.world.playSound(null, new BlockPos(player.posX, player.posY, player.posZ), new SoundEvent(new ResourceLocation("rcmod:SwingShotShoot")), SoundCategory.BLOCKS, 1.0f, 1.0f);
 				}
 			}
 			return new ActionResult(EnumActionResult.SUCCESS, par1ItemStack);

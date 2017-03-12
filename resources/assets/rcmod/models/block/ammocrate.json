@@ -1,0 +1,12 @@
+{
+    "parent": "block/cube",
+    "textures": {
+        "particle": "rcmod:blocks/ammocrate",
+        "down": "rcmod:blocks/ammocratetop",
+        "up": "rcmod:blocks/ammocratetop",
+        "north": "rcmod:blocks/ammocrate",
+        "east": "rcmod:blocks/ammocrate",
+        "south": "rcmod:blocks/ammocrate",
+        "west": "rcmod:blocks/ammocrate"
+    }
+}

@@ -17,7 +17,7 @@ public class SuckCannonStorage implements IStorage<ISuckCannon>
     	NBTTagCompound nbtData = new NBTTagCompound();
 
         NBTTagList list = instance.getStackAsJsonArrayString();
-        nbtData.setTag("stack", list);
+        //nbtData.setTag("stack", list);
 
         return nbtData;
     }
@@ -25,8 +25,6 @@ public class SuckCannonStorage implements IStorage<ISuckCannon>
     @Override
     public void readNBT(Capability<ISuckCannon> capability, ISuckCannon instance, EnumFacing side, NBTBase nbt)
     {
-        //instance.set(((NBTTagFloat) nbt).getFloat());
-    	instance.createStackFromJsonArrayString(((NBTTagCompound) nbt).getTagList("stack", NBT.TAG_COMPOUND));
-    	//(nbt.getTagList);
+    	//instance.createStackFromJsonArrayString(((NBTTagCompound) nbt).getTagList("stack", NBT.TAG_COMPOUND));
     }
 }

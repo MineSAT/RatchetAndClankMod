@@ -1,6 +1,6 @@
 package com.gugu42.rcmod;
 
-import com.gugu42.rcmod.gui.SlotVendor;
+import com.gugu42.rcmod.client.gui.SlotVendor;
 import com.gugu42.rcmod.items.InventoryGadgetronPDA;
 import com.gugu42.rcmod.tileentity.TileEntityVendor;
 

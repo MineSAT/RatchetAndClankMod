@@ -16,9 +16,7 @@ import com.gugu42.rcmod.RcMod;
 import com.gugu42.rcmod.items.RcItems;
 
 
-public class BlockCrate extends BlockFalling{
-
-    public static boolean fallInstantly;
+public class BlockCrate extends BlockFalling {
 	
 	public BlockCrate(Material par2Material) {
 		super(par2Material);

@@ -3,6 +3,7 @@ package com.gugu42.rcmod.entity.projectiles;
 import java.util.List;
 
 import com.gugu42.rcmod.RcMod;
+import com.gugu42.rcmod.blocks.RcBlocks;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -173,7 +174,7 @@ public class EntitySwingShotHook extends EntityThrowable {
 					&& mop.typeOfHit == RayTraceResult.Type.BLOCK) {
 				if (world.getBlockState(new BlockPos(mop.getBlockPos().getX(), mop.getBlockPos().getY(), mop.getBlockPos().getZ())) != null
 						&& world
-								.getBlockState(new BlockPos(mop.getBlockPos().getX(), mop.getBlockPos().getY(), mop.getBlockPos().getZ())).getBlock() == RcMod.versaTargetGreen) {
+								.getBlockState(new BlockPos(mop.getBlockPos().getX(), mop.getBlockPos().getY(), mop.getBlockPos().getZ())).getBlock() == RcBlocks.VERSA_TARGET_GREEN) {
 					shouldPullPlayer = true;
 					motionX = 0;
 					motionY = 0;

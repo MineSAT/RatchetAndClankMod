@@ -3,6 +3,7 @@ package com.gugu42.rcmod.network.packets;
 import java.io.UnsupportedEncodingException;
 
 import com.gugu42.rcmod.RcMod;
+import com.gugu42.rcmod.blocks.RcBlocks;
 import com.gugu42.rcmod.shipsys.ShipWaypoint;
 import com.gugu42.rcmod.tileentity.TileEntityShip;
 import com.gugu42.rcmod.tileentity.TileEntityShipFiller;
@@ -96,7 +97,7 @@ public class PacketShipTeleportation extends AbstractPacket {
 			TileEntityShipFiller teShipFiller = null;
 			int direction = MathHelper
 					.floor((double) (player.rotationYaw * 4.0F / 360.0F) + 2.5D) & 3;
-			world.setBlockState(new BlockPos(x, y, z), RcMod.ship.getDefaultState(), direction);
+			world.setBlockState(new BlockPos(x, y, z), RcBlocks.SHIP.getDefaultState(), direction);
 			TileEntityShip te = (TileEntityShip) world.getTileEntity(new BlockPos(x, y, z));
 			te.isLanding = true;
 			te.renderY = 540;
@@ -118,7 +119,7 @@ public class PacketShipTeleportation extends AbstractPacket {
 						shouldPlaceBlock = true;
 						if (shouldPlaceBlock) {
 							if (world.getBlockState(new BlockPos(i, j, k)).getBlock() == Blocks.AIR) {
-								world.setBlockState(new BlockPos(i, j, k), RcMod.shipFiller.getDefaultState(), 0);
+								world.setBlockState(new BlockPos(i, j, k), RcBlocks.SHIP_FILLER.getDefaultState(), 0);
 								teShipFiller = (TileEntityShipFiller) world
 										.getTileEntity(new BlockPos(i, j, k));
 								if (teShipFiller != null) {

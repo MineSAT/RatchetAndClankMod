@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "rcmod:items/blaster"
+        "layer0": "rcmod:items/ammoimage_devastator"
     }
 }

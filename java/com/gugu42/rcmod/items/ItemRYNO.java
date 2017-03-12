@@ -9,6 +9,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ItemRYNO extends ItemRcGun {
@@ -27,9 +31,11 @@ public class ItemRYNO extends ItemRcGun {
 		super.onItemRightClick(world, player, hand);
 		
 		ItemStack par1ItemStack = player.getHeldItem(hand);
-		//TODO - Fix sounds
+		//TODO - Fix sounds (NEEDS A CUSTOM SOUND)
 		//world.playSoundAtEntity(player, "random.bow", 0.5F,
 		//		0.4F / (Item.itemRand.nextFloat() * 0.4F + 0.8F));
+		world.playSound(null, new BlockPos(player.posX, player.posY, player.posZ), new SoundEvent(new ResourceLocation("random.bow")), SoundCategory.BLOCKS, 1.0f, 1.0f);
+
 
 		if (!world.isRemote) {
 			if (player.getEntityData().getInteger("rynoCooldown") <= 0) {

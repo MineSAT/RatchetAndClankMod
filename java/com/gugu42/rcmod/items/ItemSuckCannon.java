@@ -19,6 +19,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -37,7 +41,8 @@ public class ItemSuckCannon extends ItemRcWeap
 
     public void onUpdate(ItemStack stack, World w, Entity owner, int i, boolean held)
     {
-        if(owner instanceof EntityPlayer)
+    	//TODO - Fix suck cannon capability saving/loading
+        if(false && owner instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer)owner;
             ISuckCannon props = player.getCapability(SuckCannonProvider.SUCK_CANNON_CAP, null);
@@ -146,8 +151,9 @@ public class ItemSuckCannon extends ItemRcWeap
                 owner.world.spawnEntity(proj);
                 owner.world.spawnEntity(e);
                 proj.setOwnerID(owner.getEntityId());
-                //TODO - Fix sounds
+                //TODO - Fix sounds (NEEDS TESTING)
                 //owner.world.playSoundAtEntity(owner, "rcmod:SuckCannonShot", 1.0f, 1.0f);
+                owner.world.playSound(null, new BlockPos(owner.posX, owner.posY, owner.posZ), new SoundEvent(new ResourceLocation("rcmod:SuckCannonShot")), SoundCategory.MASTER, 1.0f, 1.0f);
             }
         }
         return true;

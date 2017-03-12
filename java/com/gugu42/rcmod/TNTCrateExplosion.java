@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.gugu42.rcmod.blocks.RcBlocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -242,7 +243,7 @@ public class TNTCrateExplosion extends Explosion {
                     this.world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, d3, d4, d5, new int[0]);
                 }
 
-                if (iblockstate.getMaterial() != Material.AIR && (iblockstate.getBlock() == RcMod.tntCrate || iblockstate.getBlock() == RcMod.crate || iblockstate.getBlock() == RcMod.ammoCrate))
+                if (iblockstate.getMaterial() != Material.AIR && (iblockstate.getBlock() == RcBlocks.TNT_CRATE || iblockstate.getBlock() == RcBlocks.CRATE || iblockstate.getBlock() == RcBlocks.AMMO_CRATE))
                 {
                     if (block.canDropFromExplosion(this))
                     {

@@ -46,6 +46,7 @@ public class ItemBlaster extends ItemRcGun {
 			if (!world.isRemote) {
 				EntityBlasterAmmo bullet = new EntityBlasterAmmo(world,
 						player);
+				bullet.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 3.0F, 0.2F);
 				world.spawnEntity(bullet);
 				par1ItemStack.damageItem(1, player);
 			}

@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "rcmod:items/bolt"
+        "layer0": "rcmod:items/thrusterpack"
     }
 }

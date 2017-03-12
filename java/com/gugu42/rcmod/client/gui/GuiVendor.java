@@ -1,4 +1,4 @@
-package com.gugu42.rcmod.gui;
+package com.gugu42.rcmod.client.gui;
 
 import java.io.IOException;
 
@@ -27,6 +27,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -189,13 +190,8 @@ public class GuiVendor extends GuiContainer {
 
 					selectedItemWeap = (ItemRcWeap) selectedItem.getItem();
 				}
-				//TODO - Fix sounds
-				/*
-				mc.getSoundHandler()
-						.playSound(
-								PositionedSoundRecord
-										.func_147674_a(new ResourceLocation(
-												"rcmod:MenuSelect"), 1.0F));*/
+				//TODO - Fix sounds (NEEDS TESTING)
+				mc.player.playSound(new SoundEvent(new ResourceLocation("rcmod:MenuSelect")), 1.0f, 1.0f);
 
 				weaponIndex = weaponIndex + i;
 				centerID = EnumRcWeapons.getIDFromItem(selectedItemWeap);
@@ -229,10 +225,8 @@ public class GuiVendor extends GuiContainer {
 			}
 			break;
 		case 1:
-			//TODO - Fix sounds
-			/*mc.getSoundHandler().playSound(
-					PositionedSoundRecord.func_147674_a(new ResourceLocation(
-							"rcmod:vendor.exit"), 1.0F));*/
+			//TODO - Fix sounds (NEEDS TESTING)
+			mc.player.playSound(new SoundEvent(new ResourceLocation("rcmod:vendor.exit")), 1.0f, 1.0f);
 			player.closeScreen();
 			break;
 		default:

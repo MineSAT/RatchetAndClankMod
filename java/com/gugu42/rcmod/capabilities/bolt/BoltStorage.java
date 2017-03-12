@@ -12,7 +12,7 @@ public class BoltStorage implements IStorage<IBolt>
     @Override
     public NBTBase writeNBT(Capability<IBolt> capability, IBolt instance, EnumFacing side)
     {
-        return new NBTTagFloat(instance.getCurrentBolt());
+        return new NBTTagInt(instance.getCurrentBolt());
     }
 
     @Override

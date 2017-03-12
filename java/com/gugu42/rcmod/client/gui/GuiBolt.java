@@ -1,4 +1,4 @@
-package com.gugu42.rcmod.gui;
+package com.gugu42.rcmod.client.gui;
 
 import org.lwjgl.opengl.GL11;
 
@@ -45,7 +45,6 @@ public class GuiBolt extends Gui {
 			return;
 		}
 
-		//ExtendedPlayerBolt props = ExtendedPlayerBolt.get(this.mc.player);
 		IBolt props = this.mc.player.getCapability(BoltProvider.BOLT_CAP, null);
 		if (props == null || props.getMaxBolts() == 0) {
 			return;
@@ -58,6 +57,7 @@ public class GuiBolt extends Gui {
 				|| mc.currentScreen instanceof GuiInventory) {
 			showBoltTimer = System.currentTimeMillis();
 		}
+		
 		lastBolts = props.getCurrentBolt();
 		if (System.currentTimeMillis() - showBoltTimer < maxBoltShowTime) {
 			GL11.glPushMatrix();
@@ -70,8 +70,7 @@ public class GuiBolt extends Gui {
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			GL11.glDisable(GL11.GL_ALPHA_TEST);
-			//drawTexturedQuadFit(360, 5, 16, 16, 0);
-			drawTexturedModalRect(360, 5, 0, 0, 16, 16);
+			drawModalRectWithCustomSizedTexture(360, 5, 0, 0, 16, 16, 16, 16);
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
 			GL11.glDepthMask(true);
 			GL11.glPopMatrix();
@@ -98,7 +97,7 @@ public class GuiBolt extends Gui {
 							GL11.GL_ONE_MINUS_SRC_ALPHA);
 					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 					GL11.glDisable(GL11.GL_ALPHA_TEST);
-					drawTexturedModalRect(10, 5, 0, 0, 16, 16);
+					drawModalRectWithCustomSizedTexture(10, 5, 0, 0, 16, 16, 16, 16);
 					GL11.glEnable(GL11.GL_DEPTH_TEST);
 					GL11.glDepthMask(true);
 					GL11.glPopMatrix();
@@ -130,10 +129,12 @@ public class GuiBolt extends Gui {
 						this.mc);
 				drawTexturedModalRect((sr.getScaledWidth() / 2) - 16,
 				(sr.getScaledHeight() / 2) - 16, 0, 0, 32, 32);
+				
+				drawModalRectWithCustomSizedTexture((sr.getScaledWidth() / 2) - 8,
+						(sr.getScaledHeight() / 2) - 8, 0, 0, 16, 16, 16, 16);
 				GL11.glEnable(GL11.GL_DEPTH_TEST);
 				GL11.glDepthMask(true);
 				GL11.glPopMatrix();
-
 			}
 		}
 		

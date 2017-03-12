@@ -3,7 +3,7 @@ package com.gugu42.rcmod.entity.projectiles;
 import java.io.IOException;
 
 import com.google.gson.JsonSyntaxException;
-import com.gugu42.rcmod.ClientProxy;
+import com.gugu42.rcmod.client.ClientProxy;
 import com.gugu42.rcmod.testing.MathHelper;
 
 import net.minecraft.client.Minecraft;

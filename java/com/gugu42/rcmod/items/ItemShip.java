@@ -1,6 +1,7 @@
 package com.gugu42.rcmod.items;
 
 import com.gugu42.rcmod.RcMod;
+import com.gugu42.rcmod.blocks.RcBlocks;
 import com.gugu42.rcmod.tileentity.TileEntityShipFiller;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,7 +30,7 @@ public class ItemShip extends Item {
 			TileEntityShipFiller teShipFiller = null;
 			int direction = MathHelper
 					.floor((double) (player.rotationYaw * 4.0F / 360.0F) + 2.5D) & 3;
-			world.setBlockState(new BlockPos(x, y, z), RcMod.ship.getDefaultState());
+			world.setBlockState(new BlockPos(x, y, z), RcBlocks.SHIP.getDefaultState());
 			boolean shouldPlaceBlock;
 
 			for (int i = x - 2; i < x + 3; i++) {
@@ -38,7 +39,7 @@ public class ItemShip extends Item {
 						shouldPlaceBlock = true;
 						if (shouldPlaceBlock) {
 							if (world.isAirBlock(new BlockPos(i, j, k))) {
-								world.setBlockState(new BlockPos(i, j, k), RcMod.shipFiller.getDefaultState(), 2);
+								world.setBlockState(new BlockPos(i, j, k), RcBlocks.SHIP_FILLER.getDefaultState(), 2);
 								teShipFiller = (TileEntityShipFiller) world
 										.getTileEntity(new BlockPos(i, j, k));
 								if (teShipFiller != null) {

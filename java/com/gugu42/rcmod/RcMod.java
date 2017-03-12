@@ -10,6 +10,7 @@ import com.gugu42.rcmod.blocks.BlockShipPlatform;
 import com.gugu42.rcmod.blocks.BlockTNTCrate;
 import com.gugu42.rcmod.blocks.BlockVendor;
 import com.gugu42.rcmod.blocks.BlockVersaTargetGreen;
+import com.gugu42.rcmod.blocks.RcBlocks;
 import com.gugu42.rcmod.capabilities.RcModCapabilityHandler;
 import com.gugu42.rcmod.capabilities.bolt.Bolt;
 import com.gugu42.rcmod.capabilities.bolt.BoltStorage;
@@ -17,10 +18,10 @@ import com.gugu42.rcmod.capabilities.bolt.IBolt;
 import com.gugu42.rcmod.capabilities.suckcannon.ISuckCannon;
 import com.gugu42.rcmod.capabilities.suckcannon.SuckCannon;
 import com.gugu42.rcmod.capabilities.suckcannon.SuckCannonStorage;
+import com.gugu42.rcmod.client.gui.GuiBolt;
+import com.gugu42.rcmod.client.gui.GuiSuckCannon;
+import com.gugu42.rcmod.client.gui.GuiTooltips;
 import com.gugu42.rcmod.entity.RcEntities;
-import com.gugu42.rcmod.gui.GuiBolt;
-import com.gugu42.rcmod.gui.GuiSuckCannon;
-import com.gugu42.rcmod.gui.GuiTooltips;
 import com.gugu42.rcmod.handler.RcAchievementEventHandler;
 import com.gugu42.rcmod.handler.RcEventHandler;
 import com.gugu42.rcmod.handler.RcTickHandler;
@@ -68,22 +69,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Mod(modid = RcMod.MODID, version = "0.5.3b", name = "RcMod")
 public class RcMod {
-	@SidedProxy(clientSide = "com.gugu42.rcmod.ClientProxy", serverSide = "com.gugu42.rcmod.CommonProxy")
+	@SidedProxy(clientSide = "com.gugu42.rcmod.client.ClientProxy", serverSide = "com.gugu42.rcmod.CommonProxy")
 	public static CommonProxy       proxy;
 
 	@Instance("rcmod")
 	public static RcMod             instance;
 	public static Logger            rcLogger;
-
-	/* CAPABILITIES SAFE SPACE               */
-	
-	
-	
-	
-	
-	
-	
-	/*                  */
 	
 	//Creative tabs
 	public static RcCreativeTab     rcTab;
@@ -91,23 +82,13 @@ public class RcMod {
 	public static RcCreativeTab     rcGadgTab;
 
 	//Blocks
-	public static Block             tntCrate;
-	public static Block             crate;
-	public static Block             ammoCrate;
-	public static Block             vendor;
-	public static Block             ship;
-	public static Block             shipFiller;
-	public static Block             versaTargetGreen;
-	public static Block             shipPlatform;
+
 
 	public static SoundType         crateStepSound;
 
-	public static Item              clankBackpack;
-	public static Item              ratchetEars;
-	public static Item              thrusterPack;
-	public static Item              shipItem;
 
-	public ArmorMaterial            EnumArmorMaterialClank = EnumHelper.addArmorMaterial("Clank", null, 0, new int[] { 0, 0, 0, 0 }, 0, null, 0);
+
+	public static ArmorMaterial     enumArmorMaterialClank = EnumHelper.addArmorMaterial("Clank", null, 0, new int[] { 0, 0, 0, 0 }, 0, null, 0);
 
 	public RcTickHandler            rcTickHandler;
 
@@ -148,12 +129,17 @@ public class RcMod {
 		RcItems.initRc1Items();
 		RcItems.initModItems();
 		RcItems.initAmmoItems();
+		RcBlocks.registerBlocks();
+
+		
 		proxy.preInit();
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 
+		proxy.init();
+		
 		/* -----Packet channels-----*/
 		rcModPacketHandler.initialise("RCMD|bolt");
 		rcModPacketHandler.initialise("RCMD|vend");
@@ -164,32 +150,10 @@ public class RcMod {
 		RcEntities.initModEntities();
 		RcEntities.initRc1Entities();
 
-		/* -----Others before blocks ( stepsound )----- */
-
 		//crateStepSound = new RcCustomStepSound("crate.break", 0.1f, 1.0f, Block.soundTypeWood, Block.soundTypeWood);
 
 		/* -----Blocks----- */
-		tntCrate = new BlockTNTCrate(Material.TNT).setUnlocalizedName("tntCrate");
-		GameRegistry.register(tntCrate, new ResourceLocation(RcMod.MODID, "tntCrate"));
-		crate = new BlockCrate(Material.WOOD).setUnlocalizedName("crate").setHardness(0.0f)/*.setStepSound(crateStepSound)*/;
-		GameRegistry.register(crate, new ResourceLocation(RcMod.MODID, "crate"));
-		ammoCrate = new BlockGadgetronAmmo(Material.WOOD).setUnlocalizedName("ammoCrate").setHardness(0.0f)/*.setStepSound(crateStepSound)*/;
-		GameRegistry.register(ammoCrate, new ResourceLocation(RcMod.MODID, "ammoCrate"));
-
-		vendor = new BlockVendor(Material.IRON).setUnlocalizedName("vendor").setHardness(10.0f);
-		GameRegistry.register(vendor, new ResourceLocation(RcMod.MODID, "vendor"));
-
-		ship = new BlockShip(Material.IRON).setUnlocalizedName("ship").setHardness(5.0f);
-		GameRegistry.register(ship, new ResourceLocation(RcMod.MODID, "ship"));
-
-		shipFiller = new BlockShipFiller(Material.IRON).setUnlocalizedName("shipFiller");
-		GameRegistry.register(shipFiller, new ResourceLocation(RcMod.MODID, "shipFiller"));
-
-		versaTargetGreen = new BlockVersaTargetGreen(Material.IRON).setUnlocalizedName("versaTargetGreen");
-		GameRegistry.register(versaTargetGreen, new ResourceLocation(RcMod.MODID, "versaTargetGreen"));
-
-		shipPlatform = new BlockShipPlatform().setUnlocalizedName("shipPlatform").setCreativeTab(rcTab);
-		GameRegistry.register(shipPlatform, new ResourceLocation(RcMod.MODID, "shipPlatform"));
+		
 
 		GameRegistry.registerTileEntity(TileEntityVendor.class, "vendor");
 		GameRegistry.registerTileEntity(TileEntityShip.class, "ship");
@@ -197,25 +161,10 @@ public class RcMod {
 		GameRegistry.registerTileEntity(TileEntityVersaTargetG.class, "versaTargetG");
 		GameRegistry.registerTileEntity(TileEntityShipPlatform.class, "shipPlatform");
 
-		/* -----Items----- */
-
-
-
-		/* -----Other Items----- */
-		clankBackpack = new ItemClankBackpack(EnumArmorMaterialClank, 1, 1).setUnlocalizedName("clankHeli");
-		GameRegistry.register(clankBackpack, new ResourceLocation(RcMod.MODID, "clankHeli"));
-		ratchetEars = new ItemRatchetEars(EnumArmorMaterialClank, 1, 0).setUnlocalizedName("ratchetEars");
-		GameRegistry.register(ratchetEars, new ResourceLocation(RcMod.MODID, "ratchetEars"));
-		thrusterPack = new ItemThrusterPack(EnumArmorMaterialClank, 1, 1).setUnlocalizedName("thrusterpack");
-		GameRegistry.register(thrusterPack, new ResourceLocation(RcMod.MODID, "thrusterpack"));
-
-		shipItem = new ItemShip().setMaxStackSize(1).setCreativeTab(rcTab);
-		GameRegistry.register(shipItem, new ResourceLocation(RcMod.MODID, "shipItem"));
-
 		/* -----Other----- */
 
-		achievement_VendorCraft = new Achievement("achievement.vendor", "vendor", 0, -1, this.vendor, (Achievement) null).registerStat().setSpecial();
-		achievement_HelipackCraft = new Achievement("achievement.helipack", "helipack", 0, 1, this.clankBackpack, achievement_VendorCraft).registerStat();
+		achievement_VendorCraft = new Achievement("achievement.vendor", "vendor", 0, -1, RcBlocks.VENDOR, (Achievement) null).registerStat().setSpecial();
+		achievement_HelipackCraft = new Achievement("achievement.helipack", "helipack", 0, 1, RcItems.clankBackpack, achievement_VendorCraft).registerStat();
 
 		rcAchievementPage = new AchievementPage("Ratchet & Clank Mod", achievement_VendorCraft, achievement_HelipackCraft);
 		AchievementPage.registerAchievementPage(rcAchievementPage);

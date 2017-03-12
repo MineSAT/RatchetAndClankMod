@@ -7,6 +7,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.MoverType;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
@@ -90,15 +94,14 @@ public class EntityTNTCrate extends Entity implements IEntityAdditionalSpawnData
             //this.world.spawnParticle("smoke", this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
         }
         
-        //TODO - Fix sounds
         if(this.fuse == 20){
-            //this.world.playSoundAtEntity(this, "rcmod:tntcrate.countdown", 1.0f, 1.0f);
+    		this.world.playSound(null, new BlockPos(this.posX, this.posY, this.posZ), new SoundEvent(new ResourceLocation("rcmod:tntcrate.countdown")), SoundCategory.BLOCKS, 1.0f, 1.0f);
         }
         if(this.fuse == 40){
-            //this.world.playSoundAtEntity(this, "rcmod:tntcrate.countdown", 1.0f, 1.0f);
+            this.world.playSound(null, new BlockPos(this.posX, this.posY, this.posZ), new SoundEvent(new ResourceLocation("rcmod:tntcrate.countdown")), SoundCategory.BLOCKS, 1.0f, 1.0f);
         }
         if(this.fuse == 60){
-            //this.world.playSoundAtEntity(this, "rcmod:tntcrate.countdown", 1.0f, 1.0f);
+            this.world.playSound(null, new BlockPos(this.posX, this.posY, this.posZ), new SoundEvent(new ResourceLocation("rcmod:tntcrate.countdown")), SoundCategory.BLOCKS, 1.0f, 1.0f);
         }
         
     }

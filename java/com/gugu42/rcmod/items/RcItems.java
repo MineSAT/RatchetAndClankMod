@@ -55,6 +55,12 @@ public class RcItems {
 	//Not really a gadget from the game, but still something, so yeah
 	public static Item gadgetronHelper;
 	
+	
+	//previously in RcMod.java, I moved them here because I need more logic in my code
+	public static Item              clankBackpack;
+	public static Item              ratchetEars;
+	public static Item              thrusterPack;
+	public static Item              shipItem;
 
 	public RcItems(){
 		
@@ -124,10 +130,10 @@ public class RcItems {
 		/*  GADGETS  */
 		
 		swingShot = new ItemSwingShot().setUnlocalizedName("swingShot").setCreativeTab(RcMod.rcGadgTab).setFull3D();
-		GameRegistry.register(swingShot, new ResourceLocation(RcMod.MODID, "swingShot"));
+		GameRegistry.register(swingShot, new ResourceLocation(RcMod.MODID, "swingshot"));
 		
 		gadgetronHelper = new ItemGadgetronHelper().setUnlocalizedName("gadgetronHelper").setCreativeTab(RcMod.rcGadgTab).setFull3D();
-		GameRegistry.register(gadgetronHelper, new ResourceLocation(RcMod.MODID, "gadgetronHelper"));
+		GameRegistry.register(gadgetronHelper, new ResourceLocation(RcMod.MODID, "gadgetronhelper"));
 		
 	}
 	
@@ -157,6 +163,15 @@ public class RcItems {
 		
 		metropolisRecord = new ItemRcRecord("rcmod:recordmetropolis", "Metropolis - Kerwan", "metropolisRecord").setUnlocalizedName("metropolisRecord").setCreativeTab(RcMod.rcTab);
 		GameRegistry.register(metropolisRecord, new ResourceLocation(RcMod.MODID, "metropolisRecord"));
+		
+		clankBackpack = new ItemClankBackpack(RcMod.enumArmorMaterialClank, 1, 1).setUnlocalizedName("clankHeli");
+		GameRegistry.register(clankBackpack, new ResourceLocation(RcMod.MODID, "clankheli"));
+		ratchetEars = new ItemRatchetEars(RcMod.enumArmorMaterialClank, 1, 0).setUnlocalizedName("ratchetEars");
+		GameRegistry.register(ratchetEars, new ResourceLocation(RcMod.MODID, "ratchetears"));
+		thrusterPack = new ItemThrusterPack(RcMod.enumArmorMaterialClank, 1, 1).setUnlocalizedName("thrusterpack");
+		GameRegistry.register(thrusterPack, new ResourceLocation(RcMod.MODID, "thrusterpack"));
+		shipItem = new ItemShip().setMaxStackSize(1).setCreativeTab(RcMod.rcTab);
+		GameRegistry.register(shipItem, new ResourceLocation(RcMod.MODID, "shipitem"));
 	}
 	
 	public static void initAmmoItems()
@@ -169,7 +184,7 @@ public class RcItems {
 		ammoBombGlove = new ItemAmmo(bombGlove).setUnlocalizedName(
 				"ammobombGlove")
 				.setCreativeTab(RcMod.rcWeapTab).setFull3D();
-		GameRegistry.register(ammoBombGlove, new ResourceLocation(RcMod.MODID, "ammobombGlove"));
+		GameRegistry.register(ammoBombGlove, new ResourceLocation(RcMod.MODID, "ammobombglove"));
 		
 		ammoRyno = new ItemAmmo(ryno).setUnlocalizedName(
 				"ammoryno")
@@ -184,12 +199,12 @@ public class RcItems {
 		ammoVisibombGun = new ItemAmmo(visibombGun).setUnlocalizedName(
 				"ammovisibombGun")
 				.setCreativeTab(RcMod.rcWeapTab).setFull3D();
-		GameRegistry.register(ammoVisibombGun, new ResourceLocation(RcMod.MODID, "ammovisibombGun"));
+		GameRegistry.register(ammoVisibombGun, new ResourceLocation(RcMod.MODID, "ammovisibombgun"));
 		
 		ammoDecoyGlove = new ItemAmmo(decoyGlove).setUnlocalizedName(
 				"ammodecoyGlove")
 				.setCreativeTab(RcMod.rcWeapTab).setFull3D();
-		GameRegistry.register(ammoDecoyGlove, new ResourceLocation(RcMod.MODID, "ammodecoyGlove"));
+		GameRegistry.register(ammoDecoyGlove, new ResourceLocation(RcMod.MODID, "ammodecoyglove"));
 		
 		ammoDevastator = new ItemAmmo(devastator).setUnlocalizedName(
 				"ammodevastator")
@@ -199,22 +214,22 @@ public class RcItems {
 		ammoDroneDevice = new ItemAmmo(droneDevice).setUnlocalizedName(
 				"ammodroneDevice")
 				.setCreativeTab(RcMod.rcWeapTab).setFull3D();
-		GameRegistry.register(ammoDroneDevice, new ResourceLocation(RcMod.MODID, "ammodroneDevice"));
+		GameRegistry.register(ammoDroneDevice, new ResourceLocation(RcMod.MODID, "ammodronedevice"));
 		
 		ammoGloveOfDoom = new ItemAmmo(gloveOfDoom).setUnlocalizedName(
 				"ammogloveOfDoom")
 				.setCreativeTab(RcMod.rcWeapTab).setFull3D();
-		GameRegistry.register(ammoGloveOfDoom, new ResourceLocation(RcMod.MODID, "ammogloveOfDoom"));
+		GameRegistry.register(ammoGloveOfDoom, new ResourceLocation(RcMod.MODID, "ammogloveofdoom"));
 		
 		ammoMineGlove = new ItemAmmo(mineGlove).setUnlocalizedName(
 				"ammomineGlove")
 				.setCreativeTab(RcMod.rcWeapTab).setFull3D();
-		GameRegistry.register(ammoMineGlove, new ResourceLocation(RcMod.MODID, "ammomineGlove"));
+		GameRegistry.register(ammoMineGlove, new ResourceLocation(RcMod.MODID, "ammomineglove"));
 		
 		ammoTeslaClaw = new ItemAmmo(teslaClaw).setUnlocalizedName(
 				"ammoteslaClaw")
 				.setCreativeTab(RcMod.rcWeapTab).setFull3D();
-		GameRegistry.register(ammoTeslaClaw, new ResourceLocation(RcMod.MODID, "ammoteslaClaw"));
+		GameRegistry.register(ammoTeslaClaw, new ResourceLocation(RcMod.MODID, "ammoteslaclaw"));
 		
 		
 	}
@@ -245,8 +260,35 @@ public class RcItems {
 		
 		/* MISC */
 		ModelLoader.setCustomModelResourceLocation(vendorCore, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "vendorcore"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(bolt, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "bolt"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(OMNIWRENCH_3000, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "omwr3000"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(clank, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "clank"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(clankCore, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "clankcore"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(helipackHelice, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "helipackhelice"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(DUMMY_pyrocitorFlame, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "dummy_pyrocitorflame"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(metropolisRecord, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "metropolisrecord"), "inventory"));
 		
 		/* AMMO */
+		ModelLoader.setCustomModelResourceLocation(ammoBlaster, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "ammoblaster"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(ammoBombGlove, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "ammobombglove"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(ammoDecoyGlove, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "ammodecoyglove"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(ammoDevastator, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "ammodevastator"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(ammoDroneDevice, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "ammodronedevice"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(ammoGloveOfDoom, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "ammogloveofdoom"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(ammoMineGlove, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "ammomineglove"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(ammoPyrocitor, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "ammopyrocitor"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(ammoRyno, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "ammoryno"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(ammoTeslaClaw, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "ammoteslaclaw"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(ammoVisibombGun, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "ammovisibombgun"), "inventory"));
+		
+		/* GADGETS */
+		ModelLoader.setCustomModelResourceLocation(swingShot, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "swingshot"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(gadgetronHelper, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "gadgetronhelper"), "inventory"));
+		/* ITEMS THAT WERE IN RCMOD.JAVA */
+		ModelLoader.setCustomModelResourceLocation(clankBackpack, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "clankbackpack"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(ratchetEars, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "ratchetears"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(thrusterPack, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "thrusterpack"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(shipItem, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "shipitem"), "inventory"));
 	}
 
 }

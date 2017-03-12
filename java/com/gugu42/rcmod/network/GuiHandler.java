@@ -1,10 +1,10 @@
 package com.gugu42.rcmod.network;
 
 import com.gugu42.rcmod.ContainerVendor;
-import com.gugu42.rcmod.gui.GuiGadgetronHelper;
-import com.gugu42.rcmod.gui.GuiShip;
-import com.gugu42.rcmod.gui.GuiShipPlatform;
-import com.gugu42.rcmod.gui.GuiVendor;
+import com.gugu42.rcmod.client.gui.GuiGadgetronHelper;
+import com.gugu42.rcmod.client.gui.GuiShip;
+import com.gugu42.rcmod.client.gui.GuiShipPlatform;
+import com.gugu42.rcmod.client.gui.GuiVendor;
 import com.gugu42.rcmod.items.InventoryGadgetronPDA;
 import com.gugu42.rcmod.tileentity.TileEntityShip;
 import com.gugu42.rcmod.tileentity.TileEntityShipFiller;

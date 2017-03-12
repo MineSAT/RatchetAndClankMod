@@ -1,7 +1,7 @@
 package com.gugu42.rcmod.blocks;
 
-import com.gugu42.rcmod.ClientProxy;
 import com.gugu42.rcmod.RcMod;
+import com.gugu42.rcmod.client.ClientProxy;
 import com.gugu42.rcmod.tileentity.TileEntityShip;
 
 import net.minecraft.block.Block;

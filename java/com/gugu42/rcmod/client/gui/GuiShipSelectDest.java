@@ -1,4 +1,4 @@
-package com.gugu42.rcmod.gui;
+package com.gugu42.rcmod.client.gui;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;

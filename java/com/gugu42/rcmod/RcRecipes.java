@@ -1,5 +1,6 @@
 package com.gugu42.rcmod;
 
+import com.gugu42.rcmod.blocks.RcBlocks;
 import com.gugu42.rcmod.items.RcItems;
 
 import net.minecraft.init.Blocks;
@@ -11,7 +12,7 @@ public class RcRecipes
 {
 	public static void addRecipes()
 	{
-		GameRegistry.addRecipe(new ItemStack(RcMod.vendor, 1), new Object[]{
+		GameRegistry.addRecipe(new ItemStack(RcBlocks.VENDOR, 1), new Object[]{
 			"XZX",
 			"ZYZ",
 			"XZX",
@@ -23,13 +24,13 @@ public class RcRecipes
 			" X ",
 			'X', Items.IRON_INGOT, 'Y', Blocks.IRON_BLOCK
 		});
-		GameRegistry.addRecipe(new ItemStack(RcMod.crate, 1), new Object[]{
+		GameRegistry.addRecipe(new ItemStack(RcBlocks.CRATE, 1), new Object[]{
 			"XXX",
 			"XZX",
 			"XXX",
 			'X', Blocks.PLANKS, 'Z', Items.IRON_INGOT
 		});
-		GameRegistry.addRecipe(new ItemStack(RcMod.ammoCrate, 1), new Object[]{
+		GameRegistry.addRecipe(new ItemStack(RcBlocks.AMMO_CRATE, 1), new Object[]{
 			"XXX",
 			"XZX",
 			"XXX",
@@ -63,26 +64,26 @@ public class RcRecipes
 			'I', Items.IRON_INGOT, 'Y', new ItemStack(Items.DYE, 1, 11)
 		});
 		
-		GameRegistry.addRecipe(new ItemStack(RcMod.clankBackpack, 1), new Object[]{
+		GameRegistry.addRecipe(new ItemStack(RcItems.clankBackpack, 1), new Object[]{
 			" H ",
 			" I ",
 			"HCH",
 			'I', Blocks.IRON_BARS, 'C', RcItems.clank, 'H', RcItems.helipackHelice
 		});
-		GameRegistry.addRecipe(new ItemStack(RcMod.tntCrate, 4), new Object[]{
+		GameRegistry.addRecipe(new ItemStack(RcBlocks.TNT_CRATE, 4), new Object[]{
 			" T ",
 			"TYT",
 			" T ",
 			'T', Blocks.TNT, 'Y', new ItemStack(Items.DYE, 1, 11)
 		});
 		
-		GameRegistry.addRecipe(new ItemStack(RcMod.ratchetEars, 1), new Object[]{
+		GameRegistry.addRecipe(new ItemStack(RcItems.ratchetEars, 1), new Object[]{
 			"Y Y",
 			"YTY",
 			'T', Items.STRING, 'Y', new ItemStack(Blocks.WOOL, 1, 4)
 		});
 		
-		GameRegistry.addRecipe(new ItemStack(RcMod.thrusterPack, 1), new Object[]{
+		GameRegistry.addRecipe(new ItemStack(RcItems.thrusterPack, 1), new Object[]{
 			"ICI",
 			"H H",
 			'I', Blocks.IRON_BARS, 'C', RcItems.clank, 'H', Items.FLINT_AND_STEEL
@@ -94,14 +95,14 @@ public class RcRecipes
 			'I', Items.IRON_INGOT, 'S', Items.STRING
 		});
 		
-		GameRegistry.addRecipe(new ItemStack(RcMod.versaTargetGreen, 1), new Object[]{
+		GameRegistry.addRecipe(new ItemStack(RcBlocks.VERSA_TARGET_GREEN, 1), new Object[]{
 			"III",
 			"IGI",
 			"III",
 			'I', Items.IRON_INGOT, 'G', new ItemStack(Items.DYE, 1, 10)
 		});
 		
-		GameRegistry.addRecipe(new ItemStack(RcMod.shipPlatform, 1), new Object[]{
+		GameRegistry.addRecipe(new ItemStack(RcBlocks.SHIP_PLATFORM, 1), new Object[]{
 			"YPY",
 			"III",
 			"YIY",

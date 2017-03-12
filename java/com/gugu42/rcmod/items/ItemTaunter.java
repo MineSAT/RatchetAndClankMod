@@ -10,6 +10,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ItemTaunter extends ItemRcWeap
@@ -29,9 +33,8 @@ public class ItemTaunter extends ItemRcWeap
 		
 		ItemStack par1ItemStack = player.getHeldItem(hand);
 		
-		//TODO - Fix sounds
-        //world.playSoundAtEntity(player, "rcmod:TaunterSound",
-        //        1.0f, 1.0f);
+		world.playSound(null, new BlockPos(player.posX, player.posY, player.posZ), new SoundEvent(new ResourceLocation("rcmod:TaunterSound")), SoundCategory.NEUTRAL, 1.0f, 1.0f);
+
 
         if(!world.isRemote)
         {

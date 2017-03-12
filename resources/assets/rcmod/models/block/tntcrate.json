@@ -1,0 +1,12 @@
+{
+    "parent": "block/cube",
+    "textures": {
+        "particle": "rcmod:blocks/tntcrate",
+        "down": "rcmod:blocks/tntcratetop",
+        "up": "rcmod:blocks/tntcratetop",
+        "north": "rcmod:blocks/tntcrate",
+        "east": "rcmod:blocks/tntcrate",
+        "south": "rcmod:blocks/tntcrate",
+        "west": "rcmod:blocks/tntcrate"
+    }
+}

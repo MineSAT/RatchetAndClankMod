@@ -11,6 +11,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -53,6 +57,7 @@ public class ItemDevastator extends ItemRcGun {
 		return new ActionResult(EnumActionResult.SUCCESS, par1ItemStack);
 	}
 
+	//TODO - Fix expanding BBs
 	@Override
 	public void onUpdate(ItemStack par1ItemStack, World par2World,
 			Entity par3Entity, int par4, boolean par5) {
@@ -61,7 +66,7 @@ public class ItemDevastator extends ItemRcGun {
 		if (par5 && par3Entity instanceof EntityPlayer && !par2World.isRemote) {
 			EntityPlayer player = (EntityPlayer) par3Entity;
 			Entity target = null;
-			List entityTagetList = par2World.getEntitiesWithinAABB(
+			/*List entityTagetList = par2World.getEntitiesWithinAABB(
 					Entity.class,
 					player.getCollisionBoundingBox().expand(48.0D, 48.0D, 48.0D));
 			for (int i = 0; i < entityTagetList.size(); i++) {
@@ -88,7 +93,7 @@ public class ItemDevastator extends ItemRcGun {
 					}
 
 				}
-			}
+			}*/
 
 //			if (par3Entity.getEntityData().getBoolean("devastatorFired")) {
 				
@@ -120,15 +125,13 @@ public class ItemDevastator extends ItemRcGun {
 	public void fireRocket(World world, EntityPlayer player) {
 		EntityRYNOAmmo rocket = new EntityRYNOAmmo(world, player);
 		world.spawnEntity(rocket);
-		//TODO - Fix sound
-		//player.world.playSoundAtEntity(player, "rcmod:DevastatorShot", 1.0f, 1.0f);
+		player.world.playSound(null, new BlockPos(player.posX, player.posY, player.posZ), new SoundEvent(new ResourceLocation("rcmod:DevastatorShot")), SoundCategory.MASTER, 1.0f, 1.0f);
 	}
 
 	public void fireRocket(World world, EntityPlayer player, Entity target) {
 		EntityRYNOAmmo rocket = new EntityRYNOAmmo(world, player, target);
 		world.spawnEntity(rocket);
-		//TODO - Fix sound
-		//player.world.playSoundAtEntity(player, "rcmod:DevastatorShot", 1.0f, 1.0f);
+		player.world.playSound(null, new BlockPos(player.posX, player.posY, player.posZ), new SoundEvent(new ResourceLocation("rcmod:DevastatorShot")), SoundCategory.MASTER, 1.0f, 1.0f);
 	}
 
 }
