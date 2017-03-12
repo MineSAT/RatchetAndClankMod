@@ -5,12 +5,15 @@ import com.gugu42.rcmod.RcMod;
 import com.gugu42.rcmod.blocks.RcBlocks;
 import com.gugu42.rcmod.client.render.EntityRenderers;
 import com.gugu42.rcmod.client.render.RenderTNTCrate;
+import com.gugu42.rcmod.client.render.tesr.TESRVendor;
 import com.gugu42.rcmod.entity.EntityTNTCrate;
 import com.gugu42.rcmod.items.RcItems;
+import com.gugu42.rcmod.tileentity.TileEntityVendor;
 import com.gugu42.rcmod.utils.RcSimpleResourceManager;
 
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraftforge.client.model.obj.OBJLoader;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 public class ClientProxy extends CommonProxy {
 
@@ -33,6 +36,7 @@ public class ClientProxy extends CommonProxy {
 	{
 		super.init();
 		RcBlocks.registerBlockRenders();
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVendor.class, new TESRVendor());
 	}
 	
 	@Override

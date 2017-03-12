@@ -31,10 +31,6 @@ public class ShipSystem {
 			}
 		}
 
-		//		data.substring(0, data.length() - 1);
-
-		System.out.println("Sent save data : " + data);
-
 		return data;
 	}
 

@@ -6,7 +6,9 @@ import com.gugu42.rcmod.utils.ffmtutils.AbstractPacket;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 public class PacketBolts extends AbstractPacket{
 
@@ -36,14 +38,25 @@ public class PacketBolts extends AbstractPacket{
 
 	@Override
 	public void handleClientSide(EntityPlayer player) {
-		IBolt props = player.getCapability(BoltProvider.BOLT_CAP, null);
-		props.setMaxBolts(this.maxBolts);
-		props.setCurrentBolt(this.bolts);
+		if(player != null) {
+			IBolt props = player.getCapability(BoltProvider.BOLT_CAP, null);
+			/**
+			 * The player here is not set on purpose. Setting the player means we want to sync our data, however, the packets ARE the syncing mechanism. Let's avoid infinite loops!
+			 */
+			//props.setPlayer((EntityPlayerMP)player);
+			System.out.println("Set bolts to " + this.bolts + " for player " + player.getName());
+			props.setMaxBolts(this.maxBolts);
+			props.setCurrentBolt(this.bolts);
+		}
 	}
 
 	@Override
 	public void handleServerSide(EntityPlayer player) {
 		IBolt props = player.getCapability(BoltProvider.BOLT_CAP, null);
+		/*
+		 * See above
+		 */
+		//props.setPlayer((EntityPlayerMP)player);
 		props.setMaxBolts(this.maxBolts);
 		props.setCurrentBolt(this.bolts);
 	}

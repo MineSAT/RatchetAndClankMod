@@ -24,7 +24,18 @@
                     "translation": [0.3, -0.2, 0],
 					"rotation": [ { "y": -90}, {"x": 0}, {"z": 0} ],
                     "scale": 0.035
-                }
-    }}]
+                },
+				"ground": {
+					"translation": [0.0, 0.0, -0.1],
+					"scale": 0.024
+				},
+				"fixed": {
+					"translation": [-0.2, -0.1, 0.0],
+					"rotation": [ { "y": 90}, {"x": 0}, {"z": 0} ],
+					"scale": 0.03
+				}
+    }}],
+	"inventory": [{
+	}]
   }
 }

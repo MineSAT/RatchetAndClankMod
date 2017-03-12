@@ -1,5 +1,8 @@
 package com.gugu42.rcmod.capabilities.bolt;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+
 public interface IBolt {
 
 	public boolean consumeBolts(int amount);
@@ -15,4 +18,8 @@ public interface IBolt {
 	public int getMaxBolts();
 	
 	public void setMaxBolts(int maxBolts);
+	
+	public void sync();
+	
+	public void setPlayer(EntityPlayerMP player);
 }

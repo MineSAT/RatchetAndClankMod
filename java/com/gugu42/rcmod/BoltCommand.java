@@ -3,12 +3,17 @@ package com.gugu42.rcmod;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gugu42.rcmod.capabilities.bolt.BoltProvider;
+import com.gugu42.rcmod.capabilities.bolt.IBolt;
+
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 
 public class BoltCommand implements ICommand {
 
@@ -45,21 +50,22 @@ public class BoltCommand implements ICommand {
 		if (sender instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender;
 
-			/*ExtendedPlayerBolt props = ExtendedPlayerBolt.get(player);
+			//ExtendedPlayerBolt props = ExtendedPlayerBolt.get(player);
+			IBolt props = player.getCapability(BoltProvider.BOLT_CAP, null);
+			props.setPlayer((EntityPlayerMP)player);
 			if (props != null) {
 				int amount;
 				amount = Integer.parseInt(args[0]);
 				if (amount > props.getMaxBolts()) {
-					/*player.addChatMessage(new ChatComponentText("Number too high ! You entered "
+					player.sendMessage(new TextComponentString("Number too high ! You entered "
 							+ amount + " while the maximum is "
 							+ props.getMaxBolts() + " !"));
 				} else {
-					/*player.addChatMessage(new ChatComponentText("You had " + props.getCurrentBolt()
+					player.sendMessage(new TextComponentString("You had " + props.getCurrentBolt()
 							+ " bolts. You now have " + amount + " bolts."));
 					props.setCurrentBolt(amount);
 				}
-
-			}*/
+			}
 		}
 	}
 	

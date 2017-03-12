@@ -63,6 +63,7 @@ public class GuiVendor extends GuiContainer {
 
 	public int lastID = 0;
 	public int centerID = 1;
+	private long timeOfLastAction;
 
 	public GuiVendor(InventoryPlayer inventoryPlayer,
 			TileEntityVendor tileEntity, EntityPlayer player,
@@ -87,11 +88,19 @@ public class GuiVendor extends GuiContainer {
 				posY + 137, 35, 20, I18n.format("gui.vendor.buy")));
 		this.buttonList.add(this.exitBtn = new GuiButton(1, posX + 181,
 				posY + 137, 35, 20, I18n.format("gui.vendor.exit")));
+		timeOfLastAction = System.currentTimeMillis();
 	}
 
 	@Override
 	public void updateScreen() {
 		putItemsInSlot();
+		
+		//If the player idles on the gui, the vendor will say "Come on buddy I ain't got all day" or "Sooo... you gonna buy some or what ?" randomly
+		if(System.currentTimeMillis() - timeOfLastAction >= 15000)
+		{
+			mc.player.playSound(new SoundEvent(new ResourceLocation("rcmod:vendor.speech.wait")), 1.0f, 1.0f);
+			timeOfLastAction = System.currentTimeMillis();
+		}
 	}
 
 	public void handleSelectedWeapon() {
@@ -114,14 +123,14 @@ public class GuiVendor extends GuiContainer {
 			RenderHelper.enableStandardItemLighting();
 
 			if (selectedWeapon >= 0 && selectedItem != null)
-				Minecraft.getMinecraft().getRenderManager().doRenderEntity(selectedItemEntity, 0, 0, 0, 0, 0, false);
+				Minecraft.getMinecraft().getRenderManager().doRenderEntity(selectedItemEntity, 0, -0.23, 0, 0, 0, false);
 			RenderHelper.disableStandardItemLighting();
 
 			GL11.glPopMatrix();
 
 			rotation -= 1f;
 
-			if (getItemInInventory(player.inventory, selectedItem.getItem()) == null) {
+			if (getItemInInventory(player.inventory, selectedItem.getItem()) == ItemStack.EMPTY) {
 				this.mc.fontRendererObj.drawString(
 						""
 								+ EnumRcWeapons.getPriceFromItem(selectedItem
@@ -190,11 +199,14 @@ public class GuiVendor extends GuiContainer {
 
 					selectedItemWeap = (ItemRcWeap) selectedItem.getItem();
 				}
-				//TODO - Fix sounds (NEEDS TESTING)
 				mc.player.playSound(new SoundEvent(new ResourceLocation("rcmod:MenuSelect")), 1.0f, 1.0f);
 
 				weaponIndex = weaponIndex + i;
 				centerID = EnumRcWeapons.getIDFromItem(selectedItemWeap);
+				timeOfLastAction = System.currentTimeMillis();
+				//When clicking a weapon, will occassionally say "Oh that's a nice one" or "That's a real beauty"
+				if(mc.world.rand.nextInt(10) == 5)
+					mc.player.playSound(new SoundEvent(new ResourceLocation("rcmod:vendor.speech.weapclicked")), 1.0f, 1.0f);
 			} else {
 				//ok you can happen if you want, but not too much pls
 			}
@@ -205,10 +217,9 @@ public class GuiVendor extends GuiContainer {
 	public void actionPerformed(GuiButton button) {
 		switch (button.id) {
 		case 0:
-			if (!player.inventory.hasItemStack(new ItemStack(selectedItem.getItem()))) {
+			if (getItemInInventory(player.inventory, selectedItem.getItem()) == ItemStack.EMPTY) {
 				IBolt props = player.getCapability(BoltProvider.BOLT_CAP, null);
 				if (props.getCurrentBolt() > 0) {
-
 					try {
 						PacketVend packetVend = new PacketVend(centerID);
 						RcMod.rcModPacketHandler.sendToServer(packetVend);
@@ -225,7 +236,6 @@ public class GuiVendor extends GuiContainer {
 			}
 			break;
 		case 1:
-			//TODO - Fix sounds (NEEDS TESTING)
 			mc.player.playSound(new SoundEvent(new ResourceLocation("rcmod:vendor.exit")), 1.0f, 1.0f);
 			player.closeScreen();
 			break;

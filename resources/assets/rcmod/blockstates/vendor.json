@@ -1,0 +1,14 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "custom": { "flip-v": true },
+    "model": "cube_all",
+	"textures": {
+            "all": "rcmod:models/block/vendor0" 			
+    }
+  },
+  "variants": {
+    "normal": [{}],
+	"inventory": [{}]
+  }
+}

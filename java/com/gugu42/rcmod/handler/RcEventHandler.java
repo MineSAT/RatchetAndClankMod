@@ -16,6 +16,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
@@ -37,6 +38,8 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -44,6 +47,44 @@ public class RcEventHandler {
 
 	private CommonProxy proxy;
 
+	
+	@SubscribeEvent
+	public void onPlayerCloned(PlayerEvent.Clone event)
+	{
+		if(event.isWasDeath())
+		{
+			if(event.getOriginal().hasCapability(BoltProvider.BOLT_CAP, null))
+			{
+				IBolt oldProps = event.getOriginal().getCapability(BoltProvider.BOLT_CAP, null);
+				IBolt newProps = event.getEntityPlayer().getCapability(BoltProvider.BOLT_CAP, null);
+				newProps.setCurrentBolt(oldProps.getCurrentBolt());
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerJoin(PlayerLoggedInEvent event)
+	{
+		if(!event.player.world.isRemote)
+		{
+			IBolt props = event.player.getCapability(BoltProvider.BOLT_CAP, null);
+			EntityPlayerMP pl = (EntityPlayerMP) event.player;
+			props.setPlayer(pl);
+			props.sync();
+		}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerRespawn(PlayerRespawnEvent event)
+	{
+		if(!event.player.world.isRemote)
+		{
+			IBolt props = event.player.getCapability(BoltProvider.BOLT_CAP, null);
+			props.setPlayer((EntityPlayerMP)event.player);
+			props.sync();
+		}
+	}
+	
 	@SubscribeEvent
 	public void onEntityConstructing(EntityConstructing event) {
 
@@ -106,12 +147,6 @@ public class RcEventHandler {
 			}
 		}
 	}
-
-	@SubscribeEvent
-	public void onPlayerClone(PlayerEvent.Clone event)
-	{
-		//TODO - Make bolts persist across death.
-	}
 	
 	@SideOnly(Side.CLIENT)
 	private boolean isEntityForThisClient(EntityVisibombAmmo missile, EntityPlayer shooter) {
@@ -121,12 +156,14 @@ public class RcEventHandler {
 		return false;
 	}
 
+
 	@SubscribeEvent
 	public void onItemPickup(EntityItemPickupEvent event) {
 		ItemStack item = event.getItem().getEntityItem();
 		if(event.getEntityPlayer() == null)
 			return;
 		IBolt props = event.getEntityPlayer().getCapability(BoltProvider.BOLT_CAP, null);
+		props.setPlayer((EntityPlayerMP)event.getEntityPlayer());
 		if (item.getItem() != null && item.getItem() == RcItems.bolt) {
 			props.addBolt(25);
 			event.getEntityPlayer().world.playSound(null, new BlockPos(event.getEntityPlayer().posX, event.getEntityPlayer().posY, event.getEntityPlayer().posZ), new SoundEvent(new ResourceLocation("rcmod:BoltCollect")), SoundCategory.BLOCKS, 0.3f, 1.0f);

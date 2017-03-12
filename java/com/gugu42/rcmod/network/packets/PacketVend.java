@@ -8,6 +8,7 @@ import com.gugu42.rcmod.utils.ffmtutils.AbstractPacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 
 public class PacketVend extends AbstractPacket {
@@ -45,6 +46,7 @@ public class PacketVend extends AbstractPacket {
 	public void handleServerSide(EntityPlayer player) {
 		//ExtendedPlayerBolt props = ExtendedPlayerBolt.get(player);
 		IBolt props = player.getCapability(BoltProvider.BOLT_CAP, null);
+		props.setPlayer((EntityPlayerMP)player);
 
 		if (!player.inventory.hasItemStack(new ItemStack(EnumRcWeapons.getItemFromID(this.id)
 				.getWeapon()))) {

@@ -8,10 +8,17 @@ import com.gugu42.rcmod.utils.ffmtutils.AbstractPacket;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 
 public class PacketRefill extends AbstractPacket {
 
@@ -44,23 +51,21 @@ public class PacketRefill extends AbstractPacket {
 	@Override
 	public void handleServerSide(EntityPlayer player) {
 		IBolt props = player.getCapability(BoltProvider.BOLT_CAP, null);
+		props.setPlayer((EntityPlayerMP)player);
 		
 		ItemStack item = this.getItemInInventory(player.inventory, EnumRcWeapons.getItemFromID(id).getWeapon());
-		if(item != null){
+		if(item != ItemStack.EMPTY){
 			ItemRcWeap itemWeap = (ItemRcWeap)item.getItem();
-			if(props.consumeBolts(item.getItemDamage() * itemWeap.getPrice())){
+			if(props.consumeBolts(item.getItemDamage() * itemWeap.getPrice()) && item.getItemDamage() > 0){
 				item.setItemDamage(0);
-				//TODO - Fix chat and sound
-				//player.addChatMessage(new ChatComponentText(I18n.format("gui.vendor.refill.success")));
-				//player.world.playSoundAtEntity(player, "rcmod:vendor.buy", 1.0f, 1.0f);
+				player.sendMessage(new TextComponentString(I18n.format("gui.vendor.refill.success")));
+				player.world.playSound(null, new BlockPos(player.posX, player.posY, player.posZ), new SoundEvent(new ResourceLocation("rcmod:vendor.buy")), SoundCategory.MASTER, 1.0f, 1.0f);
 			} else {
-				//TODO - Fix chat and sound
-				//player.addChatMessage(new ChatComponentText(I18n.format("gui.vendor.refill.bolt")));
-				//player.world.playSoundAtEntity(player, "rcmod:vendor.maxAmmo", 1.0f, 1.0f);
+				player.sendMessage(new TextComponentString(I18n.format("gui.vendor.refill.bolt")));
+				player.world.playSound(null, new BlockPos(player.posX, player.posY, player.posZ), new SoundEvent(new ResourceLocation("rcmod:vendor.maxAmmo")), SoundCategory.MASTER, 1.0f, 1.0f);
 			}
 		} else {
-			//TODO - Fix chat
-			//player.addChatMessage(new ChatComponentText(I18n.format("gui.vendor.refill.error")));
+			player.sendMessage(new TextComponentString(I18n.format("gui.vendor.refill.error")));
 		}
 	}
 	
