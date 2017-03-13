@@ -1,0 +1,43 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "custom": { "flip-v": true },
+    "model": "rcmod:weapons/bombglove/bombglove.obj",
+	"textures": {
+            "#Material__29": "rcmod:models/items/bombglove"
+    }
+  },
+  "variants": {
+    "normal": [{
+		"transform": {
+                "firstperson": {
+                    "translation": [0.25, 0, 0.12],
+                    "rotation": [ { "y": -90}, {"x": -120}, {"z": 10} ],
+                    "scale": 0.04
+                },
+                "thirdperson": {
+                    "translation": [0.025, -0.12, 0.23],
+                    "rotation": [ { "y": -90}, {"x": -90}, {"z": 0} ],
+                    "scale": 0.055
+                },
+                "gui": {
+                    "translation": [0.3, 0, 0],
+					"rotation": [ { "y": 0}, {"x": 90}, {"z": 0} ],
+                    "scale": 0.039
+                },
+				"ground": {
+					"translation": [0.15, 0.0, 0.0],
+					"rotation": [ { "y": 0}, {"x": -90}, {"z": 0} ],
+					"scale": 0.024
+				},
+				"fixed": {
+					"translation": [-0.2, 0.0, 0.0],
+					"rotation": [ { "y": 180}, {"x": -90}, {"z": 0} ],
+					"scale": 0.03
+				}
+    }}],
+	"inventory": [{
+		"model": "rcmod:blaster_inventory"
+	}]
+  }
+}

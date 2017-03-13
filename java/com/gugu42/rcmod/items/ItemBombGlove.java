@@ -38,14 +38,13 @@ public class ItemBombGlove extends ItemRcGun {
 		
 		if (maxAmmo - par1ItemStack.getItemDamage() > 0) {
 			if (!world.isRemote) {
-				if (cooldown <= 0) {
 					EntityBombGloveAmmo bomb = new EntityBombGloveAmmo(
 							world, player);
 					world.spawnEntity(bomb);
+					bomb.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.6F, 0.2F);
 					par1ItemStack.damageItem(1, player);
-					cooldown = 60;
+					player.getCooldownTracker().setCooldown(par1ItemStack.getItem(), 60);
 					player.swingArm(hand);
-				}
 			}
 		}
 		return new ActionResult(EnumActionResult.SUCCESS, par1ItemStack);
@@ -57,14 +56,6 @@ public class ItemBombGlove extends ItemRcGun {
 
 	public float getStrVsBlock(ItemStack par1ItemStack, Block par2Block) {
 		return 0.0f;
-	}
-
-	public void onUpdate(ItemStack stack, World w, Entity ent, int i,
-			boolean flag) {
-		if (cooldown > 0) {
-			cooldown--;
-		}
-
 	}
 
 	public void onPlayerStoppedUsing(ItemStack stack, World w,

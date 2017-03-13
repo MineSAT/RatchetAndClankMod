@@ -1,11 +1,9 @@
 package com.gugu42.rcmod.handler;
 
 import com.gugu42.rcmod.CommonProxy;
-import com.gugu42.rcmod.RcMod;
 import com.gugu42.rcmod.capabilities.bolt.BoltProvider;
 import com.gugu42.rcmod.capabilities.bolt.IBolt;
 import com.gugu42.rcmod.entity.projectiles.EntityVisibombAmmo;
-import com.gugu42.rcmod.entity.projectiles.EntityVisibombCamera;
 import com.gugu42.rcmod.items.ItemAmmo;
 import com.gugu42.rcmod.items.ItemRcGun;
 import com.gugu42.rcmod.items.ItemRcWeap;
@@ -14,11 +12,11 @@ import com.gugu42.rcmod.items.RcItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelBiped.ArmPose;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
@@ -26,10 +24,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
@@ -217,15 +212,14 @@ public class RcEventHandler {
 	@SubscribeEvent
 	public void preRenderPlayer(RenderPlayerEvent.Pre event) {
 		EntityPlayer player = event.getEntityPlayer();
-		ItemStack is = player.getCurrentEquippedItem();
-		if ((is != null) && (is.getItem() instanceof ItemRcWeap)) {
+		ItemStack is = player.getHeldItemMainhand();
+		if ((is != ItemStack.EMPTY) && (is.getItem() instanceof ItemRcWeap)) {
 			ItemRcWeap itemInHand = (ItemRcWeap) is.getItem();
 			if (itemInHand.getHeldType() == 1) {
-				ModelBiped modelMain = ObfuscationReflectionHelper.getPrivateValue(RenderPlayer.class, event.renderer, 1);
-				ModelBiped modelArmorChestplate = ObfuscationReflectionHelper.getPrivateValue(RenderPlayer.class, event.renderer, 2);
-				ModelBiped modelArmor = ObfuscationReflectionHelper.getPrivateValue(RenderPlayer.class, event.renderer, 3);
-				modelMain.aimedBow = modelArmorChestplate.aimedBow = modelArmor.aimedBow = true;
-
+				ModelBiped modelMain = ObfuscationReflectionHelper.getPrivateValue(RenderPlayer.class, event.getRenderer(), 1);
+				ModelBiped modelArmorChestplate = ObfuscationReflectionHelper.getPrivateValue(RenderPlayer.class, event.getRenderer(), 2);
+				ModelBiped modelArmor = ObfuscationReflectionHelper.getPrivateValue(RenderPlayer.class, event.getRenderer(), 3);
+				modelMain.rightArmPose = modelArmorChestplate.rightArmPose = modelArmor.rightArmPose = ArmPose.BOW_AND_ARROW;
 			}
 		}
 	}*/

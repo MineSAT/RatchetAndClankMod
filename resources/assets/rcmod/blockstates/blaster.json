@@ -36,6 +36,7 @@
 				}
     }}],
 	"inventory": [{
+		"model": "rcmod:blaster_inventory"
 	}]
   }
 }

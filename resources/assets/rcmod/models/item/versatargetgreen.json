@@ -1,3 +1,6 @@
 {
-    "parent": "rcmod:block/versatargetgreen"
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "rcmod:items/versatargetgreen"
+    }
 }

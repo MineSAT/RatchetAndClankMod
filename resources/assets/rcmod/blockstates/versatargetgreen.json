@@ -1,5 +1,18 @@
 {
-    "variants": {
-        "normal": { "model": "rcmod:versatargetgreen" }
+  "forge_marker": 1,
+  "defaults": {
+    "custom": { "flip-v": true },
+    "model": "rcmod:versatargetgreen.obj",
+	"textures": {
+            "#Material__26": "rcmod:models/blocks/versatargetgreen" 			
     }
+  },
+  "variants": {
+    "normal": [{
+		"transform": {
+			"scale": 0.06
+		}
+	}],
+	"inventory": [{}]
+  }
 }

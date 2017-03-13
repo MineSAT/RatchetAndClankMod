@@ -26,6 +26,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.EventBus;
@@ -62,6 +63,12 @@ public class TessellatorModel extends ObjModel
         {
             e.printStackTrace();
         }
+    }
+    
+    public TessellatorModel(ResourceLocation loc)
+    {
+    	this("/assets/" + loc.getResourceDomain() + "/" + loc.getResourcePath());
+    	System.out.println("/assets/" + loc.getResourceDomain() + "/" + loc.getResourcePath());
     }
 
     @Override
@@ -131,6 +138,7 @@ public class TessellatorModel extends ObjModel
             renderer.pos(v1.getPos().x, v1.getPos().y, v1.getPos().z).tex(v1.getTexCoords().x, 1f - v1.getTexCoords().y).normal(v1.getNormal().x, v1.getNormal().y, v1.getNormal().z).endVertex();
             renderer.pos(v2.getPos().x, v2.getPos().y, v2.getPos().z).tex(v2.getTexCoords().x, 1f - v2.getTexCoords().y).normal(v2.getNormal().x, v2.getNormal().y, v2.getNormal().z).endVertex();
         }
+        
         tess.draw();
     }
 

@@ -81,23 +81,15 @@ public class RcMod {
 	public static RcCreativeTab     rcWeapTab;
 	public static RcCreativeTab     rcGadgTab;
 
-	//Blocks
-
-
 	public static SoundType         crateStepSound;
-
-
 
 	public static ArmorMaterial     enumArmorMaterialClank = EnumHelper.addArmorMaterial("Clank", null, 0, new int[] { 0, 0, 0, 0 }, 0, null, 0);
 
 	public RcTickHandler            rcTickHandler;
 
-	/*
-	 * Packet Handler - Not that hard but yeah
-	 */
 	public static FFMTPacketHandler rcModPacketHandler;
 
-	public static final String      MODID                  = "rcmod";
+	public static final String      MODID = "rcmod";
 
 	public static AchievementPage   rcAchievementPage;
 
@@ -114,6 +106,7 @@ public class RcMod {
 		config = new Configuration(event.getSuggestedConfigurationFile());
 
 		config.load();
+		
 		config.get("weapon_damage", "blaster", 4);
 		config.get("weapon_damage", "pyrocitor", 6);
 		config.get("weapon_damage", "ryno", 20);
@@ -121,8 +114,6 @@ public class RcMod {
 		config.get("weapon_damage", "visibomb", 12);
 		config.get("weapon_damage", "wrench_thrown", 5);
 		config.get("weapon_damage", "wrench_direct", 6);
-		
-		
 		
 		config.save();
 		

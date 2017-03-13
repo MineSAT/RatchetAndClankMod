@@ -5,8 +5,10 @@ import com.gugu42.rcmod.RcMod;
 import com.gugu42.rcmod.blocks.RcBlocks;
 import com.gugu42.rcmod.client.render.EntityRenderers;
 import com.gugu42.rcmod.client.render.RenderTNTCrate;
+import com.gugu42.rcmod.client.render.projectiles.RenderBomb;
 import com.gugu42.rcmod.client.render.tesr.TESRVendor;
 import com.gugu42.rcmod.entity.EntityTNTCrate;
+import com.gugu42.rcmod.entity.projectiles.EntityBombGloveAmmo;
 import com.gugu42.rcmod.items.RcItems;
 import com.gugu42.rcmod.tileentity.TileEntityVendor;
 import com.gugu42.rcmod.utils.RcSimpleResourceManager;
@@ -28,7 +30,10 @@ public class ClientProxy extends CommonProxy {
 		super.preInit();
 		OBJLoader.INSTANCE.addDomain(RcMod.MODID);
 		RcItems.registerItemRenders();
+		
+		
 		EntityRenderers.registerEntityRenderer(EntityTNTCrate.class, RenderTNTCrate.class);
+		EntityRenderers.registerEntityRenderer(EntityBombGloveAmmo.class, RenderBomb.class);
 	}
 	
 	@Override

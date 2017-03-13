@@ -242,8 +242,8 @@ public class RcItems {
 	public static void registerItemRenders()
 	{
 		/* WEAPONS */
-		ModelLoader.setCustomModelResourceLocation(blaster, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "blaster"), "normal"));
-		ModelLoader.setCustomModelResourceLocation(bombGlove, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "bombglove"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(blaster, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "blaster"), "normal")); 			//done
+		ModelLoader.setCustomModelResourceLocation(bombGlove, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "bombglove"), "normal")); 		//done
 		ModelLoader.setCustomModelResourceLocation(decoyGlove, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "decoyglove"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(devastator, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "devastator"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(droneDevice, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "dronedevice"), "inventory"));

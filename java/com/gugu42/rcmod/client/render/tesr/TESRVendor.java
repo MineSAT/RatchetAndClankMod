@@ -28,12 +28,13 @@ public class TESRVendor extends TileEntitySpecialRenderer<TileEntityVendor> {
 	
 	public TESRVendor()
 	{
+		this.timeAlive = 0;
 		model = new TessellatorModel("/assets/" + RcMod.MODID + "/models/block/vendor.obj");
 	}
 	
 	@Override
     public void renderTileEntityAt(TileEntityVendor te, double x, double y, double z, float partialTicks, int destroyStage) {
-		timeAlive++;
+		this.timeAlive++;
         GlStateManager.pushAttrib();
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, z);
