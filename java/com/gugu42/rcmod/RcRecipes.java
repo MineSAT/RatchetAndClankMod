@@ -16,7 +16,7 @@ public class RcRecipes
 			"XZX",
 			"ZYZ",
 			"XZX",
-			'X', Blocks.IRON_BLOCK, 'Y', RcItems.vendorCore, 'Z', Blocks.OBSIDIAN
+			'X', Blocks.IRON_BLOCK, 'Y', RcItems.VENDOR_CORE, 'Z', Blocks.OBSIDIAN
 		});
 		GameRegistry.addRecipe(new ItemStack(RcItems.OMNIWRENCH_3000, 1), new Object[]{
 			"X X",
@@ -36,39 +36,39 @@ public class RcRecipes
 			"XXX",
 			'X', Blocks.COBBLESTONE, 'Z', Items.IRON_INGOT
 		});
-		GameRegistry.addRecipe(new ItemStack(RcItems.vendorCore, 1), new Object[]{
+		GameRegistry.addRecipe(new ItemStack(RcItems.VENDOR_CORE, 1), new Object[]{
 			"XXX",
 			"XZX",
 			"XXX",
 			'X', new ItemStack(Items.DYE, 1, 14), 'Z', Items.DIAMOND
 		});
 		
-		GameRegistry.addRecipe(new ItemStack(RcItems.clankCore, 1), new Object[]{
+		GameRegistry.addRecipe(new ItemStack(RcItems.CLANK_CORE, 1), new Object[]{
 			"GGG",
 			"GDG",
 			"GGG",
 			'G', new ItemStack(Items.DYE, 1, 10), 'D', Items.DIAMOND
 		});
 		
-		GameRegistry.addRecipe(new ItemStack(RcItems.clank, 1), new Object[]{
+		GameRegistry.addRecipe(new ItemStack(RcItems.CLANK, 1), new Object[]{
 			"IRI",
 			"ICI",
 			"IBI",
-			'I', Items.IRON_INGOT, 'R', Items.REDSTONE, 'B', Blocks.REDSTONE_BLOCK, 'C', RcItems.clankCore
+			'I', Items.IRON_INGOT, 'R', Items.REDSTONE, 'B', Blocks.REDSTONE_BLOCK, 'C', RcItems.CLANK_CORE
 		});
 		
-		GameRegistry.addRecipe(new ItemStack(RcItems.helipackHelice, 1), new Object[]{
+		GameRegistry.addRecipe(new ItemStack(RcItems.HELIPACK_HELICE, 1), new Object[]{
 			" I ",
 			"IYI",
 			" I ",
 			'I', Items.IRON_INGOT, 'Y', new ItemStack(Items.DYE, 1, 11)
 		});
 		
-		GameRegistry.addRecipe(new ItemStack(RcItems.clankBackpack, 1), new Object[]{
+		GameRegistry.addRecipe(new ItemStack(RcItems.HELIPACK, 1), new Object[]{
 			" H ",
 			" I ",
 			"HCH",
-			'I', Blocks.IRON_BARS, 'C', RcItems.clank, 'H', RcItems.helipackHelice
+			'I', Blocks.IRON_BARS, 'C', RcItems.CLANK, 'H', RcItems.HELIPACK_HELICE
 		});
 		GameRegistry.addRecipe(new ItemStack(RcBlocks.TNT_CRATE, 4), new Object[]{
 			" T ",
@@ -77,19 +77,19 @@ public class RcRecipes
 			'T', Blocks.TNT, 'Y', new ItemStack(Items.DYE, 1, 11)
 		});
 		
-		GameRegistry.addRecipe(new ItemStack(RcItems.ratchetEars, 1), new Object[]{
+		GameRegistry.addRecipe(new ItemStack(RcItems.RATCHET_EARS, 1), new Object[]{
 			"Y Y",
 			"YTY",
 			'T', Items.STRING, 'Y', new ItemStack(Blocks.WOOL, 1, 4)
 		});
 		
-		GameRegistry.addRecipe(new ItemStack(RcItems.thrusterPack, 1), new Object[]{
+		GameRegistry.addRecipe(new ItemStack(RcItems.THRUSTER_PACK, 1), new Object[]{
 			"ICI",
 			"H H",
-			'I', Blocks.IRON_BARS, 'C', RcItems.clank, 'H', Items.FLINT_AND_STEEL
+			'I', Blocks.IRON_BARS, 'C', RcItems.CLANK, 'H', Items.FLINT_AND_STEEL
 		});
 		
-		GameRegistry.addRecipe(new ItemStack(RcItems.swingShot, 1), new Object[]{
+		GameRegistry.addRecipe(new ItemStack(RcItems.SWINGSHOT, 1), new Object[]{
 			"ISI",
 			"  I",
 			'I', Items.IRON_INGOT, 'S', Items.STRING

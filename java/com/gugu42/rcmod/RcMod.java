@@ -155,7 +155,7 @@ public class RcMod {
 		/* -----Other----- */
 
 		achievement_VendorCraft = new Achievement("achievement.vendor", "vendor", 0, -1, RcBlocks.VENDOR, (Achievement) null).registerStat().setSpecial();
-		achievement_HelipackCraft = new Achievement("achievement.helipack", "helipack", 0, 1, RcItems.clankBackpack, achievement_VendorCraft).registerStat();
+		achievement_HelipackCraft = new Achievement("achievement.helipack", "helipack", 0, 1, RcItems.HELIPACK, achievement_VendorCraft).registerStat();
 
 		rcAchievementPage = new AchievementPage("Ratchet & Clank Mod", achievement_VendorCraft, achievement_HelipackCraft);
 		AchievementPage.registerAchievementPage(rcAchievementPage);
@@ -179,9 +179,9 @@ public class RcMod {
 
 	@SideOnly(Side.CLIENT)
 	public void setCreativeTabsIcon() {
-		rcTab.setTabIconItem(RcItems.bolt);
-		rcWeapTab.setTabIconItem(RcItems.blaster);
-		rcGadgTab.setTabIconItem(RcItems.swingShot);
+		rcTab.setTabIconItem(RcItems.BOLT);
+		rcWeapTab.setTabIconItem(RcItems.BLASTER);
+		rcGadgTab.setTabIconItem(RcItems.SWINGSHOT);
 	}
 
 	@EventHandler

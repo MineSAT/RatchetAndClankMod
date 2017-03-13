@@ -22,32 +22,32 @@ public class DropBolts
 		Random random = new Random();
 		if(event.getState().getBlock() == Blocks.COAL_ORE)
 		{
-		     ItemStack itemStackToDrop = new ItemStack(RcItems.bolt, random.nextInt(3*(event.getFortuneLevel()+1))+3);
+		     ItemStack itemStackToDrop = new ItemStack(RcItems.BOLT, random.nextInt(3*(event.getFortuneLevel()+1))+3);
 		     event.getDrops().add(itemStackToDrop);
 		}
 		if(event.getState().getBlock() == Blocks.LAPIS_ORE)
 		{
-		     ItemStack itemStackToDrop = new ItemStack(RcItems.bolt, random.nextInt(5*(event.getFortuneLevel()+1))+3);
+		     ItemStack itemStackToDrop = new ItemStack(RcItems.BOLT, random.nextInt(5*(event.getFortuneLevel()+1))+3);
 		     event.getDrops().add(itemStackToDrop);
 		}
 		if(event.getState().getBlock() == Blocks.REDSTONE_ORE)
 		{
-		     ItemStack itemStackToDrop = new ItemStack(RcItems.bolt, random.nextInt(1*(event.getFortuneLevel()+1))+3);
+		     ItemStack itemStackToDrop = new ItemStack(RcItems.BOLT, random.nextInt(1*(event.getFortuneLevel()+1))+3);
 		     event.getDrops().add(itemStackToDrop);
 		}
 		if(event.getState().getBlock() == Blocks.DIAMOND_ORE)
 		{
-		     ItemStack itemStackToDrop = new ItemStack(RcItems.bolt, random.nextInt(8*(event.getFortuneLevel()+1))+3);
+		     ItemStack itemStackToDrop = new ItemStack(RcItems.BOLT, random.nextInt(8*(event.getFortuneLevel()+1))+3);
 		     event.getDrops().add(itemStackToDrop);
 		}
 		if(event.getState().getBlock() == Blocks.QUARTZ_ORE)
 		{
-		     ItemStack itemStackToDrop = new ItemStack(RcItems.bolt, random.nextInt(5*(event.getFortuneLevel()+1))+3);
+		     ItemStack itemStackToDrop = new ItemStack(RcItems.BOLT, random.nextInt(5*(event.getFortuneLevel()+1))+3);
 		     event.getDrops().add(itemStackToDrop);
 		}
 		if(event.getState().getBlock() == Blocks.EMERALD_ORE)
 		{
-		     ItemStack itemStackToDrop = new ItemStack(RcItems.bolt, random.nextInt(5*(event.getFortuneLevel()+1))+3);
+		     ItemStack itemStackToDrop = new ItemStack(RcItems.BOLT, random.nextInt(5*(event.getFortuneLevel()+1))+3);
 		     event.getDrops().add(itemStackToDrop);
 		}
 	}

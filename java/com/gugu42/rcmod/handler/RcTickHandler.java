@@ -108,7 +108,7 @@ public class RcTickHandler {
 	private boolean canHelipack(EntityPlayer player) {
 		if (player.motionY < 0.0f
 				&& player.inventory.armorItemInSlot(2) != ItemStack.EMPTY
-				&& player.inventory.armorItemInSlot(2).getItem() == RcItems.clankBackpack) {
+				&& player.inventory.armorItemInSlot(2).getItem() == RcItems.HELIPACK) {
 			if (player.getEntityData().getBoolean("clankJumped")) {
 				if (player.getEntityData().getInteger("clankCooldown") >= 1) {
 					if (player.onGround) {
@@ -135,7 +135,7 @@ public class RcTickHandler {
 	private boolean canThrusterpack(EntityPlayer player) {
 		if (player.motionY < 0.0f
 				&& player.inventory.armorItemInSlot(2) != null
-				&& player.inventory.armorItemInSlot(2).getItem() == RcItems.thrusterPack) {
+				&& player.inventory.armorItemInSlot(2).getItem() == RcItems.THRUSTER_PACK) {
 			if (player.getEntityData().getBoolean("clankJumped")) {
 				if (player.getEntityData().getInteger("clankCooldown") >= 1) {
 					if (player.onGround) {
@@ -164,7 +164,7 @@ public class RcTickHandler {
 				closeness);
 		if(par1.getAge() > 15)
 		{
-		if ((player != null) && par1.getEntityItem().getItem() == RcItems.bolt)
+		if ((player != null) && par1.getEntityItem().getItem() == RcItems.BOLT)
 		{
 			double var3 = (player.posX - par1.posX) / closeness;
 			double var5 = (player.posY + player.getEyeHeight() - par1.posY)

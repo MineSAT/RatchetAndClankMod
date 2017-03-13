@@ -94,8 +94,8 @@ public class RcEventHandler {
 		if (event.getEntity() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.getEntity();
 			if (player.inventory.armorItemInSlot(2) != ItemStack.EMPTY && player.isSneaking()) {
-				if (player.inventory.armorItemInSlot(2).getItem() == RcItems.thrusterPack || player.inventory.armorItemInSlot(2).getItem() == RcItems.clankBackpack) {
-					if (player.inventory.armorItemInSlot(2).getItem() == RcItems.clankBackpack)
+				if (player.inventory.armorItemInSlot(2).getItem() == RcItems.THRUSTER_PACK || player.inventory.armorItemInSlot(2).getItem() == RcItems.HELIPACK) {
+					if (player.inventory.armorItemInSlot(2).getItem() == RcItems.HELIPACK)
 						event.getEntity().motionY += 0.3D;
 					else
 						event.getEntity().motionY += 0.35D;
@@ -105,7 +105,7 @@ public class RcEventHandler {
 			}
 
 			if (player.inventory.armorItemInSlot(2) != null && player.isSprinting()) {
-				if (player.inventory.armorItemInSlot(2).getItem() == RcItems.thrusterPack || player.inventory.armorItemInSlot(2).getItem() == RcItems.clankBackpack) {
+				if (player.inventory.armorItemInSlot(2).getItem() == RcItems.THRUSTER_PACK || player.inventory.armorItemInSlot(2).getItem() == RcItems.HELIPACK) {
 					double x = Math.cos(Math.toRadians(player.rotationYawHead + 90.0F)) * 0.15d;
 
 					double z = Math.sin(Math.toRadians(player.rotationYawHead + 90.0F)) * 0.15d;
@@ -124,7 +124,7 @@ public class RcEventHandler {
 	public void onLivingFallEvent(LivingFallEvent event) {
 		if (event.getEntity() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.getEntity();
-			if (player.inventory.armorItemInSlot(2) != null && player.inventory.armorItemInSlot(2).getItem() == RcItems.clankBackpack || player.inventory.armorItemInSlot(2) != null && player.inventory.armorItemInSlot(2).getItem() == RcItems.thrusterPack) {
+			if (player.inventory.armorItemInSlot(2) != null && player.inventory.armorItemInSlot(2).getItem() == RcItems.HELIPACK || player.inventory.armorItemInSlot(2) != null && player.inventory.armorItemInSlot(2).getItem() == RcItems.THRUSTER_PACK) {
 				event.setCanceled(true);
 			}
 		}
@@ -134,7 +134,7 @@ public class RcEventHandler {
 	public void onLivingUpdateEvent(LivingUpdateEvent event) {
 		if (event.getEntity() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.getEntity();
-			if (player.inventory.armorItemInSlot(2) != null && player.inventory.armorItemInSlot(2).getItem() == RcItems.clankBackpack || player.inventory.armorItemInSlot(2) != null && player.inventory.armorItemInSlot(2).getItem() == RcItems.thrusterPack) {
+			if (player.inventory.armorItemInSlot(2) != null && player.inventory.armorItemInSlot(2).getItem() == RcItems.HELIPACK || player.inventory.armorItemInSlot(2) != null && player.inventory.armorItemInSlot(2).getItem() == RcItems.THRUSTER_PACK) {
 				if (player.fallDistance > 1.6F) {
 					event.getEntity().getEntityData().setBoolean("clankJumped", true);
 					event.getEntity().getEntityData().setInteger("clankCooldown", 2);
@@ -159,7 +159,7 @@ public class RcEventHandler {
 			return;
 		IBolt props = event.getEntityPlayer().getCapability(BoltProvider.BOLT_CAP, null);
 		props.setPlayer((EntityPlayerMP)event.getEntityPlayer());
-		if (item.getItem() != null && item.getItem() == RcItems.bolt) {
+		if (item.getItem() != null && item.getItem() == RcItems.BOLT) {
 			props.addBolt(25);
 			event.getEntityPlayer().world.playSound(null, new BlockPos(event.getEntityPlayer().posX, event.getEntityPlayer().posY, event.getEntityPlayer().posZ), new SoundEvent(new ResourceLocation("rcmod:BoltCollect")), SoundCategory.BLOCKS, 0.3f, 1.0f);
 			event.getItem().setDead();

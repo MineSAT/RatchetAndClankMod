@@ -33,6 +33,6 @@ public class BlockCrate extends BlockFalling {
 	@Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        return RcItems.bolt;
+        return RcItems.BOLT;
     }
 }
