@@ -27,7 +27,7 @@ public class RcAchievementEventHandler {
 					playAchievementSound(player);
 				}
 			}
-			if (event.crafting.getItem() == RcItems.clankBackpack) {
+			if (event.crafting.getItem() == RcItems.HELIPACK) {
 				if(!player.hasAchievement(RcMod.achievement_HelipackCraft)) {
 					player.addStat(RcMod.achievement_HelipackCraft);
 					/*event.player.world.playSoundAtEntity(event.player,
