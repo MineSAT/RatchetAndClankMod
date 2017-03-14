@@ -1,7 +1,11 @@
 package com.gugu42.rcmod.items;
 
-import com.gugu42.rcmod.RcMod;
+import java.util.ArrayList;
 
+import com.gugu42.rcmod.RcMod;
+import com.gugu42.rcmod.client.ModelLocation;
+
+import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -9,6 +13,9 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class RcItems {
+	
+	public static ArrayList<ModelLocation> modelLocations = new ArrayList<ModelLocation>();
+	
 	//All global mod items goes there
 	public static Item OMNIWRENCH_3000;
 	public static Item BOLT;
@@ -242,18 +249,22 @@ public class RcItems {
 	public static void registerItemRenders()
 	{
 		/* WEAPONS */
-		ModelLoader.setCustomModelResourceLocation(BLASTER, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "blaster"), "normal")); 				//done
-		ModelLoader.setCustomModelResourceLocation(BOMB_GLOVE, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "bombglove"), "normal")); 		//done
+	
+		registerItemRender(BLASTER, "blaster"); 		//done
+		registerItemRender(BOMB_GLOVE, "bombglove"); 	//done
+		registerItemRender(DEVASTATOR, "devastator");	//done
+		registerItemRender(PYROCITOR, "pyrocitor");		//done
+		registerItemRender(RYNO, "ryno");				//done
+		registerItemRender(TAUNTER, "taunter");			//done
+		
+		
+		
 		ModelLoader.setCustomModelResourceLocation(DECOY_GLOVE, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "decoyglove"), "inventory"));
-		ModelLoader.setCustomModelResourceLocation(DEVASTATOR, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "devastator"), "normal"));		//done
 		ModelLoader.setCustomModelResourceLocation(DRONE_DEVICE, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "dronedevice"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(GLOVE_OF_DOOM, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "gloveofdoom"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(MINE_GLOVE, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "mineglove"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(MORPH_O_RAY, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "morphoray"), "inventory"));
-		ModelLoader.setCustomModelResourceLocation(PYROCITOR, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "pyrocitor"), "normal"));			//done
-		ModelLoader.setCustomModelResourceLocation(RYNO, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "ryno"), "normal"));					//done
 		ModelLoader.setCustomModelResourceLocation(SUCK_CANNON, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "suckcannon"), "inventory"));
-		ModelLoader.setCustomModelResourceLocation(TAUNTER, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "taunter"), "normal")); 				//done
 		ModelLoader.setCustomModelResourceLocation(TESLA_CLAW, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "teslaclaw"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(VISIBOMB_GUN, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "visibombgun"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(WALLOPER, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "walloper"), "inventory"));
@@ -290,5 +301,18 @@ public class RcItems {
 		ModelLoader.setCustomModelResourceLocation(THRUSTER_PACK, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "thrusterpack"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(SHIP_ITEM, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "shipitem"), "inventory"));
 	}
-
+	
+	/**
+	 * Register an items that will use modelName for 3D rendering in hand and world, and will use modelName_inventory to render a 2D icon in hand
+	 * 
+	 * @param item The item to render
+	 * @param modelName The model name to use (Used for .json files)
+	 */
+	private static void registerItemRender(Item item, String modelName)
+	{
+		ModelLocation modelLoc = new ModelLocation(new ModelResourceLocation(new ResourceLocation(RcMod.MODID, modelName + "_inventory"), "inventory"), new ModelResourceLocation(new ResourceLocation(RcMod.MODID, modelName), "normal"));
+		ModelLoader.setCustomModelResourceLocation(item, 0, modelLoc.location2D); 				//done
+		ModelBakery.registerItemVariants(item, modelLoc.location3D);
+		modelLocations.add(modelLoc);
+	}
 }

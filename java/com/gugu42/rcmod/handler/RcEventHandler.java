@@ -1,8 +1,11 @@
 package com.gugu42.rcmod.handler;
 
 import com.gugu42.rcmod.CommonProxy;
+import com.gugu42.rcmod.RcMod;
 import com.gugu42.rcmod.capabilities.bolt.BoltProvider;
 import com.gugu42.rcmod.capabilities.bolt.IBolt;
+import com.gugu42.rcmod.client.ModelLocation;
+import com.gugu42.rcmod.client.render.Inventory2DItemModel;
 import com.gugu42.rcmod.entity.projectiles.EntityVisibombAmmo;
 import com.gugu42.rcmod.items.ItemAmmo;
 import com.gugu42.rcmod.items.ItemRcGun;
@@ -13,6 +16,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelBiped.ArmPose;
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -22,6 +27,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
@@ -237,6 +243,25 @@ public class RcEventHandler {
 					Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.ICONS);
 				}
 			}
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void modelBakeEvent(ModelBakeEvent event)
+	{
+		for(ModelLocation loc : RcItems.modelLocations) {
+			/*
+			ModelResourceLocation loc2D = new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "blaster_inventory"), "inventory");
+			ModelResourceLocation loc3D = new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "blaster"), "normal");
+			 */
+			
+			IBakedModel model2d = event.getModelRegistry().getObject(loc.location2D);
+			IBakedModel model3d = event.getModelRegistry().getObject(loc.location3D);
+
+			Inventory2DItemModel customModel = new Inventory2DItemModel(model2d,model3d);
+			
+			event.getModelRegistry().putObject(loc.location2D, customModel);
 		}
 	}
 }
