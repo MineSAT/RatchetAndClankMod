@@ -35,9 +35,9 @@ Done :
 * Bomb glove
 * Taunter
 * Devastator
+* RYNO
 
 To do :
-* RYNO
 * Pyrocitor
 * Walloper
 * Visibomb Gun

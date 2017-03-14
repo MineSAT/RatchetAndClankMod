@@ -101,6 +101,7 @@ public class ItemRYNO extends ItemRcGun {
 
 	public void fireRocket(World world, EntityPlayer player) {
 		EntityRYNOAmmo rocket = new EntityRYNOAmmo(world, player);
+		rocket.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.6F, 0.2F);
 		world.spawnEntity(rocket);
 	}
 
