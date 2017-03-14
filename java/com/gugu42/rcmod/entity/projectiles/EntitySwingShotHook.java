@@ -116,7 +116,7 @@ public class EntitySwingShotHook extends EntityThrowable {
 			}
 
 			List entityTagetList = this.world.getEntitiesWithinAABB(
-					Entity.class, this.getCollisionBoundingBox().expand(0.3D, 0.3D, 0.3D));
+					Entity.class, this.getEntityBoundingBox().expand(0.3D, 0.3D, 0.3D));
 			for (int i = 0; i < entityTagetList.size(); i++) {
 				Entity entityTarget = (Entity) entityTagetList.get(i);
 				if (entityTarget != null && entityTarget == thrower) {
@@ -143,7 +143,7 @@ public class EntitySwingShotHook extends EntityThrowable {
 		if (timeLived >= returnTime && !shouldPullPlayer) {
 			returnToThrower();
 			List entityTagetList = this.world.getEntitiesWithinAABB(
-					Entity.class, this.getCollisionBoundingBox().expand(0.3D, 0.3D, 0.3D));
+					Entity.class, this.getEntityBoundingBox().expand(0.3D, 0.3D, 0.3D));
 			for (int i = 0; i < entityTagetList.size(); i++) {
 				Entity entityTarget = (Entity) entityTagetList.get(i);
 				if (entityTarget != null && entityTarget == thrower) {

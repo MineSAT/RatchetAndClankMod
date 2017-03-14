@@ -109,7 +109,7 @@ public class EntityDecoyGloveAmmo extends EntityThrowable implements
 				float size = 32f;
 				List<Entity> entities = this.world
 						.getEntitiesWithinAABBExcludingEntity(this,
-								this.getCollisionBoundingBox().expand(size, size, size));
+								this.getEntityBoundingBox().expand(size, size, size));
 				for (Entity e : entities) {
 					if (e instanceof EntityCreature) {
 						EntityCreature mob = (EntityCreature) e;

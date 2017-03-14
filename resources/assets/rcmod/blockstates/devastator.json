@@ -2,9 +2,9 @@
   "forge_marker": 1,
   "defaults": {
     "custom": { "flip-v": true },
-    "model": "rcmod:weapons/taunter/taunter.obj",
+    "model": "rcmod:weapons/devastator/devastator.obj",
 	"textures": {
-            "#Material__17": "rcmod:models/items/taunter"
+            "#Material__63": "rcmod:models/items/devastator"
     }
   },
   "variants": {
@@ -23,17 +23,20 @@
                 "gui": {
                     "translation": [0.3, -0.15, 0],
 					"rotation": [ { "y": -180}, {"x": 0}, {"z": 0} ],
-                    "scale": 0.030
+                    "scale": 0.020
                 },
 				"ground": {
-					"translation": [-0.15, 0.0, 0.0],
-					"scale": 0.020
+					"translation": [-0.2, 0.0, 0.0],
+					"scale": 0.017
 				},
 				"fixed": {
 					"translation": [-0.3, -0.1, 0.0],
 					"rotation": [ { "y": 0}, {"x": 0}, {"z": 0} ],
 					"scale": 0.025
 				}
-    }}]
+    }}],
+	"inventory": [{
+		"model": "rcmod:devastator_inventory"
+	}]
   }
 }

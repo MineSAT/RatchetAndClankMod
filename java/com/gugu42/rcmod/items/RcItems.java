@@ -242,10 +242,10 @@ public class RcItems {
 	public static void registerItemRenders()
 	{
 		/* WEAPONS */
-		ModelLoader.setCustomModelResourceLocation(BLASTER, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "blaster"), "normal")); 			//done
+		ModelLoader.setCustomModelResourceLocation(BLASTER, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "blaster"), "normal")); 				//done
 		ModelLoader.setCustomModelResourceLocation(BOMB_GLOVE, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "bombglove"), "normal")); 		//done
 		ModelLoader.setCustomModelResourceLocation(DECOY_GLOVE, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "decoyglove"), "inventory"));
-		ModelLoader.setCustomModelResourceLocation(DEVASTATOR, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "devastator"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(DEVASTATOR, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "devastator"), "normal"));		//not done
 		ModelLoader.setCustomModelResourceLocation(DRONE_DEVICE, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "dronedevice"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(GLOVE_OF_DOOM, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "gloveofdoom"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(MINE_GLOVE, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "mineglove"), "inventory"));
@@ -253,7 +253,7 @@ public class RcItems {
 		ModelLoader.setCustomModelResourceLocation(PYROCITOR, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "pyrocitor"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(RYNO, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "ryno"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(SUCK_CANNON, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "suckcannon"), "inventory"));
-		ModelLoader.setCustomModelResourceLocation(TAUNTER, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "taunter"), "normal")); //not done
+		ModelLoader.setCustomModelResourceLocation(TAUNTER, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "taunter"), "normal")); 				//done
 		ModelLoader.setCustomModelResourceLocation(TESLA_CLAW, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "teslaclaw"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(VISIBOMB_GUN, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "visibombgun"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(WALLOPER, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "walloper"), "inventory"));

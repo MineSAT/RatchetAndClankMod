@@ -82,9 +82,9 @@ public class EntityRYNOAmmo extends EntityThrowable {
 		}
 
 		if (this.target != null) {
-			double d = this.target.getCollisionBoundingBox().minX + (this.target.getCollisionBoundingBox().maxX - this.target.getCollisionBoundingBox().minX) / 2.0D - this.posX;
-			double d1 = this.target.getCollisionBoundingBox().minY + (this.target.getCollisionBoundingBox().maxY - this.target.getCollisionBoundingBox().minY) / 2.0D - this.posY;
-			double d2 = this.target.getCollisionBoundingBox().minZ + (this.target.getCollisionBoundingBox().maxZ - this.target.getCollisionBoundingBox().minZ) / 2.0D - this.posZ;
+			double d = this.target.getEntityBoundingBox().minX + (this.target.getEntityBoundingBox().maxX - this.target.getEntityBoundingBox().minX) / 2.0D - this.posX;
+			double d1 = this.target.getEntityBoundingBox().minY + (this.target.getEntityBoundingBox().maxY - this.target.getEntityBoundingBox().minY) / 2.0D - this.posY;
+			double d2 = this.target.getEntityBoundingBox().minZ + (this.target.getEntityBoundingBox().maxZ - this.target.getEntityBoundingBox().minZ) / 2.0D - this.posZ;
 			this.setThrowableHeading(d, d1, d2, 0.9F, 0.0F);
 			this.posY += (0.5 * Math.sin(this.ticksAlive));
 			this.posX += (0.5 * Math.cos(this.ticksAlive));
@@ -107,7 +107,7 @@ public class EntityRYNOAmmo extends EntityThrowable {
 	private EntityLiving getTarget(double d, double d1, double d2, double d3) {
 		double d4 = -1.0D;
 		EntityLiving entityliving = null;
-		List list = this.world.getEntitiesWithinAABBExcludingEntity(getThrower(), this.getCollisionBoundingBox().expand(16.0D, 16.0D, 16.0D));
+		List list = this.world.getEntitiesWithinAABBExcludingEntity(getThrower(), this.getEntityBoundingBox().expand(16.0D, 16.0D, 16.0D));
 
 		for (int i = 0; i < list.size(); i++) {
 			EntityLiving entityliving1 = (EntityLiving) list.get(i);

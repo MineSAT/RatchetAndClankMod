@@ -66,7 +66,7 @@ public class EntityMineGloveAmmo extends EntityThrowable implements IProjectile 
 
 		if (isActive) {
 			List entityTagetList = this.world.getEntitiesWithinAABB(
-					Entity.class, this.getCollisionBoundingBox().expand(0.5D, 0.5D, 0.5D));
+					Entity.class, this.getEntityBoundingBox().expand(0.5D, 0.5D, 0.5D));
 			for (int i = 0; i < entityTagetList.size(); i++) {
 				Entity entityTarget = (Entity) entityTagetList.get(i);
 				if (entityTarget != null && entityTarget != this) {

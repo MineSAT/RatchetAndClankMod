@@ -71,7 +71,7 @@ public class ItemSuckCannon extends ItemRcWeap
     		return new ActionResult(EnumActionResult.FAIL, stack);
         
         double radius = 10;
-        List<EntityLiving> entities = world.getEntitiesWithinAABB(EntityLiving.class, player.getCollisionBoundingBox().expand(radius, radius, radius));
+        List<EntityLiving> entities = world.getEntitiesWithinAABB(EntityLiving.class, player.getEntityBoundingBox().expand(radius, radius, radius));
 
         player.getEntityData().setBoolean("isUsingSuckCannon", true);
         player.getEntityData().setInteger("suckCannonRotation", 5);

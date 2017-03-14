@@ -124,12 +124,14 @@ public class ItemDevastator extends ItemRcGun {
 
 	public void fireRocket(World world, EntityPlayer player) {
 		EntityRYNOAmmo rocket = new EntityRYNOAmmo(world, player);
+		rocket.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.6F, 0.2F);
 		world.spawnEntity(rocket);
 		player.world.playSound(null, new BlockPos(player.posX, player.posY, player.posZ), new SoundEvent(new ResourceLocation("rcmod:DevastatorShot")), SoundCategory.MASTER, 1.0f, 1.0f);
 	}
 
 	public void fireRocket(World world, EntityPlayer player, Entity target) {
 		EntityRYNOAmmo rocket = new EntityRYNOAmmo(world, player, target);
+		rocket.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.6F, 0.2F);
 		world.spawnEntity(rocket);
 		player.world.playSound(null, new BlockPos(player.posX, player.posY, player.posZ), new SoundEvent(new ResourceLocation("rcmod:DevastatorShot")), SoundCategory.MASTER, 1.0f, 1.0f);
 	}
