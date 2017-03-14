@@ -253,7 +253,7 @@ public class RcItems {
 		ModelLoader.setCustomModelResourceLocation(PYROCITOR, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "pyrocitor"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(RYNO, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "ryno"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(SUCK_CANNON, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "suckcannon"), "inventory"));
-		ModelLoader.setCustomModelResourceLocation(TAUNTER, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "taunter"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(TAUNTER, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "taunter"), "normal")); //not done
 		ModelLoader.setCustomModelResourceLocation(TESLA_CLAW, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "teslaclaw"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(VISIBOMB_GUN, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "visibombgun"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(WALLOPER, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "walloper"), "inventory"));

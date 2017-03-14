@@ -33,6 +33,7 @@ To do :
 Done :
 * Blaster
 * Bomb glove
+* Taunter
 
 To do :
 * RYNO
@@ -41,7 +42,6 @@ To do :
 * Visibomb Gun
 * Decoy Glove
 * Devastator
-* Taunter
 * Suck Cannon
 * Omniwrench
 

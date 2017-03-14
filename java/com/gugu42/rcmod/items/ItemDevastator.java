@@ -66,9 +66,9 @@ public class ItemDevastator extends ItemRcGun {
 		if (par5 && par3Entity instanceof EntityPlayer && !par2World.isRemote) {
 			EntityPlayer player = (EntityPlayer) par3Entity;
 			Entity target = null;
-			/*List entityTagetList = par2World.getEntitiesWithinAABB(
+			List entityTagetList = par2World.getEntitiesWithinAABB(
 					Entity.class,
-					player.getCollisionBoundingBox().expand(48.0D, 48.0D, 48.0D));
+					player.getEntityBoundingBox().expand(48.0D, 48.0D, 48.0D));
 			for (int i = 0; i < entityTagetList.size(); i++) {
 				Entity entityTarget = (Entity) entityTagetList.get(i);
 				if (entityTarget != player
@@ -77,7 +77,7 @@ public class ItemDevastator extends ItemRcGun {
 					Vec3d vec3 = player.getLook(1.0F).normalize();
 					Vec3d vec31 = new Vec3d(
 									entityLivingTarget.posX - player.posX,
-									entityLivingTarget.getCollisionBoundingBox().minY
+									entityLivingTarget.getEntityBoundingBox().minY
 											+ (double) (entityLivingTarget.height / 2.0F)
 											- (player.posY + (double) player
 													.getEyeHeight()),
@@ -93,7 +93,7 @@ public class ItemDevastator extends ItemRcGun {
 					}
 
 				}
-			}*/
+			}
 
 //			if (par3Entity.getEntityData().getBoolean("devastatorFired")) {
 				

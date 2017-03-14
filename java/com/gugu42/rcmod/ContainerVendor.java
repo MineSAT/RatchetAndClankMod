@@ -9,6 +9,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.items.SlotItemHandler;
 
 public class ContainerVendor extends Container {
 
@@ -19,15 +20,15 @@ public class ContainerVendor extends Container {
 		this.inv = inv;
 		if(inv != null){
 			System.out.println("Item gui");
-			addSlotToContainer(new SlotVendor(inv, 1, 48, 173)); 
-			addSlotToContainer(new SlotVendor(inv, 2, 66, 173)); 
-			addSlotToContainer(new SlotVendor(inv, 3, 84, 173)); 
-			addSlotToContainer(new SlotVendor(inv, 4, 102, 173)); 
-			addSlotToContainer(new SlotVendor(inv, 5, 120, 173)); 
-			addSlotToContainer(new SlotVendor(inv, 6, 138, 173)); 
-			addSlotToContainer(new SlotVendor(inv, 7, 156, 173)); 
-			addSlotToContainer(new SlotVendor(inv, 8, 174, 173)); 
-			addSlotToContainer(new SlotVendor(inv, 9, 192, 173)); 
+			addSlotToContainer(new SlotItemHandler(inv, 1, 48, 173)); 
+			addSlotToContainer(new SlotItemHandler (inv, 2, 66, 173)); 
+			addSlotToContainer(new SlotItemHandler (inv, 3, 84, 173)); 
+			addSlotToContainer(new SlotItemHandler (inv, 4, 102, 173)); 
+			addSlotToContainer(new SlotItemHandler (inv, 5, 120, 173)); 
+			addSlotToContainer(new SlotItemHandler (inv, 6, 138, 173)); 
+			addSlotToContainer(new SlotItemHandler (inv, 7, 156, 173)); 
+			addSlotToContainer(new SlotItemHandler (inv, 8, 174, 173)); 
+			addSlotToContainer(new SlotItemHandler (inv, 9, 192, 173)); 
 		} else {
 			addSlotToContainer(new SlotVendor(tileEntity, 1, 48, 173)); 
 			addSlotToContainer(new SlotVendor(tileEntity, 2, 66, 173)); 

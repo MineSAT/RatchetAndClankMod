@@ -268,7 +268,6 @@ public class GuiVendor extends GuiContainer {
 		this.mc.renderEngine.bindTexture(texturepath);
 		int x = (width - xSize) / 2;
 		int y = (height - ySize) / 2;
-		//this.drawTexturedQuadFit(x, y, 256, 256, 0);
 		this.drawTexturedModalRect(x, y, 0, 0, 256, 256);
 		GL11.glDisable(GL11.GL_BLEND);
 	}

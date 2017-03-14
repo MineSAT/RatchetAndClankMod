@@ -13,6 +13,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -38,11 +39,11 @@ public class ItemTaunter extends ItemRcWeap
 
         if(!world.isRemote)
         {
+			player.getCooldownTracker().setCooldown(par1ItemStack.getItem(), 40);
             float size = 32f;
-            List<Entity> entities = world
-                    .getEntitiesWithinAABBExcludingEntity(player,
-                            player.getCollisionBoundingBox().expand(size, size,
-                                    size));
+            AxisAlignedBB area = player.getEntityBoundingBox();
+            area = area.expand(size, size, size);
+            List<Entity> entities = world.getEntitiesWithinAABBExcludingEntity(player, area);
             for (Entity e : entities)
             {
                 if(e instanceof EntityCreature)

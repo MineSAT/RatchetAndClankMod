@@ -35,9 +35,6 @@
 					"rotation": [ { "y": 180}, {"x": -90}, {"z": 0} ],
 					"scale": 0.03
 				}
-    }}],
-	"inventory": [{
-		"model": "rcmod:blaster_inventory"
-	}]
+    }}]
   }
 }
