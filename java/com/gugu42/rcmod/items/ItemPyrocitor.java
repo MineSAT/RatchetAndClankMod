@@ -38,12 +38,13 @@ public class ItemPyrocitor extends ItemRcGun
 		{
 			if (!world.isRemote) 
 			{
-				int nbr = player.getRNG().nextInt(50)+50;
+				int nbr = player.getRNG().nextInt(10)+10;
 				float f = 4.5f;
 				for(int i = 0;i<nbr;i++)
 				{
 					EntityPyrocitorAmmo flame = new EntityPyrocitorAmmo(player.world,
 							player,player.getRNG().nextFloat()*f*2-f);
+					flame.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0f, 1.0f, 0.9f);
 					player.world.spawnEntity(flame);
 //					EntityPyrocitorAmmo flame2 = new EntityPyrocitorAmmo(par3EntityPlayer.worldObj,
 //							par3EntityPlayer,par3EntityPlayer.getRNG().nextFloat()*f*2-f);

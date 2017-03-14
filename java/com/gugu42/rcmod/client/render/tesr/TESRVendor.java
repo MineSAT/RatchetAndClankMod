@@ -38,7 +38,7 @@ public class TESRVendor extends TileEntitySpecialRenderer<TileEntityVendor> {
         GlStateManager.pushAttrib();
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, z);
-        GlStateManager.disableRescaleNormal();
+        //GlStateManager.disableRescaleNormal();
         
         GlStateManager.shadeModel(GL11.GL_SMOOTH);
         GlStateManager.translate(0.5, 0, 0.5);
@@ -53,9 +53,7 @@ public class TESRVendor extends TileEntitySpecialRenderer<TileEntityVendor> {
         model.renderGroupsImpl("Object4");
         GlStateManager.rotate(-2*timeAlive % 360, 0, 1, 0);
         model.renderGroupsImpl("Object3");
-        
 
-        
         GlStateManager.popMatrix();
         GlStateManager.popAttrib();
 

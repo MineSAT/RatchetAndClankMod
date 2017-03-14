@@ -250,7 +250,7 @@ public class RcItems {
 		ModelLoader.setCustomModelResourceLocation(GLOVE_OF_DOOM, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "gloveofdoom"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(MINE_GLOVE, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "mineglove"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(MORPH_O_RAY, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "morphoray"), "inventory"));
-		ModelLoader.setCustomModelResourceLocation(PYROCITOR, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "pyrocitor"), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(PYROCITOR, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "pyrocitor"), "normal"));			//done
 		ModelLoader.setCustomModelResourceLocation(RYNO, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "ryno"), "normal"));					//done
 		ModelLoader.setCustomModelResourceLocation(SUCK_CANNON, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "suckcannon"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(TAUNTER, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "taunter"), "normal")); 				//done
