@@ -69,26 +69,10 @@ public class ItemRYNO extends ItemRcGun {
 						.getInteger("rynoFireCount");
 				par3EntityPlayer.getEntityData().setInteger("rynoFireCount",
 						playerFireCount - 1);
-				if (playerFireCount == 27) {
-					fireRocket(par2World, par3EntityPlayer); // 1
-				} else if (playerFireCount == 24) {
-					fireRocket(par2World, par3EntityPlayer); // 2
-				} else if (playerFireCount == 21) {
-					fireRocket(par2World, par3EntityPlayer); // 3
-				} else if (playerFireCount == 18) {
-					fireRocket(par2World, par3EntityPlayer); // 4
-				} else if (playerFireCount == 15) {
-					fireRocket(par2World, par3EntityPlayer); // 5
-				} else if (playerFireCount == 12) {
-					fireRocket(par2World, par3EntityPlayer); // 6
-				} else if (playerFireCount == 9) {
-					fireRocket(par2World, par3EntityPlayer); // 7
-				} else if (playerFireCount == 6) {
-					fireRocket(par2World, par3EntityPlayer); // 8
-				} else if (playerFireCount == 3) {
-					fireRocket(par2World, par3EntityPlayer); // 9
-				}
 
+				if(playerFireCount % 3 == 0 && playerFireCount != 0)
+					fireRocket(par2World, par3EntityPlayer);
+				
 				if (playerFireCount == 0) {
 					par3EntityPlayer.getEntityData().setBoolean("rynoFired",
 							false);
