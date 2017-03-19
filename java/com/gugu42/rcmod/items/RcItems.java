@@ -237,8 +237,6 @@ public class RcItems {
 				"ammoteslaClaw")
 				.setCreativeTab(RcMod.rcWeapTab).setFull3D();
 		GameRegistry.register(AMMO_TESLA_CLAW, new ResourceLocation(RcMod.MODID, "ammoteslaclaw"));
-		
-		
 	}
 
 	public static boolean isAmmo(Item item)
@@ -256,6 +254,7 @@ public class RcItems {
 		registerItemRender(PYROCITOR, "pyrocitor");		//done
 		registerItemRender(RYNO, "ryno");				//done
 		registerItemRender(TAUNTER, "taunter");			//done
+		registerItemRender(WALLOPER, "walloper");		//not done
 		
 		
 		
@@ -267,7 +266,7 @@ public class RcItems {
 		ModelLoader.setCustomModelResourceLocation(SUCK_CANNON, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "suckcannon"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(TESLA_CLAW, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "teslaclaw"), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(VISIBOMB_GUN, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "visibombgun"), "inventory"));
-		ModelLoader.setCustomModelResourceLocation(WALLOPER, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "walloper"), "inventory"));
+		//ModelLoader.setCustomModelResourceLocation(WALLOPER, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "walloper"), "inventory"));
 		
 		/* MISC */
 		ModelLoader.setCustomModelResourceLocation(VENDOR_CORE, 0, new ModelResourceLocation(new ResourceLocation(RcMod.MODID, "vendorcore"), "inventory"));
