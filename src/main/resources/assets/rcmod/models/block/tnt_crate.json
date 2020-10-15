@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "rcmod:block/tntcratetop",
+    "bottom": "rcmod:block/tntcratetop",
+    "side": "rcmod:block/tntcrate"
+  }
+}

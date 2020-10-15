@@ -1,0 +1,22 @@
+{
+  "bolt_collect": {
+    "category": "block",
+    "sounds": [
+      "rcmod:bolt_collect_1",
+      "rcmod:bolt_collect_2",
+      "rcmod:bolt_collect_3"
+    ]
+  },
+  "tntcrate.countdown": {
+    "category": "block",
+    "sounds": [
+      "rcmod:entities/explosive_crate_countdown"
+    ]
+  },
+  "tntcrate.explosion": {
+    "category": "block",
+    "sounds": [
+      "rcmod:entities/explosive_crate_explosion"
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "block.rcmod.crate": "Crate",
+  "block.rcmod.ammo_crate": "Ammunitions Crate",
+  "block.rcmod.tnt_crate": "TNT Crate",
+  "item.rcmod.bolt": "Bolt",
+  "item.rcmod.blaster": "Blaster",
+  "block.rcmod.vendor": "Gadgetron Vendor"
+}
