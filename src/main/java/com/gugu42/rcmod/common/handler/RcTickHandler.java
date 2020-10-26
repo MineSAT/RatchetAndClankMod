@@ -1,15 +1,19 @@
 package com.gugu42.rcmod.common.handler;
 
+import com.gugu42.rcmod.client.model.RcPlayerModel;
 import com.gugu42.rcmod.common.RcItems;
 import com.gugu42.rcmod.common.capabilities.IRcModCapability;
 import com.gugu42.rcmod.common.capabilities.RcModCapability;
+import com.gugu42.rcmod.common.items.armor.ClankBackpackItem;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -24,16 +28,14 @@ public class RcTickHandler {
         if (event.phase == TickEvent.Phase.START)
         {
             Vector3d motion = event.player.getMotion();
-            if (!event.player.isOnGround() && motion.getY() < 0.0d)
+            if (!event.player.isOnGround() && motion.getY() < 0.0d && (event.player.getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() instanceof ClankBackpackItem))
             {
-                Optional<IRcModCapability> capa = event.player.getCapability(RcModCapability.RCMOD_CAP).resolve();
-                if (capa.isPresent()) {
-                    IRcModCapability capability = capa.get();
+                event.player.getCapability(RcModCapability.RCMOD_CAP).ifPresent(capability -> {
                     if (capability.isUsingHelipack()) {
                         event.player.setMotion(motion.getX(), motion.getY() * 0.7d, motion.getZ());
                         event.player.fallDistance = 0.0f;
                     }
-                }
+                });
             }
         }
 
@@ -51,6 +53,22 @@ public class RcTickHandler {
             }
         }
     }
+
+//    @SubscribeEvent
+//    public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
+//        PlayerEntity player = event.getPlayer();
+//
+//        player.getCapability(RcModCapability.RCMOD_CAP).ifPresent((capability) -> {
+//           // Check motion Y -> Falling
+//            if (player.getMotion().getY() < 0.0f) {
+//                event.setCanceled(true);
+//                RcPlayerModel model = new RcPlayerModel(1.0f);
+////                model.render(event.getMatrixStack(), event.getBuffers());
+//
+//            }
+//           // Draw our own model
+//        });
+//    }
 
     private static void updateItemEntity(ItemEntity entity) {
         double closeness = 16.0D;

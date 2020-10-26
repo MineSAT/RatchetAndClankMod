@@ -46,7 +46,7 @@ public class VendorBlock extends Block {
             INamedContainerProvider containerProvider = new INamedContainerProvider() {
                 @Override
                 public ITextComponent getDisplayName() {
-                    return new TranslationTextComponent("screen.mytutorial.firstblock");
+                    return new TranslationTextComponent("");
                 }
 
                 @Override

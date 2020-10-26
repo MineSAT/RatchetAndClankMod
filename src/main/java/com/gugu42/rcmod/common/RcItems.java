@@ -4,7 +4,8 @@ import com.gugu42.rcmod.RcMod;
 import com.gugu42.rcmod.client.render.items.BlasterITSER;
 import com.gugu42.rcmod.client.render.items.VendorItemStackTileEntityRenderer;
 import com.gugu42.rcmod.common.items.BlasterItem;
-import com.gugu42.rcmod.common.items.HelipackItem;
+import com.gugu42.rcmod.common.items.HarbingerItem;
+import com.gugu42.rcmod.common.items.armor.HelipackItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -26,10 +27,12 @@ public class RcItems {
 
     // Weapons
     public static final RegistryObject<Item> BLASTER = ITEMS.register("blaster", () -> new BlasterItem(new Item.Properties().maxStackSize(1).group(RCMOD_ITEM_GROUP).setISTER(() -> BlasterITSER::new)));
+    public static final RegistryObject<Item> HARBINGER = ITEMS.register("harbinger", () -> new HarbingerItem(new Item.Properties().maxStackSize(1).group(RCMOD_ITEM_GROUP)));
 
     // Misc
     public static final RegistryObject<Item> BOLT = ITEMS.register("bolt", () -> new Item(new Item.Properties().maxStackSize(1).group(RCMOD_ITEM_GROUP)));
     public static final RegistryObject<Item> CLANK_HELIPACK = ITEMS.register("helipack", () -> new HelipackItem(new Item.Properties().maxStackSize(1).group(RCMOD_ITEM_GROUP)));
+    public static final RegistryObject<Item> RETICLE = ITEMS.register("reticle", () -> new Item(new Item.Properties().maxStackSize(1).group(RCMOD_ITEM_GROUP)));
 
     public static class RcModItemGroup extends ItemGroup {
 

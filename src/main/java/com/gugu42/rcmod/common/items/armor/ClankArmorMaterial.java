@@ -1,4 +1,4 @@
-package com.gugu42.rcmod.common.items;
+package com.gugu42.rcmod.common.items.armor;
 
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;

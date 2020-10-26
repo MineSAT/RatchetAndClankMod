@@ -1,7 +1,5 @@
 package com.gugu42.rcmod.client.model;
 
-import com.gugu42.rcmod.client.RcClientRegistry;
-import com.gugu42.rcmod.client.utils.glutils.mc.TessellatorModel;
 import com.gugu42.rcmod.common.capabilities.IRcModCapability;
 import com.gugu42.rcmod.common.capabilities.RcModCapability;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -9,9 +7,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
-import net.minecraftforge.client.model.obj.OBJLoader;
 
 import java.util.Optional;
 
@@ -29,7 +25,7 @@ public class HelipackModel extends BipedModel {
         Optional<IRcModCapability> capa = wearingEntity.getCapability(RcModCapability.RCMOD_CAP).resolve();
         if (capa.isPresent()) {
             IRcModCapability capability = capa.get();
-            if (!wearingEntity.isOnGround() && capability.isUsingHelipack())
+            if (!wearingEntity.isOnGround() && wearingEntity.getMotion().getY() < 0.0f && capability.isUsingHelipack())
                 renderHelipackMode(matrixStackIn, packedLightIn);
             else
                 renderBackpackMode(matrixStackIn, packedLightIn);
