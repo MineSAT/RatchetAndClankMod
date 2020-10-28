@@ -1,0 +1,8 @@
+{
+  "block.rcmod.crate": "Caja",
+  "block.rcmod.ammo_crate": "Caja de munición",
+  "block.rcmod.tnt_crate": "Caja explosiva",
+  "item.rcmod.bolt": "Guitón",
+  "item.rcmod.blaster": "Desintegrador",
+  "block.rcmod.vendor": "Vendedor Gadgetrón"
+}
